@@ -1,0 +1,261 @@
+"use client";
+
+import { useRouter, usePathname } from "next/navigation";
+import { useState } from "react";
+import {
+  AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+} from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Globe, MousePointerClick, Smartphone, TrendingUp } from "lucide-react";
+
+interface Props {
+  data: {
+    series: { date: string; views: number; android: number; ios: number }[];
+    totalViews: number;
+    totalClicks: number;
+    periodViews: number;
+    periodClicks: number;
+    androidClicks: number;
+    iosClicks: number;
+    ctr: number;
+    deviceViews: { mobile: number; tablet: number; desktop: number };
+  };
+  preset: string;
+  fromDate?: string;
+  toDate?: string;
+}
+
+const COLORS = {
+  views: "#34d399",
+  android: "#34d399",
+  ios: "#818cf8",
+  mobile: "#34d399",
+  tablet: "#818cf8",
+  desktop: "#f59e0b",
+};
+
+const PRESETS = [
+  { label: "7 dias", value: "7d" },
+  { label: "30 dias", value: "30d" },
+  { label: "90 dias", value: "90d" },
+  { label: "Tudo", value: "all" },
+];
+
+function formatDate(d: string) {
+  return new Date(d + "T00:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+}
+
+export function LandingAnalyticsClient({ data, preset, fromDate, toDate }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { series, totalViews, totalClicks, periodViews, periodClicks, androidClicks, iosClicks, ctr, deviceViews } = data;
+
+  const [customFrom, setCustomFrom] = useState(fromDate ?? "");
+  const [customTo, setCustomTo] = useState(toDate ?? "");
+
+  function applyPreset(p: string) {
+    router.push(`${pathname}?preset=${p}`);
+  }
+
+  function applyCustom() {
+    if (!customFrom || !customTo) return;
+    router.push(`${pathname}?from=${customFrom}&to=${customTo}`);
+  }
+
+  const kpis = [
+    { label: "Visitas no período", value: periodViews.toLocaleString("pt-BR"), sub: `${totalViews.toLocaleString("pt-BR")} total`, icon: Globe, color: "text-emerald-400" },
+    { label: "Cliques no período", value: periodClicks.toLocaleString("pt-BR"), sub: `${totalClicks.toLocaleString("pt-BR")} total`, icon: MousePointerClick, color: "text-indigo-400" },
+    { label: "CTR do período", value: `${ctr}%`, sub: "cliques / visitas", icon: TrendingUp, color: "text-amber-400" },
+    { label: "Mobile vs Desktop", value: `${deviceViews.mobile} / ${deviceViews.desktop}`, sub: `${deviceViews.tablet} tablet`, icon: Smartphone, color: "text-rose-400" },
+  ];
+
+  const deviceData = [
+    { name: "Mobile", value: deviceViews.mobile },
+    { name: "Tablet", value: deviceViews.tablet },
+    { name: "Desktop", value: deviceViews.desktop },
+  ].filter((d) => d.value > 0);
+
+  const storeData = [
+    { name: "Android", value: androidClicks },
+    { name: "iOS", value: iosClicks },
+  ];
+
+  return (
+    <div className="p-6 space-y-6">
+      {/* Header + filtros */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold">Landing Page</h1>
+          <p className="text-sm text-muted-foreground mt-1">Visitas e cliques por período</p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Presets */}
+          <div className="flex items-center gap-1 p-1 rounded-lg bg-muted">
+            {PRESETS.map((p) => (
+              <button
+                key={p.value}
+                onClick={() => applyPreset(p.value)}
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                  preset === p.value
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Intervalo customizado */}
+          <div className="flex items-center gap-1.5">
+            <input
+              type="date"
+              value={customFrom}
+              onChange={(e) => setCustomFrom(e.target.value)}
+              className="h-8 px-2 rounded-md text-xs bg-muted border border-border text-foreground"
+            />
+            <span className="text-xs text-muted-foreground">até</span>
+            <input
+              type="date"
+              value={customTo}
+              onChange={(e) => setCustomTo(e.target.value)}
+              className="h-8 px-2 rounded-md text-xs bg-muted border border-border text-foreground"
+            />
+            <button
+              onClick={applyCustom}
+              disabled={!customFrom || !customTo}
+              className="h-8 px-3 rounded-md text-xs font-medium bg-primary text-primary-foreground disabled:opacity-40 hover:opacity-90 transition-opacity"
+            >
+              Aplicar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* KPIs */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {kpis.map(({ label, value, sub, icon: Icon, color }) => (
+          <Card key={label}>
+            <CardContent className="p-5">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs text-muted-foreground">{label}</span>
+                <Icon className={`w-4 h-4 ${color}`} />
+              </div>
+              <p className="text-2xl font-bold">{value}</p>
+              <p className="text-xs text-muted-foreground mt-1">{sub}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Visitas por dia */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm font-medium">Visitas por dia</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={240}>
+            <AreaChart data={series}>
+              <defs>
+                <linearGradient id="gViews" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={COLORS.views} stopOpacity={0.3} />
+                  <stop offset="95%" stopColor={COLORS.views} stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+              <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 11 }} stroke="#374151" />
+              <YAxis tick={{ fontSize: 11 }} stroke="#374151" allowDecimals={false} />
+              <Tooltip
+                formatter={(v) => [v, "visitas"]}
+                labelFormatter={(l) => formatDate(l)}
+                contentStyle={{ background: "#111827", border: "1px solid #1f2937", borderRadius: 8 }}
+              />
+              <Area type="monotone" dataKey="views" stroke={COLORS.views} fill="url(#gViews)" strokeWidth={2} dot={false} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Cliques por loja por dia */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm font-medium">Cliques nas lojas por dia</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={series}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+              <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 11 }} stroke="#374151" />
+              <YAxis tick={{ fontSize: 11 }} stroke="#374151" allowDecimals={false} />
+              <Tooltip
+                labelFormatter={(l) => formatDate(l)}
+                contentStyle={{ background: "#111827", border: "1px solid #1f2937", borderRadius: 8 }}
+              />
+              <Legend />
+              <Bar dataKey="android" name="Android" fill={COLORS.android} radius={[4, 4, 0, 0]} />
+              <Bar dataKey="ios" name="iOS" fill={COLORS.ios} radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Donuts */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Cliques por loja (período)</CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center gap-8">
+            <ResponsiveContainer width="50%" height={160}>
+              <PieChart>
+                <Pie data={storeData} cx="50%" cy="50%" innerRadius={45} outerRadius={65} dataKey="value" paddingAngle={3}>
+                  <Cell fill={COLORS.android} />
+                  <Cell fill={COLORS.ios} />
+                </Pie>
+                <Tooltip contentStyle={{ background: "#111827", border: "1px solid #1f2937", borderRadius: 8 }} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="flex flex-col gap-3 text-sm">
+              {storeData.map((s, i) => (
+                <div key={s.name} className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ background: i === 0 ? COLORS.android : COLORS.ios }} />
+                  <span className="text-muted-foreground">{s.name}</span>
+                  <span className="font-bold ml-auto pl-4">{s.value}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Visitas por dispositivo (período)</CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center gap-8">
+            <ResponsiveContainer width="50%" height={160}>
+              <PieChart>
+                <Pie data={deviceData} cx="50%" cy="50%" innerRadius={45} outerRadius={65} dataKey="value" paddingAngle={3}>
+                  {deviceData.map((_, i) => (
+                    <Cell key={i} fill={[COLORS.mobile, COLORS.tablet, COLORS.desktop][i]} />
+                  ))}
+                </Pie>
+                <Tooltip contentStyle={{ background: "#111827", border: "1px solid #1f2937", borderRadius: 8 }} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="flex flex-col gap-3 text-sm">
+              {deviceData.map((d, i) => (
+                <div key={d.name} className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ background: [COLORS.mobile, COLORS.tablet, COLORS.desktop][i] }} />
+                  <span className="text-muted-foreground">{d.name}</span>
+                  <span className="font-bold ml-auto pl-4">{d.value}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
