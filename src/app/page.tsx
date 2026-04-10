@@ -792,8 +792,8 @@ export default async function LandingPage() {
               {/* Links + Instagram */}
               <div className="flex justify-end items-center gap-5">
                 <nav className="flex gap-5 text-xs" style={{ color: "oklch(0.60 0 0)" }}>
-                  <a href="#" className="hover:text-white transition-colors">Privacidade</a>
-                  <a href="#" className="hover:text-white transition-colors">Termos</a>
+                  <Link href="/privacidade" className="hover:text-white transition-colors">Privacidade</Link>
+                  <Link href="/termos" className="hover:text-white transition-colors">Termos</Link>
                   <Link href="/dashboard" className="hover:text-white transition-colors">Admin</Link>
                 </nav>
                 <a
