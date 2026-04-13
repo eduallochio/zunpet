@@ -22,18 +22,21 @@ async function getAnalytics() {
     { data: profiles },
     { data: photos },
     { data: deletions },
+    { data: achievements },
     { data: { users: authUsers } },
   ] = await Promise.all([
     supabaseAdmin.from("pets").select("id, user_id, species, gender, castrated, dob, microchip, food_allergies, med_allergies, restrictions, created_at"),
     supabaseAdmin.from("user_profiles").select("user_id, city, state, birth_date, experience, name, platform, updated_at"),
     supabaseAdmin.from("pet_photos").select("id, pet_id, created_at"),
     supabaseAdmin.from("pet_deletions").select("id, pet_name, pet_species, reason, is_memorial, deleted_at").order("deleted_at", { ascending: false }),
+    supabaseAdmin.from("user_achievements").select("user_id, achievement_id, unlocked_at"),
     supabaseAdmin.auth.admin.listUsers(),
   ]);
 
   const now = new Date();
   const allPets = pets ?? [];
   const allProfiles = profiles ?? [];
+  const allAchievements = achievements ?? [];
   const allDeletions = deletions ?? [];
   const allPhotos = photos ?? [];
 
@@ -246,6 +249,120 @@ async function getAnalytics() {
     deletedAt: d.deleted_at,
   }));
 
+  // ── Conquistas ────────────────────────────────────────────────────────────────
+  const ACHIEVEMENT_META: Record<string, { title: string; group: string }> = {
+    first_pet:          { title: "Primeiro Amigo",      group: "Pets & Família" },
+    three_pets:         { title: "Família Grande",      group: "Pets & Família" },
+    five_pets:          { title: "Matilha",             group: "Pets & Família" },
+    ten_pets:           { title: "Fazendeiro",          group: "Pets & Família" },
+    breed_filled:       { title: "Especialista",        group: "Pets & Família" },
+    photo_added:        { title: "Fotogênico",          group: "Pets & Família" },
+    birthday_today:     { title: "Parabéns!",           group: "Pets & Família" },
+    senior_pet:         { title: "Veterano",            group: "Pets & Família" },
+    first_reminder:     { title: "Organizado",          group: "Lembretes" },
+    five_reminders:     { title: "Super Tutor",         group: "Lembretes" },
+    ten_reminders:      { title: "Agenda Cheia",        group: "Lembretes" },
+    all_categories:     { title: "Completo",            group: "Lembretes" },
+    recurring_reminder: { title: "Rotineiro",           group: "Lembretes" },
+    health_reminder:    { title: "Médico Fiel",         group: "Lembretes" },
+    hygiene_reminder:   { title: "Limpinho",            group: "Lembretes" },
+    first_vaccine:      { title: "Vacinado!",           group: "Vacinas" },
+    vaccine_up_to_date: { title: "Saúde em Dia",        group: "Vacinas" },
+    ten_vaccines:       { title: "Imunizado",           group: "Vacinas" },
+    next_dose:          { title: "Previdente",          group: "Vacinas" },
+    all_pets_vaccinated:{ title: "Proteção Total",      group: "Vacinas" },
+    streak_3:           { title: "Começando",           group: "Sequência" },
+    streak_7:           { title: "Semana Perfeita",     group: "Sequência" },
+    streak_30:          { title: "Mês Dedicado",        group: "Sequência" },
+    streak_100:         { title: "Lenda",               group: "Sequência" },
+    total_30_days:      { title: "Usuário Fiel",        group: "Sequência" },
+    first_weight:       { title: "Primeira Pesagem",    group: "Peso & Saúde" },
+    weight_history:     { title: "Histórico Saudável",  group: "Peso & Saúde" },
+    weight_all_pets:    { title: "Controle Total",      group: "Peso & Saúde" },
+    dedicated:          { title: "Tutor Dedicado",      group: "Peso & Saúde" },
+    all_species:        { title: "Arca de Noé",         group: "Diversidade" },
+    five_species:       { title: "Zoológico",           group: "Diversidade" },
+    cat_and_dog:        { title: "Clássico",            group: "Diversidade" },
+    exotic_pet:         { title: "Exótico",             group: "Diversidade" },
+    master_tutor:       { title: "Tutor Master",        group: "Marcos Especiais" },
+    completionist:      { title: "Perfeccionista",      group: "Marcos Especiais" },
+  };
+
+  const TOTAL_ACHIEVEMENTS = Object.keys(ACHIEVEMENT_META).length;
+
+  // Total de unlocks e usuários com conquistas
+  const totalAchievementsUnlocked = allAchievements.length;
+  const usersWithAchievements = new Set(allAchievements.map(a => a.user_id)).size;
+  const achievementEngagementRate = totalUsers > 0
+    ? Math.round((usersWithAchievements / totalUsers) * 100)
+    : 0;
+
+  // Média de conquistas por usuário com pelo menos 1
+  const avgAchievementsPerUser = usersWithAchievements > 0
+    ? Math.round((totalAchievementsUnlocked / usersWithAchievements) * 10) / 10
+    : 0;
+
+  // Top conquistas mais desbloqueadas
+  const achievementCountMap: Record<string, number> = {};
+  for (const a of allAchievements) {
+    achievementCountMap[a.achievement_id] = (achievementCountMap[a.achievement_id] ?? 0) + 1;
+  }
+  const topAchievementsData = Object.entries(achievementCountMap)
+    .map(([id, count]) => ({
+      id,
+      title: ACHIEVEMENT_META[id]?.title ?? id,
+      group: ACHIEVEMENT_META[id]?.group ?? "Outros",
+      count,
+      pct: totalUsers > 0 ? Math.round((count / totalUsers) * 100) : 0,
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 8);
+
+  // Conquistas raras (menos desbloqueadas, excluindo as não registradas ainda)
+  const rareAchievementsData = Object.entries(achievementCountMap)
+    .map(([id, count]) => ({
+      id,
+      title: ACHIEVEMENT_META[id]?.title ?? id,
+      count,
+      pct: totalUsers > 0 ? Math.round((count / totalUsers) * 100) : 0,
+    }))
+    .sort((a, b) => a.count - b.count)
+    .slice(0, 5);
+
+  // Distribuição por grupo
+  const achievementGroupMap: Record<string, number> = {};
+  for (const a of allAchievements) {
+    const group = ACHIEVEMENT_META[a.achievement_id]?.group ?? "Outros";
+    achievementGroupMap[group] = (achievementGroupMap[group] ?? 0) + 1;
+  }
+  const achievementGroupData = Object.entries(achievementGroupMap)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value);
+
+  // Unlocks por mês (últimos 6 meses)
+  const achievementMonthMap: Record<string, number> = {};
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    achievementMonthMap[monthLabel(d)] = 0;
+  }
+  for (const a of allAchievements) {
+    const label = monthLabel(new Date(a.unlocked_at));
+    if (label in achievementMonthMap) achievementMonthMap[label]++;
+  }
+  const achievementMonthData = Object.entries(achievementMonthMap)
+    .map(([month, Conquistas]) => ({ month, Conquistas }));
+
+  // % de completistas (desbloquearam todas)
+  const userAchievementCount: Record<string, number> = {};
+  for (const a of allAchievements) {
+    userAchievementCount[a.user_id] = (userAchievementCount[a.user_id] ?? 0) + 1;
+  }
+  const completionistCount = Object.values(userAchievementCount)
+    .filter(c => c >= TOTAL_ACHIEVEMENTS).length;
+  const completionistRate = totalUsers > 0
+    ? Math.round((completionistCount / totalUsers) * 100)
+    : 0;
+
   return {
     // KPIs principais
     totalUsers,
@@ -285,6 +402,16 @@ async function getAnalytics() {
     totalDeletions,
     totalMemorials,
     recentDeletions,
+    // Conquistas
+    totalAchievementsUnlocked,
+    usersWithAchievements,
+    achievementEngagementRate,
+    avgAchievementsPerUser,
+    completionistRate,
+    topAchievementsData,
+    rareAchievementsData,
+    achievementGroupData,
+    achievementMonthData,
   };
 }
 

@@ -21,7 +21,7 @@ import {
 } from "recharts";
 import {
   Users, PawPrint, TrendingUp, TrendingDown, Camera,
-  MapPin, ShieldCheck, Heart, Stethoscope, Star, UserCheck, Trash2,
+  MapPin, ShieldCheck, Heart, Stethoscope, Star, UserCheck, Trash2, Trophy,
 } from "lucide-react";
 
 type AnalyticsData = {
@@ -54,6 +54,15 @@ type AnalyticsData = {
   totalDeletions: number;
   totalMemorials: number;
   recentDeletions: { petName: string; petSpecies: string; reason: string; isMemorial: boolean; deletedAt: string }[];
+  totalAchievementsUnlocked: number;
+  usersWithAchievements: number;
+  achievementEngagementRate: number;
+  avgAchievementsPerUser: number;
+  completionistRate: number;
+  topAchievementsData: { id: string; title: string; group: string; count: number; pct: number }[];
+  rareAchievementsData: { id: string; title: string; count: number; pct: number }[];
+  achievementGroupData: { name: string; value: number }[];
+  achievementMonthData: { month: string; Conquistas: number }[];
 };
 
 const PIE_COLORS = [
@@ -76,6 +85,10 @@ const petConfig: ChartConfig = {
 
 const photoConfig: ChartConfig = {
   Fotos: { label: "Fotos enviadas", color: "hsl(340 75% 58%)" },
+};
+
+const achievementConfig: ChartConfig = {
+  Conquistas: { label: "Conquistas desbloqueadas", color: "hsl(45 90% 55%)" },
 };
 
 function KpiCard({
@@ -613,6 +626,170 @@ export default function AnalyticsClient({ data }: { data: AnalyticsData }) {
             )}
           </CardContent>
         </Card>
+      </div>
+
+      {/* Conquistas */}
+      <div>
+        <h2 className="font-heading text-xl font-semibold mb-4 flex items-center gap-2">
+          <Trophy className="h-5 w-5 text-amber-500" />
+          Conquistas
+        </h2>
+
+        {/* KPIs de conquistas */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          <KpiCard
+            icon={Trophy}
+            iconBg="bg-amber-500/10"
+            iconColor="text-amber-500"
+            value={data.totalAchievementsUnlocked}
+            label="Total desbloqueadas"
+            sub={`Média: ${data.avgAchievementsPerUser} por usuário`}
+          />
+          <KpiCard
+            icon={Users}
+            iconBg="bg-violet-500/10"
+            iconColor="text-violet-600"
+            value={`${data.achievementEngagementRate}%`}
+            label="Usuários engajados"
+            sub={`${data.usersWithAchievements} com ≥1 conquista`}
+          />
+          <KpiCard
+            icon={Star}
+            iconBg="bg-emerald-500/10"
+            iconColor="text-emerald-600"
+            value={`${data.completionistRate}%`}
+            label="Completistas"
+            sub="Desbloquearam tudo"
+          />
+          <KpiCard
+            icon={TrendingUp}
+            iconBg="bg-rose-500/10"
+            iconColor="text-rose-500"
+            value={data.achievementMonthData[data.achievementMonthData.length - 1]?.Conquistas ?? 0}
+            label="Unlocks este mês"
+            sub="Conquistas desbloqueadas"
+          />
+        </div>
+
+        {/* Unlocks por mês + Distribuição por grupo */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Unlocks por Mês</CardTitle>
+              <CardDescription>Conquistas desbloqueadas nos últimos 6 meses</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={achievementConfig} className="h-48 w-full">
+                <BarChart data={data.achievementMonthData} margin={{ left: 0, right: 0, top: 4, bottom: 0 }}>
+                  <CartesianGrid vertical={false} stroke="hsl(var(--border))" />
+                  <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                  <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} width={24} allowDecimals={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="Conquistas" fill="hsl(45 90% 55%)" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Distribuição por Categoria</CardTitle>
+              <CardDescription>Quais grupos de conquistas são mais desbloqueados</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {data.achievementGroupData.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-6">Sem dados ainda</p>
+              ) : (() => {
+                const total = data.achievementGroupData.reduce((a, b) => a + b.value, 0);
+                return data.achievementGroupData.map((g, i) => {
+                  const pct = total > 0 ? Math.round((g.value / total) * 100) : 0;
+                  return (
+                    <div key={g.name} className="flex items-center gap-3">
+                      <span className="text-xs text-muted-foreground font-mono w-5">#{i + 1}</span>
+                      <div className="flex-1 space-y-1">
+                        <div className="flex justify-between text-sm">
+                          <span className="font-medium">{g.name}</span>
+                          <span className="text-muted-foreground">{g.value} ({pct}%)</span>
+                        </div>
+                        <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                          <div className="h-full rounded-full" style={{ width: `${pct}%`, background: PIE_COLORS[i % PIE_COLORS.length] }} />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                });
+              })()}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Top conquistas + Conquistas raras */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Mais Desbloqueadas</CardTitle>
+              <CardDescription>Conquistas com maior taxa de unlock entre usuários</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {data.topAchievementsData.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-6">Sem dados ainda</p>
+              ) : (
+                data.topAchievementsData.map((a, i) => (
+                  <div key={a.id} className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground font-mono w-5">#{i + 1}</span>
+                    <div className="flex-1 space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <div>
+                          <span className="font-medium">{a.title}</span>
+                          <span className="text-xs text-muted-foreground ml-2">{a.group}</span>
+                        </div>
+                        <span className="text-muted-foreground text-xs">{a.count} ({a.pct}%)</span>
+                      </div>
+                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                        <div className="h-full rounded-full bg-amber-400" style={{ width: `${a.pct}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Conquistas Raras</CardTitle>
+              <CardDescription>As mais difíceis de desbloquear</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {data.rareAchievementsData.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-6">Sem dados ainda</p>
+              ) : (
+                data.rareAchievementsData.map((a, i) => (
+                  <div key={a.id} className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground font-mono w-5">#{i + 1}</span>
+                    <div className="flex-1 space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span className="font-medium">{a.title}</span>
+                        <Badge
+                          variant="outline"
+                          className="text-xs border-rose-500/30 text-rose-500 bg-rose-500/5"
+                        >
+                          {a.pct}% dos usuários
+                        </Badge>
+                      </div>
+                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-rose-400"
+                          style={{ width: `${Math.max(a.pct, 2)}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
       {/* Plataforma (Android vs iOS) */}
