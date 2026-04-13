@@ -21,7 +21,7 @@ import {
 } from "recharts";
 import {
   Users, PawPrint, TrendingUp, TrendingDown, Camera,
-  MapPin, ShieldCheck, Heart, Stethoscope, Star, UserCheck,
+  MapPin, ShieldCheck, Heart, Stethoscope, Star, UserCheck, Trash2,
 } from "lucide-react";
 
 type AnalyticsData = {
@@ -50,6 +50,10 @@ type AnalyticsData = {
   experienceData: { name: string; value: number }[];
   locationData: { name: string; value: number }[];
   platformData: { name: string; value: number }[];
+  deletionReasonData: { name: string; value: number }[];
+  totalDeletions: number;
+  totalMemorials: number;
+  recentDeletions: { petName: string; petSpecies: string; reason: string; isMemorial: boolean; deletedAt: string }[];
 };
 
 const PIE_COLORS = [
@@ -537,6 +541,76 @@ export default function AnalyticsClient({ data }: { data: AnalyticsData }) {
                 );
               });
             })()}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Exclusões de pets */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Trash2 className="h-4 w-4 text-muted-foreground" />
+              <div>
+                <CardTitle>Motivos de Exclusão</CardTitle>
+                <CardDescription>
+                  {data.totalDeletions} excluídos · {data.totalMemorials} memoriais
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {data.deletionReasonData.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-6">Nenhuma exclusão registrada</p>
+            ) : (() => {
+              const total = data.deletionReasonData.reduce((a, b) => a + b.value, 0);
+              return data.deletionReasonData.map((r, i) => {
+                const pct = total > 0 ? Math.round((r.value / total) * 100) : 0;
+                return (
+                  <div key={r.name} className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground font-mono w-5">#{i + 1}</span>
+                    <div className="flex-1 space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span className="font-medium">{r.name}</span>
+                        <span className="text-muted-foreground">{r.value} ({pct}%)</span>
+                      </div>
+                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: PIE_COLORS[i % PIE_COLORS.length] }} />
+                      </div>
+                    </div>
+                  </div>
+                );
+              });
+            })()}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Exclusões Recentes</CardTitle>
+            <CardDescription>Últimos 10 pets removidos ou marcados como memorial</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {data.recentDeletions.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-6">Nenhuma exclusão registrada</p>
+            ) : (
+              <div className="space-y-2">
+                {data.recentDeletions.map((d, i) => (
+                  <div key={i} className="flex items-center justify-between py-1.5 border-b last:border-0 border-border/50">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium truncate">
+                        {d.isMemorial ? "🌈 " : ""}{d.petName}
+                        <span className="text-muted-foreground font-normal"> · {d.petSpecies}</span>
+                      </p>
+                      <p className="text-xs text-muted-foreground">{d.reason}</p>
+                    </div>
+                    <span className="text-xs text-muted-foreground ml-3 flex-shrink-0">
+                      {new Date(d.deletedAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

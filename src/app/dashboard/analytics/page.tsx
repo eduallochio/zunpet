@@ -21,17 +21,20 @@ async function getAnalytics() {
     { data: pets },
     { data: profiles },
     { data: photos },
+    { data: deletions },
     { data: { users: authUsers } },
   ] = await Promise.all([
     supabaseAdmin.from("pets").select("id, user_id, species, gender, castrated, dob, microchip, food_allergies, med_allergies, restrictions, created_at"),
     supabaseAdmin.from("user_profiles").select("user_id, city, state, birth_date, experience, name, platform, updated_at"),
     supabaseAdmin.from("pet_photos").select("id, pet_id, created_at"),
+    supabaseAdmin.from("pet_deletions").select("id, pet_name, pet_species, reason, is_memorial, deleted_at").order("deleted_at", { ascending: false }),
     supabaseAdmin.auth.admin.listUsers(),
   ]);
 
   const now = new Date();
   const allPets = pets ?? [];
   const allProfiles = profiles ?? [];
+  const allDeletions = deletions ?? [];
   const allPhotos = photos ?? [];
 
   // ── Crescimento acumulado de usuários (12 meses) ──────────────────────────
@@ -215,6 +218,34 @@ async function getAnalytics() {
     .map(([name, value]) => ({ name, value }))
     .sort((a, b) => b.value - a.value);
 
+  // ── Exclusões de pets ─────────────────────────────────────────────────────
+  const REASON_LABELS: Record<string, string> = {
+    wrong_data:  "Cadastro errado",
+    passed_away: "Pet faleceu",
+    rehomed:     "Doado / novo lar",
+    duplicate:   "Duplicado",
+    other:       "Outro motivo",
+  };
+
+  const deletionReasonMap: Record<string, number> = {};
+  for (const d of allDeletions) {
+    const label = REASON_LABELS[d.reason] ?? d.reason;
+    deletionReasonMap[label] = (deletionReasonMap[label] ?? 0) + 1;
+  }
+  const deletionReasonData = Object.entries(deletionReasonMap)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value);
+
+  const totalDeletions  = allDeletions.filter(d => !d.is_memorial).length;
+  const totalMemorials  = allDeletions.filter(d => d.is_memorial).length;
+  const recentDeletions = allDeletions.slice(0, 10).map(d => ({
+    petName:   d.pet_name  ?? "—",
+    petSpecies: d.pet_species ?? "—",
+    reason:    REASON_LABELS[d.reason] ?? d.reason,
+    isMemorial: d.is_memorial ?? false,
+    deletedAt: d.deleted_at,
+  }));
+
   return {
     // KPIs principais
     totalUsers,
@@ -249,6 +280,11 @@ async function getAnalytics() {
     locationData,
     // Plataforma
     platformData,
+    // Exclusões
+    deletionReasonData,
+    totalDeletions,
+    totalMemorials,
+    recentDeletions,
   };
 }
 
