@@ -1,6 +1,8 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import AnalyticsClient from "./AnalyticsClient";
 
+export const revalidate = 60; // ISR: regenera a página a cada 60 segundos
+
 function monthLabel(date: Date) {
   return date.toLocaleDateString("pt-BR", { month: "short", year: "2-digit" });
 }

@@ -1,5 +1,7 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+export const revalidate = 60;
 import { Badge } from "@/components/ui/badge";
 import { Activity, UserPlus, PawPrint, FileText, Utensils, Camera } from "lucide-react";
 

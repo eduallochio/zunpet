@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -44,6 +46,15 @@ export default function PetsClient({
   pets: Pet[];
   speciesData: { name: string; value: number }[];
 }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      router.refresh();
+    }, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [router]);
+
   const total = speciesData.reduce((a, b) => a + b.value, 0);
   const sorted = [...speciesData].sort((a, b) => b.value - a.value);
 

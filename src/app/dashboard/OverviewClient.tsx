@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -82,6 +84,16 @@ function KpiCard({
 }
 
 export default function OverviewClient({ stats }: { stats: Stats }) {
+  const router = useRouter();
+
+  // Auto-refresh a cada 5 minutos para manter os dados atualizados
+  useEffect(() => {
+    const interval = setInterval(() => {
+      router.refresh();
+    }, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [router]);
+
   return (
     <div className="space-y-6">
       <div>

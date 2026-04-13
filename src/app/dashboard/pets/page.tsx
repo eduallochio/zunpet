@@ -1,6 +1,8 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import PetsClient from "./PetsClient";
 
+export const revalidate = 60; // ISR: regenera a página a cada 60 segundos
+
 function calcAge(dob: string | null): string {
   if (!dob) return "—";
   let birth: Date;

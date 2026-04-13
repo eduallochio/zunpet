@@ -1,6 +1,8 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import OverviewClient from "./OverviewClient";
 
+export const revalidate = 60; // ISR: regenera a página a cada 60 segundos
+
 async function getStats() {
   const [profilesResult, petsResult, { data: { users: authUsers } }] = await Promise.all([
     supabaseAdmin.from("user_profiles").select("user_id, name, updated_at"),

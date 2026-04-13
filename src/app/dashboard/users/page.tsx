@@ -1,6 +1,8 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import UsersClient from "./UsersClient";
 
+export const revalidate = 60;
+
 async function getUsers() {
   const [{ data: profiles }, { data: petRows }, { data: { users: authUsers } }] = await Promise.all([
     supabaseAdmin.from("user_profiles").select("user_id, name, city, state, platform, updated_at").order("updated_at", { ascending: false }),
