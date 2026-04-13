@@ -14,6 +14,7 @@ import {
   Globe,
   Settings,
   LogOut,
+  Trash2,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
@@ -25,6 +26,7 @@ const navItems = [
   { href: "/dashboard/analytics", label: "Análises", icon: BarChart3 },
   { href: "/dashboard/stores", label: "Lojas", icon: Store },
   { href: "/dashboard/landing", label: "Landing Page", icon: Globe },
+  { href: "/dashboard/deletions", label: "Exclusões", icon: Trash2 },
 ];
 
 const bottomItems = [

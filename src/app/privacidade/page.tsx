@@ -114,7 +114,13 @@ export default function PrivacidadePage() {
               <li>Portabilidade dos seus dados</li>
             </ul>
             <p className="mt-3">
-              Para exercer esses direitos, entre em contato:{" "}
+              Para solicitar a exclusão da sua conta e dados, use nosso formulário:{" "}
+              <a href="/excluir-conta" className="underline font-medium" style={{ color: "oklch(0.62 0.18 174)" }}>
+                zupet.io/excluir-conta
+              </a>
+            </p>
+            <p className="mt-2">
+              Para demais direitos, entre em contato:{" "}
               <a href="mailto:privacidade@zupet.io" className="underline" style={{ color: "oklch(0.62 0.18 174)" }}>
                 privacidade@zupet.io
               </a>
@@ -162,6 +168,7 @@ export default function PrivacidadePage() {
           <div className="flex gap-6">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <Link href="/termos" className="hover:text-white transition-colors">Termos de Uso</Link>
+            <Link href="/excluir-conta" className="hover:text-white transition-colors">Excluir conta</Link>
           </div>
         </div>
       </footer>

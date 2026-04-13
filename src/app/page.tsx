@@ -665,6 +665,13 @@ export default async function LandingPage() {
                   As perguntas mais comuns dos tutores respondidas aqui.
                 </p>
                 <div className="mt-8 w-12 h-px" style={{ background: "oklch(0.62 0.18 174)" }} />
+                <div className="mt-8 p-4 rounded-xl" style={{ background: "oklch(0.13 0 0)", border: "1px solid oklch(0.20 0 0)" }}>
+                  <p className="text-xs font-medium mb-1" style={{ color: "oklch(0.75 0 0)" }}>Quer excluir sua conta?</p>
+                  <p className="text-xs mb-3" style={{ color: "oklch(0.55 0 0)" }}>Acesse o formulário e solicite a remoção completa dos seus dados.</p>
+                  <Link href="/excluir-conta" className="inline-flex items-center gap-1.5 text-xs font-medium transition-colors hover:opacity-80" style={{ color: "oklch(0.62 0.18 174)" }}>
+                    Solicitar exclusão de conta →
+                  </Link>
+                </div>
               </FadeUp>
 
               {/* Direita — perguntas */}
@@ -676,6 +683,7 @@ export default async function LandingPage() {
                   { q: "Meus dados são seguros?", a: "Sim. Dados criptografados e armazenados com segurança. Nunca compartilhamos informações pessoais com terceiros." },
                   { q: "Posso usar em mais de um dispositivo?", a: "Sim. Faça login com Google ou Apple em qualquer dispositivo e seus dados estarão sempre sincronizados." },
                   { q: "Quando o iOS estará disponível?", a: "Estamos finalizando a versão para iOS. Já disponível para Android — em breve na App Store." },
+                  { q: "Como posso excluir minha conta e dados?", a: "Você pode excluir sua conta diretamente pelo app em Perfil → Configurações → Excluir conta, ou acessar nosso formulário online em zupet.io/excluir-conta. Todos os seus dados são removidos permanentemente em até 7 dias úteis." },
                 ].map(({ q, a }, i) => (
                   <StaggerItem key={i}>
                     <div className="group py-6 border-b cursor-default"
@@ -794,6 +802,7 @@ export default async function LandingPage() {
                 <nav className="flex gap-5 text-xs" style={{ color: "oklch(0.60 0 0)" }}>
                   <Link href="/privacidade" className="hover:text-white transition-colors">Privacidade</Link>
                   <Link href="/termos" className="hover:text-white transition-colors">Termos</Link>
+                  <Link href="/excluir-conta" className="hover:text-white transition-colors">Excluir conta</Link>
                   <Link href="/dashboard" className="hover:text-white transition-colors">Admin</Link>
                 </nav>
                 <a
