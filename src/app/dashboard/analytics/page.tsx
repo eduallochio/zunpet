@@ -26,7 +26,7 @@ async function getAnalytics() {
     { data: { users: authUsers } },
   ] = await Promise.all([
     supabaseAdmin.from("pets").select("id, user_id, species, gender, castrated, dob, microchip, food_allergies, med_allergies, restrictions, created_at"),
-    supabaseAdmin.from("user_profiles").select("user_id, city, state, birth_date, experience, name, platform, updated_at"),
+    supabaseAdmin.from("user_profiles").select("user_id, city, state, birth_date, experience, name, platform, updated_at, country, country_code"),
     supabaseAdmin.from("pet_photos").select("id, pet_id, created_at"),
     supabaseAdmin.from("pet_deletions").select("id, pet_name, pet_species, reason, is_memorial, deleted_at").order("deleted_at", { ascending: false }),
     supabaseAdmin.from("user_achievements").select("user_id, achievement_id, unlocked_at"),
@@ -131,7 +131,7 @@ async function getAnalytics() {
   const castrated = allPets.filter((p) => p.castrated).length;
   const notCastrated = allPets.length - castrated;
 
-  // ── Localização ───────────────────────────────────────────────────────────
+  // ── Localização (estado/cidade, BR) ──────────────────────────────────────
   const locationMap: Record<string, number> = {};
   for (const p of allProfiles) {
     const loc = p.state ?? p.city ?? "Não informado";
@@ -141,6 +141,32 @@ async function getAnalytics() {
     .map(([name, value]) => ({ name, value }))
     .sort((a, b) => b.value - a.value)
     .slice(0, 8);
+
+  // ── Distribuição por país ─────────────────────────────────────────────────
+  const countryMap: Record<string, { name: string; flag: string; count: number }> = {};
+  const FLAG_MAP: Record<string, string> = {
+    BR: "🇧🇷", US: "🇺🇸", PT: "🇵🇹", AR: "🇦🇷", MX: "🇲🇽",
+    CO: "🇨🇴", CL: "🇨🇱", UY: "🇺🇾", PE: "🇵🇪", GB: "🇬🇧",
+    ES: "🇪🇸", DE: "🇩🇪", FR: "🇫🇷", IT: "🇮🇹", CA: "🇨🇦",
+    AU: "🇦🇺", JP: "🇯🇵",
+  };
+  for (const p of allProfiles) {
+    if (!p.country_code) continue;
+    const code = p.country_code.toUpperCase();
+    if (!countryMap[code]) {
+      countryMap[code] = { name: p.country ?? code, flag: FLAG_MAP[code] ?? "🌍", count: 0 };
+    }
+    countryMap[code].count++;
+  }
+  const countryData = Object.entries(countryMap)
+    .map(([code, { name, flag, count }]) => ({ code, name, flag, count }))
+    .sort((a, b) => b.count - a.count);
+
+  const totalWithCountry = countryData.reduce((s, c) => s + c.count, 0);
+  const internationalUsers = countryData.filter(c => c.code !== "BR").reduce((s, c) => s + c.count, 0);
+  const internationalRate = totalWithCountry > 0
+    ? Math.round((internationalUsers / totalWithCountry) * 100)
+    : 0;
 
   // ── Distribuição de plataforma ────────────────────────────────────────────
   const platformMap: Record<string, number> = { Android: 0, iOS: 0, "Não informado": 0 };
@@ -395,6 +421,11 @@ async function getAnalytics() {
     experienceData,
     // Localização
     locationData,
+    // País
+    countryData,
+    internationalUsers,
+    internationalRate,
+    totalWithCountry,
     // Plataforma
     platformData,
     // Exclusões

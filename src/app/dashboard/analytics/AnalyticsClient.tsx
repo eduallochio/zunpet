@@ -49,6 +49,10 @@ type AnalyticsData = {
   profileCompletenessRate: number;
   experienceData: { name: string; value: number }[];
   locationData: { name: string; value: number }[];
+  countryData: { code: string; name: string; flag: string; count: number }[];
+  internationalUsers: number;
+  internationalRate: number;
+  totalWithCountry: number;
   platformData: { name: string; value: number }[];
   deletionReasonData: { name: string; value: number }[];
   totalDeletions: number;
@@ -461,7 +465,7 @@ export default function AnalyticsClient({ data }: { data: AnalyticsData }) {
               <MapPin className="h-4 w-4 text-muted-foreground" />
               <div>
                 <CardTitle>Distribuição Geográfica</CardTitle>
-                <CardDescription>Usuários por estado</CardDescription>
+                <CardDescription>Usuários por estado (Brasil)</CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -489,6 +493,72 @@ export default function AnalyticsClient({ data }: { data: AnalyticsData }) {
           </CardContent>
         </Card>
       </div>
+
+      {/* Distribuição por país */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-muted-foreground" />
+              <div>
+                <CardTitle>Alcance Internacional</CardTitle>
+                <CardDescription>
+                  Usuários por país —{" "}
+                  {data.totalWithCountry === 0
+                    ? "nenhum dado ainda"
+                    : `${data.totalWithCountry} usuários informaram o país`}
+                </CardDescription>
+              </div>
+            </div>
+            {data.totalWithCountry > 0 && (
+              <div className="text-right">
+                <p className="text-2xl font-bold">{data.internationalRate}%</p>
+                <p className="text-xs text-muted-foreground">fora do Brasil</p>
+              </div>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          {data.countryData.length === 0 ? (
+            <p className="text-sm text-muted-foreground text-center py-8">
+              Nenhum usuário informou o país ainda. Os dados aparecerão aqui após a atualização do app.
+            </p>
+          ) : (
+            <div className="space-y-3">
+              {data.countryData.map((c, i) => {
+                const maxVal = data.countryData[0]?.count ?? 1;
+                const pct = Math.round((c.count / maxVal) * 100);
+                const isBR = c.code === "BR";
+                return (
+                  <div key={c.code} className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground font-mono w-5">#{i + 1}</span>
+                    <span className="text-xl w-7">{c.flag}</span>
+                    <div className="flex-1 space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{c.name}</span>
+                          {isBR && (
+                            <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4">BR</Badge>
+                          )}
+                          {!isBR && (
+                            <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4">Internacional</Badge>
+                          )}
+                        </div>
+                        <span className="text-muted-foreground font-mono">{c.count}</span>
+                      </div>
+                      <Progress
+                        value={pct}
+                        className="h-2"
+                        style={{ "--progress-color": isBR ? "hsl(174 60% 40%)" : "hsl(262 60% 58%)" } as React.CSSProperties}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Qualidade de dados: perfil + experiência */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
