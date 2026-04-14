@@ -20,7 +20,10 @@ const SCREENSHOTS = [
 ];
 
 export default function ScreenshotCarousel() {
+  const [mounted, setMounted] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
+
+  useEffect(() => { setMounted(true); }, []);
 
   const prev = useCallback(() => {
     setLightbox(i => i === null ? null : (i - 1 + SCREENSHOTS.length) % SCREENSHOTS.length);
@@ -44,11 +47,12 @@ export default function ScreenshotCarousel() {
     return () => window.removeEventListener("keydown", handler);
   }, [lightbox, prev, next, close]);
 
-  // Bloqueia scroll quando lightbox aberto
+  // Bloqueia scroll quando lightbox aberto (apenas client-side)
   useEffect(() => {
+    if (!mounted) return;
     document.body.style.overflow = lightbox !== null ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [lightbox]);
+  }, [lightbox, mounted]);
 
   return (
     <>
@@ -97,7 +101,7 @@ export default function ScreenshotCarousel() {
       </div>
 
       {/* ── Lightbox ── */}
-      {lightbox !== null && (
+      {mounted && lightbox !== null && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"
           style={{ background: "oklch(0 0 0 / 0.92)", backdropFilter: "blur(12px)" }}
@@ -135,7 +139,7 @@ export default function ScreenshotCarousel() {
           >
             <div className="absolute inset-0 rounded-[32px]"
               style={{ boxShadow: "0 0 80px oklch(0.62 0.18 174 / 0.25), 0 40px 80px oklch(0 0 0 / 0.7)" }} />
-            <div className="w-full h-full overflow-hidden" style={{ borderRadius: "32px", border: "1px solid oklch(0.30 0 0)" }}>
+            <div className="relative w-full h-full overflow-hidden" style={{ borderRadius: "32px", border: "1px solid oklch(0.30 0 0)" }}>
               <Image
                 key={lightbox}
                 src={SCREENSHOTS[lightbox].src}
