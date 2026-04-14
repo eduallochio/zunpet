@@ -6,6 +6,7 @@ import CountUp from "@/components/landing/CountUp";
 import { ScrollStackWrapper as ScrollStack, ScrollStackItemWrapper as ScrollStackItem } from "@/components/landing/ScrollStackWrapper";
 import { TrackPageView, TrackableStoreLink } from "@/components/landing/TrackingProvider";
 import { FeatureCard } from "@/components/landing/FeatureCard";
+import ScreenshotCarousel from "@/components/landing/ScreenshotCarousel";
 
 export const revalidate = 300;
 
@@ -486,7 +487,7 @@ export default async function LandingPage() {
         {/* ── Screenshots ─────────────────────────────────────────────────── */}
         <section className="py-28 px-6 overflow-hidden" style={{ background: "oklch(0.10 0 0)" }}>
           <div className="max-w-6xl mx-auto">
-            <FadeUp className="mb-20">
+            <FadeUp className="mb-16">
               <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
                 <div>
                   <p className="text-xs font-mono tracking-widest uppercase mb-3" style={{ color: "oklch(0.62 0.18 174)" }}>App em ação</p>
@@ -495,47 +496,13 @@ export default async function LandingPage() {
                   </h2>
                 </div>
                 <p className="text-sm max-w-xs leading-relaxed" style={{ color: "oklch(0.65 0 0)" }}>
-                  Cada tela desenhada para ser intuitiva do primeiro acesso. Sem curva de aprendizado.
+                  Cada tela desenhada para ser intuitiva do primeiro acesso. Clique em qualquer imagem para ampliar.
                 </p>
               </div>
             </FadeUp>
-
-            {/* Screenshots com offset vertical alternado */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 items-end">
-              {[
-                { src: "/screenshots/perfil-pet.png", label: "Perfil do pet", num: "01", offset: "0px", delay: 0 },
-                { src: "/screenshots/passaporte.png", label: "Passaporte", num: "02", offset: "40px", delay: 0.1 },
-                { src: "/screenshots/novo-lembrete.png", label: "Lembretes", num: "03", offset: "20px", delay: 0.2 },
-                { src: "/screenshots/conquistas.png", label: "Conquistas", num: "04", offset: "60px", delay: 0.3 },
-              ].map(({ src, label, num, offset, delay }) => (
-                <div key={label} style={{ marginTop: offset }}>
-                <FadeUp delay={delay} className="flex flex-col gap-3">
-                  <div className="relative w-full overflow-hidden"
-                    style={{
-                      borderRadius: "28px",
-                      aspectRatio: "9/19.5",
-                      border: "1px solid oklch(0.50 0 0)",
-                      boxShadow: "0 32px 64px oklch(0 0 0 / 0.6), inset 0 1px 0 oklch(0.28 0 0 / 0.5)",
-                    }}>
-                    <Image
-                      src={src}
-                      alt={`Zupet — ${label}`}
-                      fill
-                      className="object-cover object-top"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    />
-                    {/* shimmer overlay no topo */}
-                    <div aria-hidden className="absolute top-0 left-0 right-0 h-16 pointer-events-none"
-                      style={{ background: "linear-gradient(oklch(0.18 0 0 / 0.3), transparent)" }} />
-                  </div>
-                  <div className="flex items-center justify-between px-1">
-                    <span className="text-xs font-medium" style={{ color: "oklch(0.70 0 0)" }}>{label}</span>
-                    <span className="text-xs font-mono" style={{ color: "oklch(0.70 0 0)" }}>{num}</span>
-                  </div>
-                </FadeUp>
-                </div>
-              ))}
-            </div>
+            <FadeUp delay={0.1}>
+              <ScreenshotCarousel />
+            </FadeUp>
           </div>
         </section>
 
