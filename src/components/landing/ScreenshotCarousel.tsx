@@ -110,14 +110,14 @@ export default function ScreenshotCarousel() {
 
         {/* Viewport Embla */}
         <div ref={emblaRef} className="overflow-hidden">
-          <div className="flex gap-4 py-6">
+          <div className="flex gap-5 md:gap-7 py-8">
             {SCREENSHOTS.map((s, i) => {
               const isActive = i === selectedIndex;
               return (
                 <motion.div
                   key={s.src}
                   className="flex-none cursor-pointer select-none"
-                  style={{ width: "160px" }}
+                  style={{ width: "clamp(200px, 38vw, 260px)" }}
                   animate={{
                     scale: isActive ? 1 : 0.85,
                     opacity: isActive ? 1 : 0.45,
@@ -149,7 +149,7 @@ export default function ScreenshotCarousel() {
                       alt={`Zupet — ${s.label}`}
                       fill
                       className="object-cover object-top"
-                      sizes="160px"
+                      sizes="(max-width: 768px) 38vw, 260px"
                     />
                     {/* Overlay expand no active */}
                     {isActive && (
@@ -240,7 +240,7 @@ export default function ScreenshotCarousel() {
             <motion.div
               key={lightbox}
               className="relative mx-20 md:mx-28"
-              style={{ width: "min(220px, 52vw)", aspectRatio: "9/19.5" }}
+              style={{ width: "min(300px, 65vw)", aspectRatio: "9/19.5" }}
               initial={{ scale: 0.88, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.88, opacity: 0 }}
@@ -256,7 +256,7 @@ export default function ScreenshotCarousel() {
                   alt={`Zupet — ${SCREENSHOTS[lightbox].label}`}
                   fill
                   className="object-cover object-top"
-                  sizes="220px"
+                  sizes="(max-width: 768px) 65vw, 300px"
                   priority
                 />
               </div>
