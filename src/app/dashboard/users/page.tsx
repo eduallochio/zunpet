@@ -5,7 +5,7 @@ export const revalidate = 60;
 
 async function getUsers() {
   const [{ data: profiles }, { data: petRows }, { data: { users: authUsers } }] = await Promise.all([
-    supabaseAdmin.from("user_profiles").select("user_id, name, city, state, platform, updated_at"),
+    supabaseAdmin.from("user_profiles").select("user_id, name, city, state, platform, app_version, updated_at"),
     supabaseAdmin.from("pets").select("user_id"),
     supabaseAdmin.auth.admin.listUsers(),
   ]);
@@ -31,6 +31,7 @@ async function getUsers() {
         pets: countMap[u.id] ?? 0,
         createdAt: u.created_at,
         platform: (profile?.platform as "android" | "ios" | null) ?? null,
+        appVersion: profile?.app_version ?? null,
       };
     });
 }

@@ -15,6 +15,7 @@ type User = {
   pets: number;
   createdAt: string;
   platform: "android" | "ios" | null;
+  appVersion: string | null;
 };
 
 export default function UsersClient({ users }: { users: User[] }) {
@@ -107,13 +108,14 @@ export default function UsersClient({ users }: { users: User[] }) {
                 <TableHead>Localização</TableHead>
                 <TableHead>Pets</TableHead>
                 <TableHead>OS</TableHead>
+                <TableHead>Versão</TableHead>
                 <TableHead className="pr-6">Cadastro</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {users.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center text-muted-foreground py-12 text-sm">
+                  <TableCell colSpan={7} className="text-center text-muted-foreground py-12 text-sm">
                     Nenhum usuário encontrado
                   </TableCell>
                 </TableRow>
@@ -153,6 +155,15 @@ export default function UsersClient({ users }: { users: User[] }) {
                           </Badge>
                         )}
                         {!user.platform && (
+                          <span className="text-xs text-muted-foreground">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {user.appVersion ? (
+                          <Badge variant="outline" className="text-xs font-mono">
+                            v{user.appVersion}
+                          </Badge>
+                        ) : (
                           <span className="text-xs text-muted-foreground">—</span>
                         )}
                       </TableCell>
