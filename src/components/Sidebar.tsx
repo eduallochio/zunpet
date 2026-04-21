@@ -13,7 +13,6 @@ import {
   BarChart3,
   Store,
   Globe,
-  Settings,
   LogOut,
   Trash2,
   Menu,
@@ -32,9 +31,7 @@ const navItems = [
   { href: "/dashboard/deletions", label: "Exclusões", icon: Trash2 },
 ];
 
-const bottomItems = [
-  { href: "/dashboard/settings", label: "Configurações", icon: Settings },
-];
+const bottomItems: { href: string; label: string; icon: any }[] = [];
 
 function SidebarContent({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
