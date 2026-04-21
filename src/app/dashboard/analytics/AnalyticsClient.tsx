@@ -149,7 +149,7 @@ export default function AnalyticsClient({ data }: { data: AnalyticsData }) {
       </div>
 
       {/* KPIs principais — linha 1 */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <KpiCard
           icon={Users}
           iconBg="bg-primary/10"
@@ -187,7 +187,7 @@ export default function AnalyticsClient({ data }: { data: AnalyticsData }) {
       </div>
 
       {/* KPIs de engajamento — linha 2 */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <KpiCard
           icon={Camera}
           iconBg="bg-rose-500/10"
@@ -706,7 +706,7 @@ export default function AnalyticsClient({ data }: { data: AnalyticsData }) {
         </h2>
 
         {/* KPIs de conquistas */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
           <KpiCard
             icon={Trophy}
             iconBg="bg-amber-500/10"

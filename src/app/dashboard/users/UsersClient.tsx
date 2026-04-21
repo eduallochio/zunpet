@@ -34,7 +34,7 @@ export default function UsersClient({ users }: { users: User[] }) {
         <p className="text-muted-foreground text-sm mt-1">Todas as contas cadastradas no Zupet</p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">

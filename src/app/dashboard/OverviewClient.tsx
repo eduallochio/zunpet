@@ -102,7 +102,7 @@ export default function OverviewClient({ stats }: { stats: Stats }) {
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <KpiCard title="Total de Usuários" value={stats.totalUsers.toLocaleString("pt-BR")} icon={Users} trend={stats.userGrowth} sub="vs mês anterior" />
         <KpiCard title="Total de Pets" value={stats.totalPets.toLocaleString("pt-BR")} icon={PawPrint} sub={`+${stats.newPetsThisMonth} este mês`} />
         <KpiCard title="Novos Usuários (30d)" value={stats.newUsersThisMonth} icon={TrendingUp} sub="cadastros recentes" />

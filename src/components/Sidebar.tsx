@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
@@ -15,6 +16,8 @@ import {
   Settings,
   LogOut,
   Trash2,
+  Menu,
+  X,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
@@ -33,7 +36,7 @@ const bottomItems = [
   { href: "/dashboard/settings", label: "Configurações", icon: Settings },
 ];
 
-export default function Sidebar() {
+function SidebarContent({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -44,7 +47,7 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="w-60 flex-shrink-0 flex flex-col h-screen sticky top-0 border-r border-border bg-sidebar">
+    <aside className="w-60 flex-shrink-0 flex flex-col h-full border-r border-border bg-sidebar">
       {/* Logo */}
       <div className="h-16 flex items-center px-5 gap-3">
         <Image
@@ -60,6 +63,11 @@ export default function Sidebar() {
         <span className="ml-auto text-[10px] font-mono text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
           admin
         </span>
+        {onClose && (
+          <button onClick={onClose} className="ml-2 text-muted-foreground hover:text-foreground md:hidden">
+            <X className="h-5 w-5" />
+          </button>
+        )}
       </div>
 
       <Separator className="opacity-50" />
@@ -75,6 +83,7 @@ export default function Sidebar() {
             <Link
               key={href}
               href={href}
+              onClick={onClose}
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150",
                 active
@@ -82,16 +91,9 @@ export default function Sidebar() {
                   : "text-muted-foreground hover:text-foreground hover:bg-secondary"
               )}
             >
-              <Icon
-                className={cn(
-                  "h-4 w-4 flex-shrink-0",
-                  active ? "text-primary" : "text-muted-foreground"
-                )}
-              />
+              <Icon className={cn("h-4 w-4 flex-shrink-0", active ? "text-primary" : "text-muted-foreground")} />
               {label}
-              {active && (
-                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />
-              )}
+              {active && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />}
             </Link>
           );
         })}
@@ -105,6 +107,7 @@ export default function Sidebar() {
           <Link
             key={href}
             href={href}
+            onClick={onClose}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
           >
             <Icon className="h-4 w-4 flex-shrink-0" />
@@ -120,7 +123,6 @@ export default function Sidebar() {
         </button>
       </div>
 
-      {/* Admin indicator */}
       <Separator className="opacity-50" />
       <div className="p-4 flex items-center gap-3">
         <div className="w-7 h-7 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
@@ -132,5 +134,45 @@ export default function Sidebar() {
         </div>
       </div>
     </aside>
+  );
+}
+
+export default function Sidebar() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <div className="hidden md:flex h-screen sticky top-0">
+        <SidebarContent />
+      </div>
+
+      {/* Mobile hamburger button */}
+      <button
+        onClick={() => setOpen(true)}
+        className="md:hidden fixed top-4 left-4 z-40 p-2 rounded-lg bg-background border border-border shadow-sm"
+        aria-label="Abrir menu"
+      >
+        <Menu className="h-5 w-5 text-foreground" />
+      </button>
+
+      {/* Mobile drawer backdrop */}
+      {open && (
+        <div
+          className="md:hidden fixed inset-0 z-40 bg-black/50"
+          onClick={() => setOpen(false)}
+        />
+      )}
+
+      {/* Mobile drawer */}
+      <div
+        className={cn(
+          "md:hidden fixed inset-y-0 left-0 z-50 h-full transition-transform duration-300",
+          open ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        <SidebarContent onClose={() => setOpen(false)} />
+      </div>
+    </>
   );
 }
