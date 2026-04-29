@@ -256,26 +256,42 @@ export default async function LandingPage() {
                 </FadeUp>
 
                 <FadeUp delay={0.26}>
-                  <div id="download" className="mt-8 flex items-center gap-3 flex-wrap">
-                    <TrackableStoreLink
-                      store="android"
-                      href="#"
-                      className="flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all hover:scale-105 active:scale-95"
-                      style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 32px oklch(0.62 0.18 174 / 0.4)" }}
-                      aria-label="Baixar Zupet para Android"
-                    >
-                      <Image src="/stores/google-play.png" alt="Google Play" width={110} height={32} className="h-5 w-auto" />
-                    </TrackableStoreLink>
-                    <TrackableStoreLink
-                      store="ios"
-                      href="#"
-                      className="flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all hover:opacity-70"
-                      style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.25 0 0)", color: "oklch(0.70 0 0)" }}
-                      aria-label="Baixar Zupet para iOS — em breve"
-                    >
-                      <Image src="/stores/app-store.svg" alt="App Store" width={100} height={32} className="h-5 w-auto opacity-50" />
-                      <span className="text-xs">Em breve</span>
-                    </TrackableStoreLink>
+                  <div id="download" className="mt-8 flex flex-col gap-4">
+                    {/* Badge de fase de testes */}
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium w-fit"
+                      style={{ background: "oklch(0.68 0.18 60 / 0.12)", border: "1px solid oklch(0.68 0.18 60 / 0.30)", color: "oklch(0.78 0.14 60)" }}>
+                      <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "oklch(0.68 0.18 60)" }} />
+                      Acesso antecipado — fase de testes
+                    </div>
+
+                    {/* Botões de loja */}
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <a
+                        href="#early-access"
+                        className="flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all hover:scale-105 active:scale-95"
+                        style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 32px oklch(0.62 0.18 174 / 0.4)" }}
+                      >
+                        <Image src="/stores/google-play.png" alt="Google Play" width={110} height={32} className="h-5 w-auto" />
+                      </a>
+                      <TrackableStoreLink
+                        store="ios"
+                        href="#"
+                        className="flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all hover:opacity-70"
+                        style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.25 0 0)", color: "oklch(0.70 0 0)" }}
+                        aria-label="Baixar Zupet para iOS — em breve"
+                      >
+                        <Image src="/stores/app-store.svg" alt="App Store" width={100} height={32} className="h-5 w-auto opacity-50" />
+                        <span className="text-xs">Em breve</span>
+                      </TrackableStoreLink>
+                    </div>
+
+                    {/* Aviso de teste */}
+                    <p className="text-xs leading-relaxed" style={{ color: "oklch(0.60 0 0)" }}>
+                      O app está em fase de testes na Google Play. O acesso é liberado após cadastro do seu e-mail.{" "}
+                      <a href="#early-access" className="underline underline-offset-2 transition-colors hover:text-white" style={{ color: "oklch(0.72 0.14 174)" }}>
+                        Saiba como participar →
+                      </a>
+                    </p>
                   </div>
                 </FadeUp>
 
@@ -546,19 +562,17 @@ export default async function LandingPage() {
               {/* Direita — cards de loja */}
               <ScaleIn delay={0.15}>
                 <div className="flex flex-col gap-4">
-                  {/* Android — ativo */}
-                  <TrackableStoreLink
-                    store="android"
-                    href="#download"
+                  {/* Android — fase de testes */}
+                  <a
+                    href="#early-access"
                     className="group relative p-6 rounded-2xl flex items-center gap-5 transition-all hover:scale-[1.02]"
                     style={{
                       background: "oklch(0.13 0 0)",
-                      border: "1px solid oklch(0.62 0.18 174 / 0.3)",
-                      boxShadow: "0 0 40px oklch(0.62 0.18 174 / 0.08)",
+                      border: "1px solid oklch(0.68 0.18 60 / 0.35)",
+                      boxShadow: "0 0 40px oklch(0.68 0.18 60 / 0.06)",
                     }}>
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: "oklch(0.62 0.18 174 / 0.15)" }}>
-                      {/* Android mascot (bugdroid) */}
+                      style={{ background: "oklch(0.68 0.18 60 / 0.15)" }}>
                       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="#34A853">
                         <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48A5.84 5.84 0 0 0 12 1.5c-.76 0-1.48.15-2.14.43L8.38.45c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.3 1.3A5.9 5.9 0 0 0 6.5 7h11a5.9 5.9 0 0 0-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/>
                       </svg>
@@ -567,14 +581,16 @@ export default async function LandingPage() {
                       <div className="flex items-center gap-2 mb-0.5">
                         <p className="text-sm font-semibold" style={{ color: "oklch(0.90 0 0)" }}>Android</p>
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium"
-                          style={{ background: "oklch(0.62 0.18 174 / 0.2)", color: "oklch(0.72 0.14 174)" }}>
-                          Disponível
+                          style={{ background: "oklch(0.68 0.18 60 / 0.20)", color: "oklch(0.78 0.14 60)" }}>
+                          Teste fechado
                         </span>
                       </div>
-                      <p className="text-xs" style={{ color: "oklch(0.62 0 0)" }}>Google Play Store</p>
+                      <p className="text-xs" style={{ color: "oklch(0.62 0 0)" }}>Acesso via Google Play com convite</p>
                     </div>
-                    <Image src="/stores/google-play.png" alt="Google Play" width={100} height={30} className="h-7 w-auto" />
-                  </TrackableStoreLink>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "oklch(0.50 0 0)", flexShrink: 0 }}>
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </a>
 
                   {/* iOS — em breve */}
                   <div className="relative p-6 rounded-2xl flex items-center gap-5 opacity-50"
@@ -612,6 +628,106 @@ export default async function LandingPage() {
                 </div>
               </ScaleIn>
             </div>
+          </div>
+        </section>
+
+        {/* ── Early Access ─────────────────────────────────────────────── */}
+        <section id="early-access" className="py-28 px-6 relative overflow-hidden" style={{ background: "oklch(0.10 0 0)" }}>
+          <div aria-hidden className="absolute top-0 left-0 right-0 h-px"
+            style={{ background: "linear-gradient(90deg, transparent, oklch(0.68 0.18 60 / 0.4), transparent)" }} />
+          <div aria-hidden className="absolute inset-0 pointer-events-none">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px]"
+              style={{ background: "radial-gradient(ellipse, oklch(0.68 0.18 60 / 0.06) 0%, transparent 65%)", filter: "blur(60px)" }} />
+          </div>
+
+          <div className="max-w-3xl mx-auto relative text-center">
+            <FadeUp>
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-8"
+                style={{ background: "oklch(0.68 0.18 60 / 0.12)", border: "1px solid oklch(0.68 0.18 60 / 0.30)", color: "oklch(0.78 0.14 60)" }}>
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "oklch(0.68 0.18 60)" }} />
+                Programa de acesso antecipado
+              </div>
+
+              <h2 className="font-heading text-4xl md:text-5xl font-bold leading-tight mb-6" style={{ color: "oklch(0.96 0 0)" }}>
+                Seja um dos primeiros<br />a testar o Zupet
+              </h2>
+              <p className="text-base leading-relaxed mb-4 max-w-xl mx-auto" style={{ color: "oklch(0.68 0 0)" }}>
+                O app está disponível na <strong style={{ color: "oklch(0.82 0 0)" }}>Google Play Store</strong> em fase de
+                testes fechados. O acesso é feito diretamente pela loja — basta ter seu e-mail cadastrado na lista de testadores.
+              </p>
+              <p className="text-sm leading-relaxed mb-12 max-w-lg mx-auto" style={{ color: "oklch(0.60 0 0)" }}>
+                Após o cadastro do seu e-mail, você receberá acesso automático pelo Google Play e poderá instalar normalmente.
+              </p>
+            </FadeUp>
+
+            {/* Steps */}
+            <FadeUp delay={0.1}>
+              <div className="grid md:grid-cols-3 gap-4 mb-14 text-left">
+                {[
+                  {
+                    step: "01",
+                    icon: "📲",
+                    title: "Entre em contato",
+                    desc: "Mande uma mensagem para o nosso Instagram @zupet.io com seu e-mail da conta Google.",
+                  },
+                  {
+                    step: "02",
+                    icon: "✉️",
+                    title: "E-mail cadastrado",
+                    desc: "Adicionamos seu e-mail à lista de testadores no Google Play em até 24h.",
+                  },
+                  {
+                    step: "03",
+                    icon: "🐾",
+                    title: "Baixe e aproveite",
+                    desc: "Acesse a página do Zupet na Google Play Store e instale normalmente, sem código de convite.",
+                  },
+                ].map(({ step, icon, title, desc }) => (
+                  <div key={step} className="p-5 rounded-2xl flex flex-col gap-3"
+                    style={{ background: "oklch(0.13 0 0)", border: "1px solid oklch(0.20 0 0)" }}>
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl">{icon}</span>
+                      <span className="text-xs font-mono" style={{ color: "oklch(0.40 0 0)" }}>{step}</span>
+                    </div>
+                    <p className="text-sm font-semibold" style={{ color: "oklch(0.88 0 0)" }}>{title}</p>
+                    <p className="text-xs leading-relaxed" style={{ color: "oklch(0.58 0 0)" }}>{desc}</p>
+                  </div>
+                ))}
+              </div>
+            </FadeUp>
+
+            {/* CTA Instagram */}
+            <FadeUp delay={0.2}>
+              <div className="inline-flex flex-col sm:flex-row items-center gap-4">
+                <a
+                  href="https://www.instagram.com/zupet.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 px-7 py-3.5 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
+                  style={{
+                    background: "linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045)",
+                    color: "white",
+                    boxShadow: "0 8px 32px rgba(253,29,29,0.25)",
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                  Participar pelo Instagram
+                </a>
+                <span className="text-xs" style={{ color: "oklch(0.50 0 0)" }}>
+                  ou envie seu e-mail pelo direct para{" "}
+                  <span style={{ color: "oklch(0.72 0 0)" }}>@zupet.io</span>
+                </span>
+              </div>
+
+              <p className="mt-6 text-xs" style={{ color: "oklch(0.44 0 0)" }}>
+                Gratuito • Sem compromisso • Acesso cancelável a qualquer momento
+              </p>
+            </FadeUp>
           </div>
         </section>
 
@@ -702,16 +818,15 @@ export default async function LandingPage() {
                   o Zupet para manter seus pets saudáveis e felizes.
                 </p>
                 <div className="flex items-center gap-3 flex-wrap">
-                  <TrackableStoreLink
-                    store="android"
-                    href="#download"
+                  <a
+                    href="#early-access"
                     className="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
                     style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 40px oklch(0.62 0.18 174 / 0.4)" }}
-                    aria-label="Baixar Zupet grátis">
-                    <Image src="/stores/google-play.png" alt="Google Play" width={100} height={30} className="h-5 w-auto" />
-                  </TrackableStoreLink>
+                  >
+                    Quero participar do teste
+                  </a>
                   <div className="flex flex-col gap-1 text-xs" style={{ color: "oklch(0.60 0 0)" }}>
-                    {["Grátis para download", "Sem cartão de crédito", "Funciona offline"].map(t => (
+                    {["Grátis para download", "Acesso via Google Play", "Funciona offline"].map(t => (
                       <div key={t} className="flex items-center gap-1.5">
                         <span style={{ color: "oklch(0.62 0.18 174)" }}>✓</span> {t}
                       </div>
