@@ -17,6 +17,12 @@ import {
   Trash2,
   Menu,
   X,
+  TrendingUp,
+  LineChart,
+  ShieldCheck,
+  GitMerge,
+  MapPin,
+  Bell,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
@@ -26,6 +32,12 @@ const navItems = [
   { href: "/dashboard/pets", label: "Pets", icon: PawPrint },
   { href: "/dashboard/activity", label: "Atividade", icon: Activity },
   { href: "/dashboard/analytics", label: "Análises", icon: BarChart3 },
+  { href: "/dashboard/retention", label: "Retenção", icon: TrendingUp },
+  { href: "/dashboard/usage", label: "Uso do App", icon: LineChart },
+  { href: "/dashboard/health", label: "Saúde da Base", icon: ShieldCheck },
+  { href: "/dashboard/funnel", label: "Funil", icon: GitMerge },
+  { href: "/dashboard/geo", label: "Geografia", icon: MapPin },
+  { href: "/dashboard/alerts", label: "Alertas", icon: Bell },
   { href: "/dashboard/stores", label: "Lojas", icon: Store },
   { href: "/dashboard/landing", label: "Landing Page", icon: Globe },
   { href: "/dashboard/deletions", label: "Exclusões", icon: Trash2 },
