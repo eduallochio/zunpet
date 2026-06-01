@@ -37,7 +37,7 @@ export function TiltCard({ children, className = "" }: { children: ReactNode; cl
       onMouseMove={handleMouse}
       onMouseLeave={handleLeave}
       style={reduced ? {} : { rotateX, rotateY, transformStyle: "preserve-3d", perspective: 800 }}
-      className={`relative cursor-default ${className}`}
+      className={`relative cursor-default group ${className}`}
     >
       {children}
 
