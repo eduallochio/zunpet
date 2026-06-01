@@ -117,10 +117,12 @@ export default function ScreenshotCarousel() {
                 <motion.div
                   key={s.src}
                   className="flex-none cursor-pointer select-none"
-                  style={{ width: "clamp(200px, 38vw, 260px)" }}
+                  style={{ width: "clamp(200px, 38vw, 260px)", perspective: 900 }}
                   animate={{
                     scale: isActive ? 1 : 0.85,
                     opacity: isActive ? 1 : 0.45,
+                    rotateY: i < selectedIndex ? 12 : i > selectedIndex ? -12 : 0,
+                    z: isActive ? 40 : 0,
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   onClick={() => {

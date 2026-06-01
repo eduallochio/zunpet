@@ -7,6 +7,10 @@ import { ScrollStackWrapper as ScrollStack, ScrollStackItemWrapper as ScrollStac
 import { TrackPageView, TrackableStoreLink } from "@/components/landing/TrackingProvider";
 import { FeatureCard } from "@/components/landing/FeatureCard";
 import ScreenshotCarousel from "@/components/landing/ScreenshotCarousel";
+import { OrbsBackground } from "@/components/landing/OrbsBackground";
+import { FloatingPhone } from "@/components/landing/FloatingPhone";
+import { Marquee } from "@/components/landing/Marquee";
+import { GlowButton } from "@/components/landing/GlowButton";
 
 export const revalidate = 300;
 
@@ -220,15 +224,8 @@ export default async function LandingPage() {
               maskImage: "radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%)",
             }} />
 
-          {/* Glow central dramático */}
-          <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full"
-              style={{ background: "radial-gradient(ellipse, oklch(0.62 0.18 174 / 0.18) 0%, transparent 65%)", filter: "blur(40px)" }} />
-            <div className="absolute bottom-[-5%] left-[-5%] w-[500px] h-[500px] rounded-full"
-              style={{ background: "radial-gradient(circle, oklch(0.55 0.20 280 / 0.10) 0%, transparent 70%)", filter: "blur(60px)" }} />
-            <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] rounded-full"
-              style={{ background: "radial-gradient(circle, oklch(0.62 0.18 174 / 0.08) 0%, transparent 70%)", filter: "blur(50px)" }} />
-          </div>
+          {/* Orbes animados */}
+          <OrbsBackground />
 
           <div className="max-w-6xl mx-auto w-full relative">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center pt-24 pb-16 lg:pt-0 lg:pb-0">
@@ -248,10 +245,7 @@ export default async function LandingPage() {
                     <span className="block text-5xl md:text-6xl lg:text-7xl" style={{ color: "oklch(0.97 0 0)" }}>
                       Seu pet merece
                     </span>
-                    <span className="block text-5xl md:text-6xl lg:text-7xl" style={{
-                      color: "oklch(0.62 0.18 174)",
-                      textShadow: "0 0 80px oklch(0.62 0.18 174 / 0.4)"
-                    }}>
+                    <span className="block text-5xl md:text-6xl lg:text-7xl animated-gradient-text">
                       memória perfeita.
                     </span>
                   </h1>
@@ -276,13 +270,9 @@ export default async function LandingPage() {
 
                     {/* Botões de loja */}
                     <div className="flex items-center gap-3 flex-wrap">
-                      <a
-                        href="#early-access"
-                        className="flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all hover:scale-105 active:scale-95"
-                        style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 32px oklch(0.62 0.18 174 / 0.4)" }}
-                      >
+                      <GlowButton href="#early-access" size="md">
                         <Image src="/stores/google-play.png" alt="Google Play" width={110} height={32} className="h-5 w-auto" />
-                      </a>
+                      </GlowButton>
                       <TrackableStoreLink
                         store="ios"
                         href="#"
@@ -336,29 +326,11 @@ export default async function LandingPage() {
                   <div aria-hidden className="absolute inset-0 rounded-[3rem]"
                     style={{ background: "radial-gradient(ellipse, oklch(0.62 0.18 174 / 0.25) 0%, transparent 70%)", filter: "blur(30px)", transform: "scale(1.2)" }} />
 
-                  {/* Frame do celular */}
-                  <div className="relative w-[260px] md:w-[300px]"
-                    style={{
-                      borderRadius: "44px",
-                      padding: "10px",
-                      background: "linear-gradient(145deg, oklch(0.70 0 0), oklch(0.16 0 0))",
-                      boxShadow: "0 40px 80px oklch(0 0 0 / 0.7), 0 0 0 1px oklch(0.72 0 0), inset 0 1px 0 oklch(0.35 0 0 / 0.5)",
-                    }}>
-                    {/* Notch */}
-                    <div className="absolute top-[18px] left-1/2 -translate-x-1/2 w-[80px] h-[22px] rounded-full z-10"
-                      style={{ background: "oklch(0.12 0 0)" }} />
-                    {/* Tela principal */}
-                    <div className="overflow-hidden" style={{ borderRadius: "36px", aspectRatio: "9/19.5" }}>
-                      <Image
-                        src="/screenshots/perfil-pet.png"
-                        alt="Zupet — tela de perfil do pet"
-                        width={300}
-                        height={650}
-                        className="w-full h-full object-cover object-top"
-                        priority
-                      />
-                    </div>
-                  </div>
+                  {/* Mockup flutuante animado */}
+                  <FloatingPhone
+                    src="/screenshots/perfil-pet.png"
+                    alt="Zupet — tela de perfil do pet"
+                  />
 
                   {/* Card flutuante — vacina */}
                   <FadeUp delay={0.5}>
@@ -531,6 +503,11 @@ export default async function LandingPage() {
             </FadeUp>
           </div>
         </section>
+
+        {/* ── Marquee de funcionalidades ──────────────────────────────────── */}
+        <div style={{ background: "oklch(0.10 0 0)", borderTop: "1px solid oklch(0.18 0 0)", borderBottom: "1px solid oklch(0.18 0 0)" }}>
+          <Marquee />
+        </div>
 
         {/* ── Download / Plataformas ───────────────────────────────────────── */}
         <section className="py-28 px-6 relative overflow-hidden" style={{ background: "oklch(0.115 0 0)" }}>
