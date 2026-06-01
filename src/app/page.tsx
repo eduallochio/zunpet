@@ -13,20 +13,20 @@ export const revalidate = 300;
 // ── SEO Metadata ──────────────────────────────────────────────────────────────
 export const metadata = {
   metadataBase: new URL("https://zupet.io"),
-  title: "Zupet — O app para cuidar do seu pet com inteligência",
-  description: "Zupet reúne histórico de saúde, vacinas, alimentação, fotos e lembretes do seu pet em um app bonito e fácil. Disponível para Android e iOS.",
-  keywords: ["app para pets", "cuidados com pets", "saúde animal", "vacinas pet", "histórico veterinário", "app cachorro", "app gato", "Zupet"],
+  title: "Zupet — O app completo para cuidar do seu pet",
+  description: "Zupet reúne carteira de saúde, vacinas, passaporte de viagem, controle de gastos, lembretes inteligentes e álbum de fotos do seu pet. Disponível para Android e iOS.",
+  keywords: ["app para pets", "cuidados com pets", "saúde animal", "vacinas pet", "histórico veterinário", "app cachorro", "app gato", "passaporte pet", "viagem com pet", "Zupet"],
   openGraph: {
-    title: "Zupet — O app para cuidar do seu pet com inteligência",
-    description: "Histórico de saúde, vacinas, alimentação e fotos do seu pet em um só lugar.",
+    title: "Zupet — O app completo para cuidar do seu pet",
+    description: "Carteira de saúde, vacinas, passaporte de viagem, gastos e lembretes do seu pet em um só lugar.",
     type: "website",
     locale: "pt_BR",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Zupet — O app para cuidar do seu pet com inteligência" }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Zupet — O app completo para cuidar do seu pet" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zupet — O app para cuidar do seu pet",
-    description: "Histórico de saúde, vacinas e memórias do seu pet em um app lindo.",
+    title: "Zupet — O app completo para cuidar do seu pet",
+    description: "Carteira de saúde, passaporte de viagem, controle de gastos e lembretes inteligentes para o seu pet.",
   },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
@@ -108,33 +108,43 @@ async function getPublicStats() {
 const features = [
   {
     emoji: "🩺",
-    title: "Histórico de Saúde",
-    description: "Vacinas, consultas, medicamentos e exames — tudo registrado com linha do tempo visual e lembretes automáticos.",
+    title: "Carteira de Saúde",
+    description: "Vacinas, consultas, medicamentos e exames reunidos em um documento completo com QR Code para compartilhar com o veterinário.",
   },
   {
-    emoji: "🍽️",
-    title: "Controle de Alimentação",
-    description: "Registre a dieta diária, monitore porções e receba alertas de reabastecimento para nunca deixar o pote vazio.",
-  },
-  {
-    emoji: "📸",
-    title: "Álbum de Memórias",
-    description: "Capture e organize os melhores momentos do seu pet com fotos e diário de bordo — memórias que duram para sempre.",
+    emoji: "✈️",
+    title: "Passaporte de Viagem",
+    description: "Planeje viagens com seu pet. Checklist inteligente para carro, voo nacional e internacional — nunca esqueça um documento.",
   },
   {
     emoji: "🔔",
     title: "Lembretes Inteligentes",
-    description: "Nunca mais esqueça uma vacina ou consulta. Notificações personalizadas para cada pet, no momento certo.",
+    description: "Notificações personalizadas para vacinas, consultas e medicamentos. O app avisa antes do vencimento e reagenda automaticamente.",
   },
   {
-    emoji: "🔒",
-    title: "Seguro e Privado",
-    description: "Dados criptografados e sincronizados entre dispositivos. Login com Google, Apple ou e-mail.",
+    emoji: "📸",
+    title: "Álbum com Tags",
+    description: "Organize as fotos do seu pet por categoria — veterinário, passeio, aniversário, banho. Memórias que duram para sempre.",
+  },
+  {
+    emoji: "💰",
+    title: "Controle de Gastos",
+    description: "Registre gastos com veterinário, ração, banho e acessórios. Veja o resumo mensal e quanto você investe em cada pet.",
+  },
+  {
+    emoji: "🍽️",
+    title: "Gestão de Alimentação",
+    description: "Controle o estoque de ração com alertas de reabastecimento. Nunca deixe o pote vazio novamente.",
+  },
+  {
+    emoji: "🏆",
+    title: "Conquistas e Desafios",
+    description: "Ganhe conquistas cuidando bem dos seus pets. Desafios semanais tornam a rotina de cuidados mais divertida e motivadora.",
   },
   {
     emoji: "📶",
     title: "Funciona Offline",
-    description: "Acesse o histórico completo do seu pet sem internet. Sincroniza automaticamente quando conectar.",
+    description: "Acesse o histórico completo do seu pet sem internet. Sincroniza automaticamente na nuvem quando conectar — com backup seguro.",
   },
 ];
 
