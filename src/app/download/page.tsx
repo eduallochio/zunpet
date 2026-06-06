@@ -108,6 +108,31 @@ export default function DownloadPage() {
         </div>
       </div>
 
+      {/* Instagram */}
+      <Link
+        href="https://www.instagram.com/zupet.io/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-8 flex items-center gap-2 px-5 py-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+        style={{ fontFamily: "var(--font-jakarta)" }}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="url(#ig-gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <defs>
+            <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#f09433"/>
+              <stop offset="25%" stopColor="#e6683c"/>
+              <stop offset="50%" stopColor="#dc2743"/>
+              <stop offset="75%" stopColor="#cc2366"/>
+              <stop offset="100%" stopColor="#bc1888"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="url(#ig-gradient)" stroke="none"/>
+        </svg>
+        <span className="text-sm text-gray-300">@zupet.io</span>
+      </Link>
+
       {/* Botão voltar */}
       <Link
         href="https://zupet.io"
