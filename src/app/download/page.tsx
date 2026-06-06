@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { TrackPageView, TrackableStoreLink } from "@/components/landing/TrackingProvider";
 
 const GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR";
 const APP_STORE_URL = "https://apps.apple.com/app/zupet/id0000000000"; // placeholder até publicar
@@ -44,6 +45,7 @@ export default function DownloadPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#0d1117] via-[#0f1f2e] to-[#0d1117] px-6 py-12">
+      <TrackPageView />
       {/* Logo */}
       <div className="flex flex-col items-center gap-4 mb-10">
         <Image
@@ -72,7 +74,8 @@ export default function DownloadPage() {
       {/* Botões */}
       <div className="flex flex-col gap-4 w-full max-w-xs">
         {/* Google Play */}
-        <Link
+        <TrackableStoreLink
+          store="android"
           href={GOOGLE_PLAY_URL}
           target="_blank"
           rel="noopener noreferrer"
@@ -88,7 +91,7 @@ export default function DownloadPage() {
               Disponível
             </span>
           )}
-        </Link>
+        </TrackableStoreLink>
 
         {/* App Store */}
         <div
@@ -105,12 +108,21 @@ export default function DownloadPage() {
         </div>
       </div>
 
+      {/* Botão voltar */}
+      <Link
+        href="https://zupet.io"
+        className="mt-10 flex items-center gap-2 text-sm text-gray-500 hover:text-gray-300 transition-colors"
+        style={{ fontFamily: "var(--font-jakarta)" }}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        Voltar para o site
+      </Link>
+
       {/* Rodapé */}
-      <p className="mt-12 text-xs text-gray-600 text-center" style={{ fontFamily: "var(--font-jakarta)" }}>
-        Grátis · Sem anúncios invasivos ·{" "}
-        <Link href="https://zupet.io" className="underline hover:text-gray-400 transition-colors">
-          zupet.io
-        </Link>
+      <p className="mt-6 text-xs text-gray-600 text-center" style={{ fontFamily: "var(--font-jakarta)" }}>
+        Grátis · Sem anúncios invasivos · zupet.io
       </p>
     </main>
   );
