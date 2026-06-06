@@ -15,8 +15,11 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Zupet Dashboard",
-  description: "Painel administrativo do Zupet — app de cuidados com pets",
+  title: {
+    default: "Zupet — O app completo para cuidar do seu pet",
+    template: "%s | Zupet",
+  },
+  description: "Zupet reúne carteira de saúde, vacinas, passaporte de viagem, controle de gastos, lembretes inteligentes e álbum de fotos do seu pet. Disponível para Android.",
 };
 
 export default function RootLayout({

@@ -17,6 +17,8 @@ export function TrackableStoreLink({
   className,
   style,
   "aria-label": ariaLabel,
+  target,
+  rel,
 }: {
   store: "android" | "ios";
   href: string;
@@ -24,6 +26,8 @@ export function TrackableStoreLink({
   className?: string;
   style?: React.CSSProperties;
   "aria-label"?: string;
+  target?: string;
+  rel?: string;
 }) {
   const handleClick = () => {
     fetch("/api/track/click", {
@@ -40,6 +44,8 @@ export function TrackableStoreLink({
       className={className}
       style={style}
       aria-label={ariaLabel}
+      target={target}
+      rel={rel}
     >
       {children}
     </a>

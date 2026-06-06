@@ -18,22 +18,25 @@ export const revalidate = 300;
 export const metadata = {
   metadataBase: new URL("https://zupet.io"),
   title: "Zupet — O app completo para cuidar do seu pet",
-  description: "Zupet reúne carteira de saúde, vacinas, passaporte de viagem, controle de gastos, lembretes inteligentes e álbum de fotos do seu pet. Disponível para Android e iOS.",
-  keywords: ["app para pets", "cuidados com pets", "saúde animal", "vacinas pet", "histórico veterinário", "app cachorro", "app gato", "passaporte pet", "viagem com pet", "Zupet"],
+  description: "Zupet reúne carteira de saúde, vacinas, passaporte de viagem, controle de gastos, lembretes inteligentes e álbum de fotos do seu pet. Baixe grátis no Google Play.",
+  keywords: ["app para pets", "cuidados com pets", "saúde animal", "vacinas pet", "histórico veterinário", "app cachorro", "app gato", "passaporte pet", "viagem com pet", "Zupet", "app android pet"],
   openGraph: {
     title: "Zupet — O app completo para cuidar do seu pet",
-    description: "Carteira de saúde, vacinas, passaporte de viagem, gastos e lembretes do seu pet em um só lugar.",
+    description: "Carteira de saúde, vacinas, passaporte de viagem, gastos e lembretes do seu pet em um só lugar. Baixe grátis no Google Play.",
     type: "website",
+    url: "https://zupet.io",
     locale: "pt_BR",
+    siteName: "Zupet",
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Zupet — O app completo para cuidar do seu pet" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@zupet_io",
     title: "Zupet — O app completo para cuidar do seu pet",
-    description: "Carteira de saúde, passaporte de viagem, controle de gastos e lembretes inteligentes para o seu pet.",
+    description: "Carteira de saúde, passaporte de viagem, controle de gastos e lembretes inteligentes para o seu pet. Grátis no Google Play.",
   },
-  alternates: { canonical: "/" },
-  robots: { index: true, follow: true },
+  alternates: { canonical: "https://zupet.io" },
+  robots: { index: true, follow: true, "max-snippet": 160, "max-image-preview": "large" },
 };
 
 // ── Structured Data ────────────────────────────────────────────────────────────
@@ -43,9 +46,27 @@ const jsonLd = {
   name: "Zupet",
   description: "App para gestão de saúde e cuidados de pets — histórico veterinário, vacinas, alimentação e fotos.",
   applicationCategory: "LifestyleApplication",
-  operatingSystem: "Android, iOS",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "BRL" },
-  publisher: { "@type": "Organization", name: "Zupet", logo: { "@type": "ImageObject", url: "/icon.png" } },
+  operatingSystem: "Android",
+  installUrl: "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "BRL", availability: "https://schema.org/InStock" },
+  publisher: { "@type": "Organization", name: "Zupet", logo: { "@type": "ImageObject", url: "https://zupet.io/icon.png" } },
+  screenshot: [
+    { "@type": "ImageObject", url: "https://zupet.io/screenshots/perfil-pet.png" },
+    { "@type": "ImageObject", url: "https://zupet.io/screenshots/agenda.png" },
+    { "@type": "ImageObject", url: "https://zupet.io/screenshots/conquistas.png" },
+  ],
+};
+
+const organizationLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Zupet",
+  url: "https://zupet.io",
+  logo: "https://zupet.io/icon.png",
+  sameAs: [
+    "https://www.instagram.com/zupet.io/",
+    "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR",
+  ],
 };
 
 const faqJsonLd = {
@@ -57,7 +78,7 @@ const faqJsonLd = {
     { "@type": "Question", name: "Quantos pets posso cadastrar?", acceptedAnswer: { "@type": "Answer", text: "Quantos quiser. Cachorros, gatos, pássaros, coelhos — o Zupet suporta múltiplos pets e espécies na mesma conta." } },
     { "@type": "Question", name: "Meus dados são seguros?", acceptedAnswer: { "@type": "Answer", text: "Sim. Seus dados são criptografados e armazenados com segurança. Nunca compartilhamos informações pessoais com terceiros." } },
     { "@type": "Question", name: "Posso usar em mais de um dispositivo?", acceptedAnswer: { "@type": "Answer", text: "Sim. Faça login com sua conta Google ou Apple em qualquer dispositivo e seus dados estarão sempre sincronizados." } },
-    { "@type": "Question", name: "Quando o iOS estará disponível?", acceptedAnswer: { "@type": "Answer", text: "Estamos finalizando a versão para iOS. Já disponível para Android — em breve na App Store." } },
+    { "@type": "Question", name: "Quando o iOS estará disponível?", acceptedAnswer: { "@type": "Answer", text: "O Zupet está disponível para Android na Google Play Store. A versão iOS está em desenvolvimento — em breve na App Store." } },
   ],
 };
 
@@ -161,6 +182,7 @@ export default async function LandingPage() {
       {/* Structured Data */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }} />
       {/* Page view tracking */}
       <TrackPageView />
 
@@ -236,7 +258,7 @@ export default async function LandingPage() {
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-8"
                     style={{ background: "oklch(0.62 0.18 174 / 0.10)", border: "1px solid oklch(0.62 0.18 174 / 0.22)", color: "oklch(0.72 0.14 174)" }}>
                     <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "oklch(0.62 0.18 174)" }} />
-                    Já disponível para Android
+                    Disponível agora no Google Play
                   </div>
                 </FadeIn>
 
@@ -261,18 +283,19 @@ export default async function LandingPage() {
 
                 <FadeUp delay={0.26}>
                   <div id="download" className="mt-8 flex flex-col gap-4">
-                    {/* Badge de fase de testes */}
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium w-fit"
-                      style={{ background: "oklch(0.68 0.18 60 / 0.12)", border: "1px solid oklch(0.68 0.18 60 / 0.30)", color: "oklch(0.78 0.14 60)" }}>
-                      <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "oklch(0.68 0.18 60)" }} />
-                      Acesso antecipado — fase de testes
-                    </div>
-
                     {/* Botões de loja */}
                     <div className="flex items-center gap-3 flex-wrap">
-                      <GlowButton href="#early-access" size="md">
-                        <Image src="/stores/google-play.png" alt="Google Play" width={110} height={32} className="h-5 w-auto" />
-                      </GlowButton>
+                      <TrackableStoreLink
+                        store="android"
+                        href="https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
+                        style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 4px 20px oklch(0.62 0.18 174 / 0.35)" }}
+                        aria-label="Baixar Zupet para Android na Google Play"
+                      >
+                        <Image src="/stores/google-play.png" alt="Google Play" width={140} height={42} className="h-8 w-auto" />
+                      </TrackableStoreLink>
                       <TrackableStoreLink
                         store="ios"
                         href="#"
@@ -285,12 +308,8 @@ export default async function LandingPage() {
                       </TrackableStoreLink>
                     </div>
 
-                    {/* Aviso de teste */}
                     <p className="text-xs leading-relaxed" style={{ color: "oklch(0.60 0 0)" }}>
-                      O app está em fase de testes na Google Play. O acesso é liberado após cadastro do seu e-mail.{" "}
-                      <a href="#early-access" className="underline underline-offset-2 transition-colors hover:text-white" style={{ color: "oklch(0.72 0.14 174)" }}>
-                        Saiba como participar →
-                      </a>
+                      Gratuito • Download direto na Google Play Store
                     </p>
                   </div>
                 </FadeUp>
@@ -549,17 +568,19 @@ export default async function LandingPage() {
               {/* Direita — cards de loja */}
               <ScaleIn delay={0.15}>
                 <div className="flex flex-col gap-4">
-                  {/* Android — fase de testes */}
+                  {/* Android — disponível */}
                   <a
-                    href="#early-access"
+                    href="https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group relative p-6 rounded-2xl flex items-center gap-5 transition-all hover:scale-[1.02]"
                     style={{
                       background: "oklch(0.13 0 0)",
-                      border: "1px solid oklch(0.68 0.18 60 / 0.35)",
-                      boxShadow: "0 0 40px oklch(0.68 0.18 60 / 0.06)",
+                      border: "1px solid oklch(0.62 0.18 174 / 0.35)",
+                      boxShadow: "0 0 40px oklch(0.62 0.18 174 / 0.06)",
                     }}>
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: "oklch(0.68 0.18 60 / 0.15)" }}>
+                      style={{ background: "oklch(0.62 0.18 174 / 0.15)" }}>
                       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="#34A853">
                         <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48A5.84 5.84 0 0 0 12 1.5c-.76 0-1.48.15-2.14.43L8.38.45c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.3 1.3A5.9 5.9 0 0 0 6.5 7h11a5.9 5.9 0 0 0-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/>
                       </svg>
@@ -568,11 +589,11 @@ export default async function LandingPage() {
                       <div className="flex items-center gap-2 mb-0.5">
                         <p className="text-sm font-semibold" style={{ color: "oklch(0.90 0 0)" }}>Android</p>
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium"
-                          style={{ background: "oklch(0.68 0.18 60 / 0.20)", color: "oklch(0.78 0.14 60)" }}>
-                          Teste fechado
+                          style={{ background: "oklch(0.62 0.18 174 / 0.20)", color: "oklch(0.72 0.14 174)" }}>
+                          Disponível
                         </span>
                       </div>
-                      <p className="text-xs" style={{ color: "oklch(0.62 0 0)" }}>Acesso via Google Play com convite</p>
+                      <p className="text-xs" style={{ color: "oklch(0.62 0 0)" }}>Download grátis na Google Play Store</p>
                     </div>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "oklch(0.50 0 0)", flexShrink: 0 }}>
                       <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -618,33 +639,33 @@ export default async function LandingPage() {
           </div>
         </section>
 
-        {/* ── Early Access ─────────────────────────────────────────────── */}
+        {/* ── Download ─────────────────────────────────────────────── */}
         <section id="early-access" className="py-28 px-6 relative overflow-hidden" style={{ background: "oklch(0.10 0 0)" }}>
           <div aria-hidden className="absolute top-0 left-0 right-0 h-px"
-            style={{ background: "linear-gradient(90deg, transparent, oklch(0.68 0.18 60 / 0.4), transparent)" }} />
+            style={{ background: "linear-gradient(90deg, transparent, oklch(0.62 0.18 174 / 0.4), transparent)" }} />
           <div aria-hidden className="absolute inset-0 pointer-events-none">
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px]"
-              style={{ background: "radial-gradient(ellipse, oklch(0.68 0.18 60 / 0.06) 0%, transparent 65%)", filter: "blur(60px)" }} />
+              style={{ background: "radial-gradient(ellipse, oklch(0.62 0.18 174 / 0.06) 0%, transparent 65%)", filter: "blur(60px)" }} />
           </div>
 
           <div className="max-w-3xl mx-auto relative text-center">
             <FadeUp>
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-8"
-                style={{ background: "oklch(0.68 0.18 60 / 0.12)", border: "1px solid oklch(0.68 0.18 60 / 0.30)", color: "oklch(0.78 0.14 60)" }}>
-                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "oklch(0.68 0.18 60)" }} />
-                Programa de acesso antecipado
+                style={{ background: "oklch(0.62 0.18 174 / 0.12)", border: "1px solid oklch(0.62 0.18 174 / 0.30)", color: "oklch(0.72 0.14 174)" }}>
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "oklch(0.62 0.18 174)" }} />
+                Agora disponível na Google Play
               </div>
 
               <h2 className="font-heading text-4xl md:text-5xl font-bold leading-tight mb-6" style={{ color: "oklch(0.96 0 0)" }}>
-                Seja um dos primeiros<br />a testar o Zupet
+                Baixe o Zupet<br />gratuitamente
               </h2>
               <p className="text-base leading-relaxed mb-4 max-w-xl mx-auto" style={{ color: "oklch(0.68 0 0)" }}>
-                O app está disponível na <strong style={{ color: "oklch(0.82 0 0)" }}>Google Play Store</strong> em fase de
-                testes fechados. O acesso é feito diretamente pela loja — basta ter seu e-mail cadastrado na lista de testadores.
+                O Zupet está disponível na <strong style={{ color: "oklch(0.82 0 0)" }}>Google Play Store</strong>.
+                Baixe grátis e comece a cuidar do seu pet com muito mais organização.
               </p>
               <p className="text-sm leading-relaxed mb-12 max-w-lg mx-auto" style={{ color: "oklch(0.60 0 0)" }}>
-                Após o cadastro do seu e-mail, você receberá acesso automático pelo Google Play e poderá instalar normalmente.
+                Cadastre-se, adicione seus pets e tenha toda a história deles na palma da mão — vacinas, consultas, fotos e muito mais.
               </p>
             </FadeUp>
 
@@ -655,20 +676,20 @@ export default async function LandingPage() {
                   {
                     step: "01",
                     icon: "📲",
-                    title: "Entre em contato",
-                    desc: "Mande uma mensagem para o nosso Instagram @zupet.io com seu e-mail da conta Google.",
+                    title: "Baixe o app",
+                    desc: "Acesse a Google Play Store e instale o Zupet gratuitamente no seu Android.",
                   },
                   {
                     step: "02",
-                    icon: "✉️",
-                    title: "E-mail cadastrado",
-                    desc: "Adicionamos seu e-mail à lista de testadores no Google Play em até 24h.",
+                    icon: "🐾",
+                    title: "Cadastre seus pets",
+                    desc: "Crie seu perfil, adicione seus pets e personalize com foto, raça e informações de saúde.",
                   },
                   {
                     step: "03",
-                    icon: "🐾",
-                    title: "Baixe e aproveite",
-                    desc: "Acesse a página do Zupet na Google Play Store e instale normalmente, sem código de convite.",
+                    icon: "🏆",
+                    title: "Cuide com prazer",
+                    desc: "Registre vacinas, lembretes, fotos e conquistas. Tudo organizado em um só lugar.",
                   },
                 ].map(({ step, icon, title, desc }) => (
                   <div key={step} className="p-5 rounded-2xl flex flex-col gap-3"
@@ -684,35 +705,38 @@ export default async function LandingPage() {
               </div>
             </FadeUp>
 
-            {/* CTA Instagram */}
+            {/* CTA Google Play */}
             <FadeUp delay={0.2}>
               <div className="inline-flex flex-col sm:flex-row items-center gap-4">
-                <a
-                  href="https://www.instagram.com/zupet.io/"
+                <TrackableStoreLink
+                  store="android"
+                  href="https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 px-7 py-3.5 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
                   style={{
-                    background: "linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045)",
+                    background: "oklch(0.62 0.18 174)",
                     color: "white",
-                    boxShadow: "0 8px 32px rgba(253,29,29,0.25)",
+                    boxShadow: "0 8px 32px oklch(0.62 0.18 174 / 0.35)",
                   }}
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                    <circle cx="12" cy="12" r="4" />
-                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-                  </svg>
-                  Participar pelo Instagram
+                  <Image src="/stores/google-play.png" alt="Google Play" width={140} height={42} className="h-8 w-auto" />
+                </TrackableStoreLink>
+                <a
+                  href="https://www.instagram.com/zupet.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs transition-colors hover:text-white"
+                  style={{ color: "oklch(0.60 0 0)" }}
+                >
+                  Siga{" "}
+                  <span style={{ color: "oklch(0.72 0 0)" }}>@zupet.io</span>{" "}
+                  no Instagram
                 </a>
-                <span className="text-xs" style={{ color: "oklch(0.50 0 0)" }}>
-                  ou envie seu e-mail pelo direct para{" "}
-                  <span style={{ color: "oklch(0.72 0 0)" }}>@zupet.io</span>
-                </span>
               </div>
 
               <p className="mt-6 text-xs" style={{ color: "oklch(0.44 0 0)" }}>
-                Gratuito • Sem compromisso • Acesso cancelável a qualquer momento
+                Gratuito • Sem compromisso • Funciona offline
               </p>
             </FadeUp>
           </div>
@@ -752,7 +776,7 @@ export default async function LandingPage() {
                   { q: "Quantos pets posso cadastrar?", a: "Quantos quiser. Cachorros, gatos, pássaros, coelhos — múltiplos pets e espécies na mesma conta." },
                   { q: "Meus dados são seguros?", a: "Sim. Dados criptografados e armazenados com segurança. Nunca compartilhamos informações pessoais com terceiros." },
                   { q: "Posso usar em mais de um dispositivo?", a: "Sim. Faça login com Google ou Apple em qualquer dispositivo e seus dados estarão sempre sincronizados." },
-                  { q: "Quando o iOS estará disponível?", a: "Estamos finalizando a versão para iOS. Já disponível para Android — em breve na App Store." },
+                  { q: "Quando o iOS estará disponível?", a: "O Zupet está disponível para Android na Google Play Store. A versão iOS está em desenvolvimento e chegará em breve na App Store." },
                   { q: "Como posso excluir minha conta e dados?", a: "Você pode excluir sua conta diretamente pelo app em Perfil → Configurações → Excluir conta, ou acessar nosso formulário online em zupet.io/excluir-conta. Todos os seus dados são removidos permanentemente em até 7 dias úteis." },
                 ].map(({ q, a }, i) => (
                   <StaggerItem key={i}>
@@ -805,15 +829,18 @@ export default async function LandingPage() {
                   o Zupet para manter seus pets saudáveis e felizes.
                 </p>
                 <div className="flex items-center gap-3 flex-wrap">
-                  <a
-                    href="#early-access"
+                  <TrackableStoreLink
+                    store="android"
+                    href="https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
                     style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 40px oklch(0.62 0.18 174 / 0.4)" }}
                   >
-                    Quero participar do teste
-                  </a>
+                    Baixar grátis no Google Play
+                  </TrackableStoreLink>
                   <div className="flex flex-col gap-1 text-xs" style={{ color: "oklch(0.60 0 0)" }}>
-                    {["Grátis para download", "Acesso via Google Play", "Funciona offline"].map(t => (
+                    {["Grátis para download", "Disponível na Google Play", "Funciona offline"].map(t => (
                       <div key={t} className="flex items-center gap-1.5">
                         <span style={{ color: "oklch(0.62 0.18 174)" }}>✓</span> {t}
                       </div>
