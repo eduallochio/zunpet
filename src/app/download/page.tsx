@@ -71,6 +71,21 @@ export default function DownloadPage() {
         </div>
       )}
 
+      {/* Screenshots */}
+      <div className="flex gap-3 mb-8 overflow-x-auto pb-2 max-w-xs w-full scrollbar-hide">
+        {["perfil-pet.png", "agenda.png", "conquistas.png"].map((src) => (
+          <Image
+            key={src}
+            src={`/screenshots/${src}`}
+            alt="Zupet app"
+            width={100}
+            height={216}
+            className="rounded-2xl shadow-lg flex-shrink-0 border border-white/10"
+            style={{ height: 216, width: "auto" }}
+          />
+        ))}
+      </div>
+
       {/* Botões */}
       <div className="flex flex-col gap-4 w-full max-w-xs">
         {/* Google Play */}
