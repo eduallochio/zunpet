@@ -87,7 +87,7 @@ function PhoneMockup({ index, onNext, onPrev }: { index: number; onNext: () => v
 
 export default function DownloadPage() {
   const [platform, setPlatform] = useState<Platform>("unknown");
-  const [redirecting, setRedirecting] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(null);
   const [screenshotIndex, setScreenshotIndex] = useState(0);
 
   const next = () => setScreenshotIndex((i) => (i + 1) % SCREENSHOTS.length);
@@ -97,16 +97,21 @@ export default function DownloadPage() {
     const p = detectPlatform();
     setPlatform(p);
 
-    if (p === "android") {
-      setRedirecting(true);
-      const timer = setTimeout(() => { window.location.href = GOOGLE_PLAY_URL; }, 1500);
-      return () => clearTimeout(timer);
-    }
-    if (p === "ios") {
-      setRedirecting(true);
-      const timer = setTimeout(() => { window.location.href = APP_STORE_URL; }, 1500);
-      return () => clearTimeout(timer);
-    }
+    const storeUrl = p === "android" ? GOOGLE_PLAY_URL : p === "ios" ? APP_STORE_URL : null;
+    if (!storeUrl) return;
+
+    setCountdown(5);
+    const tick = setInterval(() => {
+      setCountdown((c) => {
+        if (c === null || c <= 1) {
+          clearInterval(tick);
+          window.location.href = storeUrl;
+          return null;
+        }
+        return c - 1;
+      });
+    }, 1000);
+    return () => clearInterval(tick);
   }, []);
 
   // Autoplay do carrossel
@@ -135,11 +140,27 @@ export default function DownloadPage() {
         </p>
       </div>
 
-      {/* Redirect status */}
-      {redirecting && (
-        <div className="mb-8 flex items-center gap-2 text-teal-400 text-sm" style={{ fontFamily: "var(--font-jakarta)" }}>
-          <span className="inline-block w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
-          {platform === "android" ? "Redirecionando para o Google Play…" : "Redirecionando para a App Store…"}
+      {/* Countdown redirect */}
+      {countdown !== null && (
+        <div className="mb-6 w-full max-w-xs flex flex-col gap-2" style={{ fontFamily: "var(--font-jakarta)" }}>
+          <div className="flex items-center justify-between text-xs text-gray-400">
+            <span className="flex items-center gap-1.5">
+              <span className="inline-block w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
+              {platform === "android" ? "Abrindo Google Play" : "Abrindo App Store"} em {countdown}s…
+            </span>
+            <button
+              onClick={() => setCountdown(null)}
+              className="text-gray-600 hover:text-gray-400 transition-colors"
+            >
+              cancelar
+            </button>
+          </div>
+          <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-teal-400 rounded-full transition-all duration-1000 ease-linear"
+              style={{ width: `${((5 - countdown) / 5) * 100}%` }}
+            />
+          </div>
         </div>
       )}
 
