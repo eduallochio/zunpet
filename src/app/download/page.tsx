@@ -2,11 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { TrackPageView, TrackableStoreLink } from "@/components/landing/TrackingProvider";
 
 const GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR";
 const APP_STORE_URL = "https://apps.apple.com/app/zupet/id0000000000"; // placeholder até publicar
+
+const SCREENSHOTS = [
+  { src: "perfil-pet.png", label: "Perfil do Pet" },
+  { src: "agenda.png",     label: "Agenda & Lembretes" },
+  { src: "conquistas.png", label: "Conquistas" },
+];
 
 type Platform = "android" | "ios" | "unknown";
 
@@ -18,9 +24,74 @@ function detectPlatform(): Platform {
   return "unknown";
 }
 
+function PhoneMockup({ index, onNext, onPrev }: { index: number; onNext: () => void; onPrev: () => void }) {
+  const touchStartX = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? onNext() : onPrev();
+    touchStartX.current = null;
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4 mb-8">
+      {/* Frame do celular */}
+      <div
+        className="relative"
+        style={{ width: 200, height: 420 }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Corpo do celular */}
+        <div className="absolute inset-0 rounded-[36px] border-[6px] border-white/20 bg-[#0d1117] shadow-[0_0_40px_rgba(45,212,191,0.15)] overflow-hidden">
+          {/* Notch */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-b-2xl z-10" />
+          {/* Screenshot */}
+          <Image
+            key={SCREENSHOTS[index].src}
+            src={`/screenshots/${SCREENSHOTS[index].src}`}
+            alt={SCREENSHOTS[index].label}
+            fill
+            className="object-cover transition-opacity duration-300"
+            sizes="200px"
+          />
+        </div>
+        {/* Botão lateral (power) */}
+        <div className="absolute right-[-8px] top-24 w-1.5 h-10 bg-white/20 rounded-full" />
+        {/* Botões de volume */}
+        <div className="absolute left-[-8px] top-20 w-1.5 h-7 bg-white/20 rounded-full" />
+        <div className="absolute left-[-8px] top-32 w-1.5 h-7 bg-white/20 rounded-full" />
+      </div>
+
+      {/* Label + dots */}
+      <p className="text-xs text-gray-400" style={{ fontFamily: "var(--font-jakarta)" }}>
+        {SCREENSHOTS[index].label}
+      </p>
+      <div className="flex gap-2">
+        {SCREENSHOTS.map((_, i) => (
+          <button
+            key={i}
+            onClick={i < index ? onPrev : onNext}
+            className={`w-2 h-2 rounded-full transition-all duration-200 ${i === index ? "bg-teal-400 w-4" : "bg-white/20"}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function DownloadPage() {
   const [platform, setPlatform] = useState<Platform>("unknown");
   const [redirecting, setRedirecting] = useState(false);
+  const [screenshotIndex, setScreenshotIndex] = useState(0);
+
+  const next = () => setScreenshotIndex((i) => (i + 1) % SCREENSHOTS.length);
+  const prev = () => setScreenshotIndex((i) => (i - 1 + SCREENSHOTS.length) % SCREENSHOTS.length);
 
   useEffect(() => {
     const p = detectPlatform();
@@ -28,19 +99,20 @@ export default function DownloadPage() {
 
     if (p === "android") {
       setRedirecting(true);
-      const timer = setTimeout(() => {
-        window.location.href = GOOGLE_PLAY_URL;
-      }, 1500);
+      const timer = setTimeout(() => { window.location.href = GOOGLE_PLAY_URL; }, 1500);
       return () => clearTimeout(timer);
     }
-
     if (p === "ios") {
       setRedirecting(true);
-      const timer = setTimeout(() => {
-        window.location.href = APP_STORE_URL;
-      }, 1500);
+      const timer = setTimeout(() => { window.location.href = APP_STORE_URL; }, 1500);
       return () => clearTimeout(timer);
     }
+  }, []);
+
+  // Autoplay do carrossel
+  useEffect(() => {
+    const interval = setInterval(next, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -71,20 +143,8 @@ export default function DownloadPage() {
         </div>
       )}
 
-      {/* Screenshots */}
-      <div className="flex gap-3 mb-8 overflow-x-auto pb-2 max-w-xs w-full scrollbar-hide">
-        {["perfil-pet.png", "agenda.png", "conquistas.png"].map((src) => (
-          <Image
-            key={src}
-            src={`/screenshots/${src}`}
-            alt="Zupet app"
-            width={100}
-            height={216}
-            className="rounded-2xl shadow-lg flex-shrink-0 border border-white/10"
-            style={{ height: 216, width: "auto" }}
-          />
-        ))}
-      </div>
+      {/* Phone mockup */}
+      <PhoneMockup index={screenshotIndex} onNext={next} onPrev={prev} />
 
       {/* Botões */}
       <div className="flex flex-col gap-4 w-full max-w-xs">
