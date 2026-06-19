@@ -1,5 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { FadeUp, FadeIn, ScaleIn, StaggerChildren, StaggerItem } from "@/components/landing/AnimatedSection"; // StaggerChildren/StaggerItem usados em Features e FAQ
 import CountUp from "@/components/landing/CountUp";
@@ -10,77 +11,47 @@ import ScreenshotCarousel from "@/components/landing/ScreenshotCarousel";
 import { OrbsBackground } from "@/components/landing/OrbsBackground";
 import { FloatingPhone } from "@/components/landing/FloatingPhone";
 import { Marquee } from "@/components/landing/Marquee";
-import { GlowButton } from "@/components/landing/GlowButton";
+import { LanguageSwitcher } from "@/components/landing/LanguageSwitcher";
+import { routing } from "@/i18n/routing";
 
 export const revalidate = 300;
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+type Props = { params: Promise<{ locale: string }> };
+
 // ── SEO Metadata ──────────────────────────────────────────────────────────────
-export const metadata = {
-  metadataBase: new URL("https://zupet.io"),
-  title: "Zupet — O app completo para cuidar do seu pet",
-  description: "Zupet reúne carteira de saúde, vacinas, passaporte de viagem, controle de gastos, lembretes inteligentes e álbum de fotos do seu pet. Baixe grátis no Google Play.",
-  keywords: ["app para pets", "cuidados com pets", "saúde animal", "vacinas pet", "histórico veterinário", "app cachorro", "app gato", "passaporte pet", "viagem com pet", "Zupet", "app android pet"],
-  openGraph: {
-    title: "Zupet — O app completo para cuidar do seu pet",
-    description: "Carteira de saúde, vacinas, passaporte de viagem, gastos e lembretes do seu pet em um só lugar. Baixe grátis no Google Play.",
-    type: "website",
-    url: "https://zupet.io",
-    locale: "pt_BR",
-    siteName: "Zupet",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Zupet — O app completo para cuidar do seu pet" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@zupet_io",
-    title: "Zupet — O app completo para cuidar do seu pet",
-    description: "Carteira de saúde, passaporte de viagem, controle de gastos e lembretes inteligentes para o seu pet. Grátis no Google Play.",
-  },
-  alternates: { canonical: "https://zupet.io" },
-  robots: { index: true, follow: true, "max-snippet": 160, "max-image-preview": "large" },
-};
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const ogLocale = locale === "pt-BR" ? "pt_BR" : locale === "es" ? "es_ES" : "en_US";
 
-// ── Structured Data ────────────────────────────────────────────────────────────
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "MobileApplication",
-  name: "Zupet",
-  description: "App para gestão de saúde e cuidados de pets — histórico veterinário, vacinas, alimentação e fotos.",
-  applicationCategory: "LifestyleApplication",
-  operatingSystem: "Android",
-  installUrl: "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "BRL", availability: "https://schema.org/InStock" },
-  publisher: { "@type": "Organization", name: "Zupet", logo: { "@type": "ImageObject", url: "https://zupet.io/icon.png" } },
-  screenshot: [
-    { "@type": "ImageObject", url: "https://zupet.io/screenshots/perfil-pet.png" },
-    { "@type": "ImageObject", url: "https://zupet.io/screenshots/agenda.png" },
-    { "@type": "ImageObject", url: "https://zupet.io/screenshots/conquistas.png" },
-  ],
-};
-
-const organizationLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Zupet",
-  url: "https://zupet.io",
-  logo: "https://zupet.io/icon.png",
-  sameAs: [
-    "https://www.instagram.com/zupet.io/",
-    "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR",
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    { "@type": "Question", name: "O Zupet é gratuito?", acceptedAnswer: { "@type": "Answer", text: "Sim, o download e uso básico são completamente gratuitos. Você pode cadastrar seus pets, registrar vacinas, alimentação e fotos sem pagar nada." } },
-    { "@type": "Question", name: "Funciona sem internet?", acceptedAnswer: { "@type": "Answer", text: "Sim. O Zupet funciona em modo offline e sincroniza automaticamente quando você reconectar. Nunca perde dados." } },
-    { "@type": "Question", name: "Quantos pets posso cadastrar?", acceptedAnswer: { "@type": "Answer", text: "Quantos quiser. Cachorros, gatos, pássaros, coelhos — o Zupet suporta múltiplos pets e espécies na mesma conta." } },
-    { "@type": "Question", name: "Meus dados são seguros?", acceptedAnswer: { "@type": "Answer", text: "Sim. Seus dados são criptografados e armazenados com segurança. Nunca compartilhamos informações pessoais com terceiros." } },
-    { "@type": "Question", name: "Posso usar em mais de um dispositivo?", acceptedAnswer: { "@type": "Answer", text: "Sim. Faça login com sua conta Google ou Apple em qualquer dispositivo e seus dados estarão sempre sincronizados." } },
-    { "@type": "Question", name: "Quando o iOS estará disponível?", acceptedAnswer: { "@type": "Answer", text: "O Zupet está disponível para Android na Google Play Store. A versão iOS está em desenvolvimento — em breve na App Store." } },
-  ],
-};
+  return {
+    metadataBase: new URL("https://zupet.io"),
+    title: t("title"),
+    description: t("description"),
+    keywords: ["app para pets", "cuidados com pets", "saúde animal", "vacinas pet", "histórico veterinário", "app cachorro", "app gato", "passaporte pet", "viagem com pet", "Zupet", "app android pet"],
+    openGraph: {
+      title: t("title"),
+      description: t("ogDescription"),
+      type: "website",
+      url: "https://zupet.io",
+      locale: ogLocale,
+      siteName: "Zupet",
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: t("title") }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@zupet_io",
+      title: t("title"),
+      description: t("twitterDescription"),
+    },
+    alternates: { canonical: "https://zupet.io" },
+    robots: { index: true, follow: true, "max-snippet": 160, "max-image-preview": "large" },
+  };
+}
 
 async function getPublicStats() {
   try {
@@ -130,52 +101,65 @@ async function getPublicStats() {
   }
 }
 
-const features = [
-  {
-    emoji: "🩺",
-    title: "Carteira de Saúde",
-    description: "Vacinas, consultas, medicamentos e exames reunidos em um documento completo com QR Code para compartilhar com o veterinário.",
-  },
-  {
-    emoji: "✈️",
-    title: "Passaporte de Viagem",
-    description: "Planeje viagens com seu pet. Checklist inteligente para carro, voo nacional e internacional — nunca esqueça um documento.",
-  },
-  {
-    emoji: "🔔",
-    title: "Lembretes Inteligentes",
-    description: "Notificações personalizadas para vacinas, consultas e medicamentos. O app avisa antes do vencimento e reagenda automaticamente.",
-  },
-  {
-    emoji: "📸",
-    title: "Álbum com Tags",
-    description: "Organize as fotos do seu pet por categoria — veterinário, passeio, aniversário, banho. Memórias que duram para sempre.",
-  },
-  {
-    emoji: "💰",
-    title: "Controle de Gastos",
-    description: "Registre gastos com veterinário, ração, banho e acessórios. Veja o resumo mensal e quanto você investe em cada pet.",
-  },
-  {
-    emoji: "🍽️",
-    title: "Gestão de Alimentação",
-    description: "Controle o estoque de ração com alertas de reabastecimento. Nunca deixe o pote vazio novamente.",
-  },
-  {
-    emoji: "🏆",
-    title: "Conquistas e Desafios",
-    description: "Ganhe conquistas cuidando bem dos seus pets. Desafios semanais tornam a rotina de cuidados mais divertida e motivadora.",
-  },
-  {
-    emoji: "📶",
-    title: "Funciona Offline",
-    description: "Acesse o histórico completo do seu pet sem internet. Sincroniza automaticamente na nuvem quando conectar — com backup seguro.",
-  },
-];
+const FEATURE_KEYS = ["health", "travel", "reminders", "album", "expenses", "feeding", "achievements", "offline"] as const;
+const FEATURE_EMOJIS: Record<typeof FEATURE_KEYS[number], string> = {
+  health: "🩺", travel: "✈️", reminders: "🔔", album: "📸",
+  expenses: "💰", feeding: "🍽️", achievements: "🏆", offline: "📶",
+};
 
-export default async function LandingPage() {
+const AUDIENCE_KEYS = ["multiPet", "seniorPet", "traveler"] as const;
+const AUDIENCE_EMOJIS: Record<typeof AUDIENCE_KEYS[number], string> = {
+  multiPet: "🐾", seniorPet: "❤️‍🩹", traveler: "✈️",
+};
+
+export default async function LandingPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations();
   const stats = await getPublicStats();
   const hasStats = false; // temporariamente oculto até ter dados satisfatórios
+
+  // Structured Data — mantido em português (mercado-alvo principal),
+  // independentemente do locale visualizado.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    name: "Zupet",
+    description: "App para gestão de saúde e cuidados de pets — histórico veterinário, vacinas, alimentação e fotos.",
+    applicationCategory: "LifestyleApplication",
+    operatingSystem: "Android",
+    installUrl: "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "BRL", availability: "https://schema.org/InStock" },
+    publisher: { "@type": "Organization", name: "Zupet", logo: { "@type": "ImageObject", url: "https://zupet.io/icon.png" } },
+    screenshot: [
+      { "@type": "ImageObject", url: "https://zupet.io/screenshots/perfil-pet.png" },
+      { "@type": "ImageObject", url: "https://zupet.io/screenshots/agenda.png" },
+      { "@type": "ImageObject", url: "https://zupet.io/screenshots/conquistas.png" },
+    ],
+  };
+
+  const organizationLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Zupet",
+    url: "https://zupet.io",
+    logo: "https://zupet.io/icon.png",
+    sameAs: [
+      "https://www.instagram.com/zupet.io/",
+      "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR",
+    ],
+  };
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: t.raw("FAQ.items").map((item: { q: string; a: string }) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
 
   return (
     <>
@@ -198,17 +182,20 @@ export default async function LandingPage() {
               <Image src="/icon.png" alt="Zupet" width={32} height={32} className="rounded-xl" />
               <span className="font-heading font-bold text-lg tracking-tight" style={{ color: "oklch(0.97 0 0)" }}>Zupet</span>
             </div>
-            <nav aria-label="Navegação principal" className="hidden md:flex items-center gap-1 text-sm font-medium">
-              <a href="#features" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">Funcionalidades</a>
-              <a href="#stats" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">Números</a>
-              <a href="#download" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">Download</a>
+            <nav aria-label={t("Nav.features")} className="hidden md:flex items-center gap-1 text-sm font-medium">
+              <a href="#features" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">{t("Nav.features")}</a>
+              {hasStats && (
+                <a href="#stats" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">{t("Nav.stats")}</a>
+              )}
+              <a href="#early-access" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">{t("Nav.download")}</a>
             </nav>
             <div className="flex items-center gap-2">
+              <LanguageSwitcher />
               <a
                 href="https://www.instagram.com/zupet.io/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram do Zupet"
+                aria-label={t("Nav.instagramLabel")}
                 className="hidden md:flex items-center justify-center w-8 h-8 rounded-lg transition-all hover:scale-110"
                 style={{ color: "oklch(0.72 0 0)" }}
               >
@@ -223,14 +210,14 @@ export default async function LandingPage() {
                 className="text-sm font-medium px-4 py-2 rounded-lg border transition-all hover:border-white/20 hover:text-white"
                 style={{ color: "oklch(0.80 0 0)", borderColor: "oklch(0.24 0 0)", background: "oklch(0.13 0 0)" }}
               >
-                Painel
+                {t("Nav.dashboard")}
               </Link>
               <a
-                href="#download"
+                href="#early-access"
                 className="text-sm font-semibold px-5 py-2 rounded-lg transition-all hover:opacity-90 hover:scale-[1.03] active:scale-95"
                 style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 4px 20px oklch(0.62 0.18 174 / 0.35)" }}
               >
-                Baixar grátis
+                {t("Nav.downloadFree")}
               </a>
             </div>
           </div>
@@ -258,17 +245,17 @@ export default async function LandingPage() {
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-8"
                     style={{ background: "oklch(0.62 0.18 174 / 0.10)", border: "1px solid oklch(0.62 0.18 174 / 0.22)", color: "oklch(0.72 0.14 174)" }}>
                     <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "oklch(0.62 0.18 174)" }} />
-                    Disponível agora no Google Play
+                    {t("Hero.badge")}
                   </div>
                 </FadeIn>
 
                 <FadeUp delay={0.08}>
                   <h1 className="font-heading font-extrabold leading-[1.0] tracking-tight">
                     <span className="block text-5xl md:text-6xl lg:text-7xl" style={{ color: "oklch(0.97 0 0)" }}>
-                      Seu pet merece
+                      {t("Hero.titleLine1")}
                     </span>
                     <span className="block text-5xl md:text-6xl lg:text-7xl animated-gradient-text">
-                      memória perfeita.
+                      {t("Hero.titleLine2")}
                     </span>
                   </h1>
                 </FadeUp>
@@ -276,13 +263,12 @@ export default async function LandingPage() {
                 <FadeUp delay={0.18}>
                   <p className="mt-6 text-base md:text-lg leading-relaxed max-w-md"
                     style={{ color: "oklch(0.72 0 0)" }}>
-                    Vacinas, consultas, alimentação, fotos — tudo num só lugar.
-                    Nunca mais esqueça nada importante sobre quem você mais ama.
+                    {t("Hero.subtitle")}
                   </p>
                 </FadeUp>
 
                 <FadeUp delay={0.26}>
-                  <div id="download" className="mt-8 flex flex-col gap-4">
+                  <div className="mt-8 flex flex-col gap-4">
                     {/* Botões de loja */}
                     <div className="flex items-center gap-3 flex-wrap">
                       <TrackableStoreLink
@@ -292,7 +278,7 @@ export default async function LandingPage() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
                         style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 4px 20px oklch(0.62 0.18 174 / 0.35)" }}
-                        aria-label="Baixar Zupet para Android na Google Play"
+                        aria-label={t("Hero.androidAria")}
                       >
                         <Image src="/stores/google-play.png" alt="Google Play" width={140} height={42} className="h-8 w-auto" />
                       </TrackableStoreLink>
@@ -301,15 +287,15 @@ export default async function LandingPage() {
                         href="#"
                         className="flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all hover:opacity-70"
                         style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.25 0 0)", color: "oklch(0.70 0 0)" }}
-                        aria-label="Baixar Zupet para iOS — em breve"
+                        aria-label={t("Hero.iosAria")}
                       >
                         <Image src="/stores/app-store.svg" alt="App Store" width={100} height={32} className="h-5 w-auto opacity-50" />
-                        <span className="text-xs">Em breve</span>
+                        <span className="text-xs">{t("Hero.iosSoon")}</span>
                       </TrackableStoreLink>
                     </div>
 
                     <p className="text-xs leading-relaxed" style={{ color: "oklch(0.60 0 0)" }}>
-                      Gratuito • Download direto na Google Play Store
+                      {t("Hero.footnote")}
                     </p>
                   </div>
                 </FadeUp>
@@ -319,15 +305,15 @@ export default async function LandingPage() {
                   <FadeIn delay={0.38}>
                     <div className="mt-10 flex items-center gap-6 flex-wrap">
                       {[
-                        { value: stats.totalPets, label: "pets cadastrados", icon: "🐾" },
-                        { value: stats.totalUsers, label: "tutores ativos", icon: "👥" },
-                        { value: stats.totalPhotos, label: "fotos salvas", icon: "📸" },
+                        { value: stats.totalPets, label: t("Hero.statPets"), icon: "🐾" },
+                        { value: stats.totalUsers, label: t("Hero.statUsers"), icon: "👥" },
+                        { value: stats.totalPhotos, label: t("Hero.statPhotos"), icon: "📸" },
                       ].map(({ value, label, icon }) => (
                         <div key={label} className="flex items-center gap-2">
                           <span className="text-sm">{icon}</span>
                           <div>
                             <p className="text-sm font-bold leading-none" style={{ color: "oklch(0.90 0 0)" }}>
-                              {value.toLocaleString("pt-BR")}
+                              {value.toLocaleString(locale)}
                             </p>
                             <p className="text-xs mt-0.5" style={{ color: "oklch(0.63 0 0)" }}>{label}</p>
                           </div>
@@ -364,10 +350,10 @@ export default async function LandingPage() {
                       <div className="flex items-center gap-2 mb-1">
                         <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px]"
                           style={{ background: "oklch(0.62 0.18 174 / 0.2)", color: "oklch(0.62 0.18 174)" }}>✓</span>
-                        <span style={{ color: "oklch(0.62 0.18 174)" }} className="font-medium">Lembrete</span>
+                        <span style={{ color: "oklch(0.62 0.18 174)" }} className="font-medium">{t("Hero.floatReminder")}</span>
                       </div>
-                      <p className="font-semibold" style={{ color: "oklch(0.88 0 0)" }}>Vacina V10</p>
-                      <p style={{ color: "oklch(0.65 0 0)" }}>amanhã às 10h</p>
+                      <p className="font-semibold" style={{ color: "oklch(0.88 0 0)" }}>{t("Hero.floatVaccineName")}</p>
+                      <p style={{ color: "oklch(0.65 0 0)" }}>{t("Hero.floatVaccineTime")}</p>
                     </div>
                   </FadeUp>
 
@@ -382,8 +368,8 @@ export default async function LandingPage() {
                         minWidth: "130px",
                       }}>
                       <p className="text-base mb-0.5">🏆</p>
-                      <p className="font-semibold" style={{ color: "oklch(0.88 0 0)" }}>Nova conquista!</p>
-                      <p style={{ color: "oklch(0.65 0 0)" }}>Tutor dedicado</p>
+                      <p className="font-semibold" style={{ color: "oklch(0.88 0 0)" }}>{t("Hero.floatAchievement")}</p>
+                      <p style={{ color: "oklch(0.65 0 0)" }}>{t("Hero.floatAchievementDesc")}</p>
                     </div>
                   </FadeUp>
 
@@ -398,8 +384,8 @@ export default async function LandingPage() {
                       }}>
                       <span className="text-base">📸</span>
                       <div>
-                        <p className="font-medium" style={{ color: "oklch(0.88 0 0)" }}>Nova foto</p>
-                        <p style={{ color: "oklch(0.65 0 0)" }}>salva agora</p>
+                        <p className="font-medium" style={{ color: "oklch(0.88 0 0)" }}>{t("Hero.floatPhoto")}</p>
+                        <p style={{ color: "oklch(0.65 0 0)" }}>{t("Hero.floatPhotoDesc")}</p>
                       </div>
                     </div>
                   </FadeIn>
@@ -410,7 +396,7 @@ export default async function LandingPage() {
             {/* Scroll hint */}
             <FadeIn delay={1.0}>
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2">
-                <span className="text-xs tracking-widest uppercase" style={{ color: "oklch(0.72 0 0)" }}>scroll</span>
+                <span className="text-xs tracking-widest uppercase" style={{ color: "oklch(0.72 0 0)" }}>{t("Hero.scrollHint")}</span>
                 <div className="w-px h-8 relative overflow-hidden" style={{ background: "oklch(0.50 0 0)" }}>
                   <div className="absolute top-0 left-0 w-full h-1/2 animate-bounce" style={{ background: "oklch(0.62 0.18 174)" }} />
                 </div>
@@ -425,7 +411,7 @@ export default async function LandingPage() {
             <div className="max-w-3xl mx-auto">
               <FadeUp className="text-center mb-4">
                 <p className="text-xs font-mono tracking-widest uppercase" style={{ color: "oklch(0.62 0 0)" }}>
-                  — dados reais da plataforma —
+                  {t("Stats.kicker")}
                 </p>
               </FadeUp>
 
@@ -438,12 +424,12 @@ export default async function LandingPage() {
                   baseScale={0.85}
                 >
                   {[
-                    { num: stats.totalUsers,     suffix: "+", label: "Tutores ativos",      desc: "e crescendo todo mês",          icon: "👥", accent: "oklch(0.62 0.18 174)" },
-                    { num: stats.totalPets,      suffix: "+", label: "Pets cadastrados",    desc: "cachorros, gatos e mais",       icon: "🐾", accent: "oklch(0.65 0.18 145)" },
-                    { num: stats.totalPhotos,    suffix: "+", label: "Fotos salvas",        desc: "memórias preservadas",          icon: "📸", accent: "oklch(0.62 0.18 240)" },
-                    { num: stats.totalReminders, suffix: "+", label: "Lembretes criados",   desc: "vacinas, consultas e mais",     icon: "🔔", accent: "oklch(0.68 0.18 60)"  },
-                    { num: stats.totalSpecies,   suffix: "",  label: "Espécies diferentes", desc: "toda família merece cuidado",   icon: "🦜", accent: "oklch(0.65 0.18 30)"  },
-                    { num: stats.avgPetsPerUser, suffix: "",  label: "Pets por tutor",      desc: "em média por conta cadastrada", icon: "❤️", accent: "oklch(0.65 0.18 10)"  },
+                    { num: stats.totalUsers,     suffix: "+", label: t("Stats.activeUsers"),      desc: t("Stats.activeUsersDesc"),      icon: "👥", accent: "oklch(0.62 0.18 174)" },
+                    { num: stats.totalPets,      suffix: "+", label: t("Stats.registeredPets"),    desc: t("Stats.registeredPetsDesc"),   icon: "🐾", accent: "oklch(0.65 0.18 145)" },
+                    { num: stats.totalPhotos,    suffix: "+", label: t("Stats.savedPhotos"),       desc: t("Stats.savedPhotosDesc"),      icon: "📸", accent: "oklch(0.62 0.18 240)" },
+                    { num: stats.totalReminders, suffix: "+", label: t("Stats.createdReminders"),  desc: t("Stats.createdRemindersDesc"), icon: "🔔", accent: "oklch(0.68 0.18 60)"  },
+                    { num: stats.totalSpecies,   suffix: "",  label: t("Stats.differentSpecies"),  desc: t("Stats.differentSpeciesDesc"), icon: "🦜", accent: "oklch(0.65 0.18 30)"  },
+                    { num: stats.avgPetsPerUser, suffix: "",  label: t("Stats.petsPerUser"),        desc: t("Stats.petsPerUserDesc"),      icon: "❤️", accent: "oklch(0.65 0.18 10)"  },
                   ].map(({ num, suffix, label, desc, icon, accent }) => (
                     <ScrollStackItem key={label}>
                       <div className="w-full h-full p-8 flex items-center justify-between gap-6"
@@ -478,26 +464,59 @@ export default async function LandingPage() {
               {/* Lado esquerdo — sticky label */}
               <FadeUp className="lg:sticky lg:top-32">
                 <p className="text-xs font-mono tracking-widest uppercase mb-4" style={{ color: "oklch(0.62 0.18 174)" }}>
-                  Funcionalidades
+                  {t("Features.kicker")}
                 </p>
                 <h2 className="font-heading text-4xl md:text-5xl font-bold leading-[1.05]" style={{ color: "oklch(0.96 0 0)" }}>
-                  Tudo que<br />o seu pet<br />precisa.
+                  {t("Features.titleLine1")}<br />{t("Features.titleLine2")}<br />{t("Features.titleLine3")}
                 </h2>
                 <p className="mt-5 text-sm leading-relaxed" style={{ color: "oklch(0.68 0 0)" }}>
-                  Do registro diário de alimentação ao histórico médico completo.
+                  {t("Features.subtitle")}
                 </p>
                 <div className="mt-8 w-12 h-px" style={{ background: "oklch(0.62 0.18 174)" }} />
               </FadeUp>
 
               {/* Lado direito — grid de features */}
               <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 gap-3" stagger={0.07}>
-                {features.map(({ emoji, title, description }) => (
-                  <StaggerItem key={title}>
-                    <FeatureCard emoji={emoji} title={title} description={description} />
+                {FEATURE_KEYS.map((key) => (
+                  <StaggerItem key={key}>
+                    <FeatureCard
+                      emoji={FEATURE_EMOJIS[key]}
+                      title={t(`Features.items.${key}.title`)}
+                      description={t(`Features.items.${key}.description`)}
+                    />
                   </StaggerItem>
                 ))}
               </StaggerChildren>
             </div>
+          </div>
+        </section>
+
+        {/* ── Para cada tutor ──────────────────────────────────────────────── */}
+        <section className="py-28 px-6 relative overflow-hidden" style={{ background: "oklch(0.10 0 0)" }}>
+          <div className="max-w-6xl mx-auto">
+            <FadeUp className="text-center mb-14">
+              <p className="text-xs font-mono tracking-widest uppercase mb-4" style={{ color: "oklch(0.62 0.18 174)" }}>
+                {t("Audiences.kicker")}
+              </p>
+              <h2 className="font-heading text-4xl md:text-5xl font-bold leading-[1.05]" style={{ color: "oklch(0.96 0 0)" }}>
+                {t("Audiences.titleLine1")} <span className="animated-gradient-text">{t("Audiences.titleLine2")}</span>
+              </h2>
+              <p className="mt-5 text-sm leading-relaxed max-w-md mx-auto" style={{ color: "oklch(0.68 0 0)" }}>
+                {t("Audiences.subtitle")}
+              </p>
+            </FadeUp>
+
+            <StaggerChildren className="grid grid-cols-1 sm:grid-cols-3 gap-4" stagger={0.1}>
+              {AUDIENCE_KEYS.map((key) => (
+                <StaggerItem key={key}>
+                  <FeatureCard
+                    emoji={AUDIENCE_EMOJIS[key]}
+                    title={t(`Audiences.items.${key}.title`)}
+                    description={t(`Audiences.items.${key}.description`)}
+                  />
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
           </div>
         </section>
 
@@ -507,13 +526,13 @@ export default async function LandingPage() {
             <FadeUp className="mb-16">
               <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
                 <div>
-                  <p className="text-xs font-mono tracking-widest uppercase mb-3" style={{ color: "oklch(0.62 0.18 174)" }}>App em ação</p>
+                  <p className="text-xs font-mono tracking-widest uppercase mb-3" style={{ color: "oklch(0.62 0.18 174)" }}>{t("Screenshots.kicker")}</p>
                   <h2 className="font-heading text-4xl md:text-5xl font-bold leading-tight" style={{ color: "oklch(0.96 0 0)" }}>
-                    Simples, bonito<br />e completo.
+                    {t("Screenshots.titleLine1")}<br />{t("Screenshots.titleLine2")}
                   </h2>
                 </div>
                 <p className="text-sm max-w-xs leading-relaxed" style={{ color: "oklch(0.65 0 0)" }}>
-                  Cada tela desenhada para ser intuitiva do primeiro acesso. Clique em qualquer imagem para ampliar.
+                  {t("Screenshots.subtitle")}
                 </p>
               </div>
             </FadeUp>
@@ -539,20 +558,19 @@ export default async function LandingPage() {
 
               {/* Esquerda — copy */}
               <FadeUp>
-                <p className="text-xs font-mono tracking-widest uppercase mb-4" style={{ color: "oklch(0.62 0.18 174)" }}>Disponibilidade</p>
+                <p className="text-xs font-mono tracking-widest uppercase mb-4" style={{ color: "oklch(0.62 0.18 174)" }}>{t("Availability.kicker")}</p>
                 <h2 className="font-heading text-4xl md:text-5xl font-bold leading-[1.05] mb-6" style={{ color: "oklch(0.96 0 0)" }}>
-                  No seu bolso,<br />onde você for.
+                  {t("Availability.titleLine1")}<br />{t("Availability.titleLine2")}
                 </h2>
                 <p className="text-sm leading-relaxed mb-10" style={{ color: "oklch(0.68 0 0)" }}>
-                  Funciona offline, sincroniza automaticamente, protegido com login social.
-                  O cuidado do seu pet não pode depender de conexão.
+                  {t("Availability.subtitle")}
                 </p>
                 <div className="flex flex-col gap-4">
                   {[
-                    { icon: "🔄", text: "Sincronização automática entre dispositivos" },
-                    { icon: "📶", text: "Modo offline completo — funciona sem internet" },
-                    { icon: "🔐", text: "Login com Google e Apple — seguro e rápido" },
-                    { icon: "🔔", text: "Notificações push personalizadas por pet" },
+                    { icon: "🔄", text: t("Availability.syncFeature") },
+                    { icon: "📶", text: t("Availability.offlineFeature") },
+                    { icon: "🔐", text: t("Availability.loginFeature") },
+                    { icon: "🔔", text: t("Availability.pushFeature") },
                   ].map(({ icon, text }) => (
                     <div key={text} className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-sm"
@@ -587,13 +605,13 @@ export default async function LandingPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <p className="text-sm font-semibold" style={{ color: "oklch(0.90 0 0)" }}>Android</p>
+                        <p className="text-sm font-semibold" style={{ color: "oklch(0.90 0 0)" }}>{t("Availability.androidName")}</p>
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium"
                           style={{ background: "oklch(0.62 0.18 174 / 0.20)", color: "oklch(0.72 0.14 174)" }}>
-                          Disponível
+                          {t("Availability.androidStatus")}
                         </span>
                       </div>
-                      <p className="text-xs" style={{ color: "oklch(0.62 0 0)" }}>Download grátis na Google Play Store</p>
+                      <p className="text-xs" style={{ color: "oklch(0.62 0 0)" }}>{t("Availability.androidDesc")}</p>
                     </div>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "oklch(0.50 0 0)", flexShrink: 0 }}>
                       <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -612,26 +630,15 @@ export default async function LandingPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <p className="text-sm font-semibold" style={{ color: "oklch(0.70 0 0)" }}>iOS</p>
+                        <p className="text-sm font-semibold" style={{ color: "oklch(0.70 0 0)" }}>{t("Availability.iosName")}</p>
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium"
                           style={{ background: "oklch(0.22 0 0)", color: "oklch(0.75 0 0)" }}>
-                          Em breve
+                          {t("Availability.iosStatus")}
                         </span>
                       </div>
-                      <p className="text-xs" style={{ color: "oklch(0.60 0 0)" }}>App Store — aguarde!</p>
+                      <p className="text-xs" style={{ color: "oklch(0.60 0 0)" }}>{t("Availability.iosDesc")}</p>
                     </div>
                     <Image src="/stores/app-store.svg" alt="App Store" width={90} height={30} className="h-7 w-auto opacity-40" />
-                  </div>
-
-                  {/* Barra de progresso iOS */}
-                  <div className="px-2">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs" style={{ color: "oklch(0.72 0 0)" }}>Desenvolvimento iOS</span>
-                      <span className="text-xs font-mono" style={{ color: "oklch(0.62 0 0)" }}>70%</span>
-                    </div>
-                    <div className="w-full h-1 rounded-full" style={{ background: "oklch(0.18 0 0)" }}>
-                      <div className="h-1 rounded-full" style={{ width: "70%", background: "linear-gradient(90deg, oklch(0.62 0.18 174 / 0.4), oklch(0.62 0.18 174 / 0.1))" }} />
-                    </div>
                   </div>
                 </div>
               </ScaleIn>
@@ -654,18 +661,19 @@ export default async function LandingPage() {
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-8"
                 style={{ background: "oklch(0.62 0.18 174 / 0.12)", border: "1px solid oklch(0.62 0.18 174 / 0.30)", color: "oklch(0.72 0.14 174)" }}>
                 <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "oklch(0.62 0.18 174)" }} />
-                Agora disponível na Google Play
+                {t("Download.badge")}
               </div>
 
               <h2 className="font-heading text-4xl md:text-5xl font-bold leading-tight mb-6" style={{ color: "oklch(0.96 0 0)" }}>
-                Baixe o Zupet<br />gratuitamente
+                {t("Download.title")}<br />{t("Download.titleHighlight")}
               </h2>
               <p className="text-base leading-relaxed mb-4 max-w-xl mx-auto" style={{ color: "oklch(0.68 0 0)" }}>
-                O Zupet está disponível na <strong style={{ color: "oklch(0.82 0 0)" }}>Google Play Store</strong>.
-                Baixe grátis e comece a cuidar do seu pet com muito mais organização.
+                {t.rich("Download.description", {
+                  googlePlay: (chunks) => <strong style={{ color: "oklch(0.82 0 0)" }}>{chunks}</strong>,
+                })}
               </p>
               <p className="text-sm leading-relaxed mb-12 max-w-lg mx-auto" style={{ color: "oklch(0.60 0 0)" }}>
-                Cadastre-se, adicione seus pets e tenha toda a história deles na palma da mão — vacinas, consultas, fotos e muito mais.
+                {t("Download.subdescription")}
               </p>
             </FadeUp>
 
@@ -673,24 +681,9 @@ export default async function LandingPage() {
             <FadeUp delay={0.1}>
               <div className="grid md:grid-cols-3 gap-4 mb-14 text-left">
                 {[
-                  {
-                    step: "01",
-                    icon: "📲",
-                    title: "Baixe o app",
-                    desc: "Acesse a Google Play Store e instale o Zupet gratuitamente no seu Android.",
-                  },
-                  {
-                    step: "02",
-                    icon: "🐾",
-                    title: "Cadastre seus pets",
-                    desc: "Crie seu perfil, adicione seus pets e personalize com foto, raça e informações de saúde.",
-                  },
-                  {
-                    step: "03",
-                    icon: "🏆",
-                    title: "Cuide com prazer",
-                    desc: "Registre vacinas, lembretes, fotos e conquistas. Tudo organizado em um só lugar.",
-                  },
+                  { step: "01", icon: "📲", title: t("Download.step1Title"), desc: t("Download.step1Desc") },
+                  { step: "02", icon: "🐾", title: t("Download.step2Title"), desc: t("Download.step2Desc") },
+                  { step: "03", icon: "🏆", title: t("Download.step3Title"), desc: t("Download.step3Desc") },
                 ].map(({ step, icon, title, desc }) => (
                   <div key={step} className="p-5 rounded-2xl flex flex-col gap-3"
                     style={{ background: "oklch(0.13 0 0)", border: "1px solid oklch(0.20 0 0)" }}>
@@ -729,14 +722,14 @@ export default async function LandingPage() {
                   className="text-xs transition-colors hover:text-white"
                   style={{ color: "oklch(0.60 0 0)" }}
                 >
-                  Siga{" "}
-                  <span style={{ color: "oklch(0.72 0 0)" }}>@zupet.io</span>{" "}
-                  no Instagram
+                  {t.rich("Download.followInstagram", {
+                    handle: (chunks) => <span style={{ color: "oklch(0.72 0 0)" }}>{chunks}</span>,
+                  })}
                 </a>
               </div>
 
               <p className="mt-6 text-xs" style={{ color: "oklch(0.44 0 0)" }}>
-                Gratuito • Sem compromisso • Funciona offline
+                {t("Download.footnote")}
               </p>
             </FadeUp>
           </div>
@@ -751,34 +744,26 @@ export default async function LandingPage() {
 
               {/* Esquerda — label sticky */}
               <FadeUp className="lg:sticky lg:top-32">
-                <p className="text-xs font-mono tracking-widest uppercase mb-4" style={{ color: "oklch(0.62 0.18 174)" }}>FAQ</p>
+                <p className="text-xs font-mono tracking-widest uppercase mb-4" style={{ color: "oklch(0.62 0.18 174)" }}>{t("FAQ.kicker")}</p>
                 <h2 className="font-heading text-4xl md:text-5xl font-bold leading-tight" style={{ color: "oklch(0.96 0 0)" }}>
-                  Ficou com<br />alguma<br />dúvida?
+                  {t("FAQ.titleLine1")}<br />{t("FAQ.titleLine2")}<br />{t("FAQ.titleLine3")}
                 </h2>
                 <p className="mt-5 text-sm leading-relaxed" style={{ color: "oklch(0.63 0 0)" }}>
-                  As perguntas mais comuns dos tutores respondidas aqui.
+                  {t("FAQ.subtitle")}
                 </p>
                 <div className="mt-8 w-12 h-px" style={{ background: "oklch(0.62 0.18 174)" }} />
                 <div className="mt-8 p-4 rounded-xl" style={{ background: "oklch(0.13 0 0)", border: "1px solid oklch(0.20 0 0)" }}>
-                  <p className="text-xs font-medium mb-1" style={{ color: "oklch(0.75 0 0)" }}>Quer excluir sua conta?</p>
-                  <p className="text-xs mb-3" style={{ color: "oklch(0.55 0 0)" }}>Acesse o formulário e solicite a remoção completa dos seus dados.</p>
+                  <p className="text-xs font-medium mb-1" style={{ color: "oklch(0.75 0 0)" }}>{t("FAQ.deleteAccountTitle")}</p>
+                  <p className="text-xs mb-3" style={{ color: "oklch(0.55 0 0)" }}>{t("FAQ.deleteAccountDesc")}</p>
                   <Link href="/excluir-conta" className="inline-flex items-center gap-1.5 text-xs font-medium transition-colors hover:opacity-80" style={{ color: "oklch(0.62 0.18 174)" }}>
-                    Solicitar exclusão de conta →
+                    {t("FAQ.deleteAccountLink")}
                   </Link>
                 </div>
               </FadeUp>
 
               {/* Direita — perguntas */}
               <StaggerChildren stagger={0.06} className="flex flex-col">
-                {[
-                  { q: "O Zupet é gratuito?", a: "Sim, o download e uso básico são completamente gratuitos. Cadastre seus pets, registre vacinas, alimentação e fotos sem pagar nada." },
-                  { q: "Funciona sem internet?", a: "Sim. O Zupet funciona em modo offline e sincroniza automaticamente quando você reconectar. Nunca perde dados." },
-                  { q: "Quantos pets posso cadastrar?", a: "Quantos quiser. Cachorros, gatos, pássaros, coelhos — múltiplos pets e espécies na mesma conta." },
-                  { q: "Meus dados são seguros?", a: "Sim. Dados criptografados e armazenados com segurança. Nunca compartilhamos informações pessoais com terceiros." },
-                  { q: "Posso usar em mais de um dispositivo?", a: "Sim. Faça login com Google ou Apple em qualquer dispositivo e seus dados estarão sempre sincronizados." },
-                  { q: "Quando o iOS estará disponível?", a: "O Zupet está disponível para Android na Google Play Store. A versão iOS está em desenvolvimento e chegará em breve na App Store." },
-                  { q: "Como posso excluir minha conta e dados?", a: "Você pode excluir sua conta diretamente pelo app em Perfil → Configurações → Excluir conta, ou acessar nosso formulário online em zupet.io/excluir-conta. Todos os seus dados são removidos permanentemente em até 7 dias úteis." },
-                ].map(({ q, a }, i) => (
+                {t.raw("FAQ.items").map(({ q, a }: { q: string; a: string }, i: number) => (
                   <StaggerItem key={i}>
                     <div className="group py-6 border-b cursor-default"
                       style={{ borderColor: "oklch(0.18 0 0)" }}>
@@ -815,18 +800,19 @@ export default async function LandingPage() {
               {/* Esquerda */}
               <FadeUp>
                 <p className="text-xs font-mono tracking-widest uppercase mb-5" style={{ color: "oklch(0.62 0.18 174)" }}>
-                  Comece agora
+                  {t("FinalCta.kicker")}
                 </p>
                 <h2 className="font-heading text-5xl md:text-6xl font-extrabold leading-[1.0] mb-6"
                   style={{ color: "oklch(0.97 0 0)" }}>
-                  O seu pet<br />
+                  {t("FinalCta.titleLine1")}<br />
                   <span style={{ color: "oklch(0.62 0.18 174)", textShadow: "0 0 60px oklch(0.62 0.18 174 / 0.35)" }}>
-                    não pode esperar.
+                    {t("FinalCta.titleHighlight")}
                   </span>
                 </h2>
                 <p className="text-base leading-relaxed mb-10" style={{ color: "oklch(0.68 0 0)" }}>
-                  Junte-se a {hasStats ? stats.totalUsers.toLocaleString("pt-BR") : "milhares de"} tutores que já usam
-                  o Zupet para manter seus pets saudáveis e felizes.
+                  {t("FinalCta.description", {
+                    count: hasStats ? stats.totalUsers.toLocaleString(locale) : t("FinalCta.fallbackCount"),
+                  })}
                 </p>
                 <div className="flex items-center gap-3 flex-wrap">
                   <TrackableStoreLink
@@ -837,12 +823,12 @@ export default async function LandingPage() {
                     className="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
                     style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 40px oklch(0.62 0.18 174 / 0.4)" }}
                   >
-                    Baixar grátis no Google Play
+                    {t("FinalCta.downloadButton")}
                   </TrackableStoreLink>
                   <div className="flex flex-col gap-1 text-xs" style={{ color: "oklch(0.60 0 0)" }}>
-                    {["Grátis para download", "Disponível na Google Play", "Funciona offline"].map(t => (
-                      <div key={t} className="flex items-center gap-1.5">
-                        <span style={{ color: "oklch(0.62 0.18 174)" }}>✓</span> {t}
+                    {[t("FinalCta.bullet1"), t("FinalCta.bullet2"), t("FinalCta.bullet3")].map(text => (
+                      <div key={text} className="flex items-center gap-1.5">
+                        <span style={{ color: "oklch(0.62 0.18 174)" }}>✓</span> {text}
                       </div>
                     ))}
                   </div>
@@ -886,26 +872,26 @@ export default async function LandingPage() {
                 </div>
                 <div>
                   <p className="font-heading font-bold text-sm" style={{ color: "oklch(0.85 0 0)" }}>Zupet</p>
-                  <p className="text-xs" style={{ color: "oklch(0.72 0 0)" }}>Cuidando quem você ama</p>
+                  <p className="text-xs" style={{ color: "oklch(0.72 0 0)" }}>{t("Footer.tagline")}</p>
                 </div>
               </div>
               {/* Copyright */}
               <p className="text-xs text-center" style={{ color: "oklch(0.70 0 0)" }}>
-                © {new Date().getFullYear()} Zupet. Todos os direitos reservados.
+                {t("Footer.copyright", { year: new Date().getFullYear() })}
               </p>
               {/* Links + Instagram */}
               <div className="flex justify-end items-center gap-5">
                 <nav className="flex gap-5 text-xs" style={{ color: "oklch(0.60 0 0)" }}>
-                  <Link href="/privacidade" className="hover:text-white transition-colors">Privacidade</Link>
-                  <Link href="/termos" className="hover:text-white transition-colors">Termos</Link>
-                  <Link href="/excluir-conta" className="hover:text-white transition-colors">Excluir conta</Link>
-                  <Link href="/dashboard" className="hover:text-white transition-colors">Admin</Link>
+                  <Link href="/privacidade" className="hover:text-white transition-colors">{t("Footer.privacy")}</Link>
+                  <Link href="/termos" className="hover:text-white transition-colors">{t("Footer.terms")}</Link>
+                  <Link href="/excluir-conta" className="hover:text-white transition-colors">{t("Footer.deleteAccount")}</Link>
+                  <Link href="/dashboard" className="hover:text-white transition-colors">{t("Footer.admin")}</Link>
                 </nav>
                 <a
                   href="https://www.instagram.com/zupet.io/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Instagram do Zupet"
+                  aria-label={t("Footer.instagramLabel")}
                   className="flex items-center justify-center w-8 h-8 rounded-lg transition-all hover:scale-110"
                   style={{ background: "oklch(0.16 0 0)", border: "1px solid oklch(0.24 0 0)" }}
                 >
@@ -920,10 +906,10 @@ export default async function LandingPage() {
             {/* Linha decorativa */}
             <div className="mt-10 pt-6 flex flex-col items-center gap-2" style={{ borderTop: "1px solid oklch(0.13 0 0)" }}>
               <p className="text-center text-xs font-mono" style={{ color: "oklch(0.60 0 0)" }}>
-                feito com ❤️ para tutores que amam seus pets
+                {t("Footer.madeWith")}
               </p>
               <p className="text-center text-xs" style={{ color: "oklch(0.45 0 0)" }}>
-                desenvolvido por{" "}
+                {t("Footer.developedBy")}{" "}
                 <a
                   href="https://omegasistem.com.br"
                   target="_blank"

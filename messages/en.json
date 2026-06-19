@@ -1,0 +1,199 @@
+{
+  "Metadata": {
+    "title": "Zupet — The complete app to care for your pet",
+    "description": "Zupet brings together health records, vaccines, travel passport, expense tracking, smart reminders and a photo album for your pet. Free download on Google Play.",
+    "ogDescription": "Health records, vaccines, travel passport, expenses and reminders for your pet, all in one place. Free download on Google Play.",
+    "twitterDescription": "Health records, travel passport, expense tracking and smart reminders for your pet. Free on Google Play."
+  },
+  "Nav": {
+    "features": "Features",
+    "stats": "Numbers",
+    "download": "Download",
+    "instagramLabel": "Zupet's Instagram",
+    "dashboard": "Dashboard",
+    "downloadFree": "Download free"
+  },
+  "Hero": {
+    "badge": "Available now on Google Play",
+    "titleLine1": "Your pet deserves",
+    "titleLine2": "a perfect memory.",
+    "subtitle": "Vaccines, vet visits, feeding, photos — all in one place. Never forget anything important about who you love most.",
+    "androidAria": "Download Zupet for Android on Google Play",
+    "iosAria": "Download Zupet for iOS — coming soon",
+    "iosSoon": "Coming soon",
+    "footnote": "Free • Direct download on Google Play Store",
+    "statPets": "registered pets",
+    "statUsers": "active owners",
+    "statPhotos": "saved photos",
+    "scrollHint": "scroll",
+    "floatReminder": "Reminder",
+    "floatVaccineName": "Vaccine V10",
+    "floatVaccineTime": "tomorrow at 10am",
+    "floatAchievement": "New achievement!",
+    "floatAchievementDesc": "Dedicated owner",
+    "floatPhoto": "New photo",
+    "floatPhotoDesc": "just saved"
+  },
+  "Audiences": {
+    "kicker": "For every owner",
+    "titleLine1": "Made to fit",
+    "titleLine2": "your own way.",
+    "subtitle": "No matter how many pets you have or how you care for them — Zupet adapts to you.",
+    "items": {
+      "multiPet": { "title": "Multi-pet households", "description": "Register dogs, cats and other species on the same account. Each pet with its own history, vaccines and reminders — nothing gets mixed up." },
+      "seniorPet": { "title": "Senior pets or special care", "description": "Track weight, ongoing medications and frequent vet visits. A complete history you can show your vet in seconds." },
+      "traveler": { "title": "Owners who travel with their pet", "description": "Travel passport with checklists for car, domestic or international flights. Never forget a required document or vaccine." }
+    }
+  },
+  "Stats": {
+    "kicker": "— real platform data —",
+    "activeUsers": "Active owners",
+    "activeUsersDesc": "and growing every month",
+    "registeredPets": "Registered pets",
+    "registeredPetsDesc": "dogs, cats and more",
+    "savedPhotos": "Saved photos",
+    "savedPhotosDesc": "memories preserved",
+    "createdReminders": "Reminders created",
+    "createdRemindersDesc": "vaccines, vet visits and more",
+    "differentSpecies": "Different species",
+    "differentSpeciesDesc": "every family deserves care",
+    "petsPerUser": "Pets per owner",
+    "petsPerUserDesc": "on average per registered account"
+  },
+  "Features": {
+    "kicker": "Features",
+    "titleLine1": "Everything",
+    "titleLine2": "your pet",
+    "titleLine3": "needs.",
+    "subtitle": "From daily feeding logs to a complete medical history.",
+    "items": {
+      "health": { "title": "Health Records", "description": "Vaccines, vet visits, medications and exams gathered in one complete document with a QR Code to share with your vet." },
+      "travel": { "title": "Travel Passport", "description": "Plan trips with your pet. Smart checklist for car, domestic and international flights — never forget a document." },
+      "reminders": { "title": "Smart Reminders", "description": "Personalized notifications for vaccines, vet visits and medications. The app warns you before they're due and reschedules automatically." },
+      "album": { "title": "Tagged Photo Album", "description": "Organize your pet's photos by category — vet, walk, birthday, bath. Memories that last forever." },
+      "expenses": { "title": "Expense Tracking", "description": "Log expenses for vet visits, food, baths and accessories. See the monthly summary and how much you invest in each pet." },
+      "feeding": { "title": "Feeding Management", "description": "Track food stock with restock alerts. Never let the bowl run empty again." },
+      "achievements": { "title": "Achievements & Challenges", "description": "Earn achievements by taking great care of your pets. Weekly challenges make the care routine more fun and motivating." },
+      "offline": { "title": "Works Offline", "description": "Access your pet's full history without internet. Syncs automatically to the cloud when connected — with secure backup." }
+    }
+  },
+  "Screenshots": {
+    "kicker": "App in action",
+    "titleLine1": "Simple, beautiful",
+    "titleLine2": "and complete.",
+    "subtitle": "Every screen designed to be intuitive from the first use. Click any image to zoom in."
+  },
+  "Availability": {
+    "kicker": "Availability",
+    "titleLine1": "In your pocket,",
+    "titleLine2": "wherever you go.",
+    "subtitle": "Works offline, syncs automatically, protected with social login. Caring for your pet shouldn't depend on a connection.",
+    "syncFeature": "Automatic sync across devices",
+    "offlineFeature": "Full offline mode — works without internet",
+    "loginFeature": "Login with Google and Apple — secure and fast",
+    "pushFeature": "Personalized push notifications per pet",
+    "androidName": "Android",
+    "androidStatus": "Available",
+    "androidDesc": "Free download on Google Play Store",
+    "iosName": "iOS",
+    "iosStatus": "Coming soon",
+    "iosDesc": "App Store — stay tuned!"
+  },
+  "Download": {
+    "badge": "Now available on Google Play",
+    "title": "Download Zupet",
+    "titleHighlight": "for free",
+    "description": "Zupet is available on the <googlePlay>Google Play Store</googlePlay>. Download for free and start caring for your pet with much more organization.",
+    "subdescription": "Sign up, add your pets and have their entire history in the palm of your hand — vaccines, vet visits, photos and much more.",
+    "step1Title": "Download the app",
+    "step1Desc": "Go to the Google Play Store and install Zupet for free on your Android.",
+    "step2Title": "Register your pets",
+    "step2Desc": "Create your profile, add your pets and personalize with photo, breed and health information.",
+    "step3Title": "Care with pleasure",
+    "step3Desc": "Log vaccines, reminders, photos and achievements. Everything organized in one place.",
+    "followInstagram": "Follow <handle>@zupet.io</handle> on Instagram",
+    "footnote": "Free • No commitment • Works offline"
+  },
+  "FAQ": {
+    "kicker": "FAQ",
+    "titleLine1": "Got any",
+    "titleLine2": "",
+    "titleLine3": "questions?",
+    "subtitle": "The most common questions from pet owners answered here.",
+    "deleteAccountTitle": "Want to delete your account?",
+    "deleteAccountDesc": "Access the form and request complete removal of your data.",
+    "deleteAccountLink": "Request account deletion →",
+    "items": [
+      { "q": "Is Zupet free?", "a": "Yes, download and basic use are completely free. Register your pets, log vaccines, feeding and photos without paying anything." },
+      { "q": "Does it work without internet?", "a": "Yes. Zupet works in offline mode and syncs automatically when you reconnect. You never lose data." },
+      { "q": "How many pets can I register?", "a": "As many as you want. Dogs, cats, birds, rabbits — multiple pets and species on the same account." },
+      { "q": "Is my data safe?", "a": "Yes. Data is encrypted and stored securely. We never share personal information with third parties." },
+      { "q": "Can I use it on more than one device?", "a": "Yes. Sign in with Google or Apple on any device and your data will always stay in sync." },
+      { "q": "When will iOS be available?", "a": "Zupet is available for Android on the Google Play Store. The iOS version is in development and coming soon to the App Store." },
+      { "q": "How can I delete my account and data?", "a": "You can delete your account directly in the app under Profile → Settings → Delete account, or use our online form at zupet.io/excluir-conta. All your data is permanently removed within 7 business days." }
+    ]
+  },
+  "FinalCta": {
+    "kicker": "Get started now",
+    "titleLine1": "Your pet",
+    "titleHighlight": "can't wait.",
+    "description": "Join {count} pet owners who already use Zupet to keep their pets healthy and happy.",
+    "fallbackCount": "thousands of",
+    "downloadButton": "Download free on Google Play",
+    "bullet1": "Free to download",
+    "bullet2": "Available on Google Play",
+    "bullet3": "Works offline"
+  },
+  "Footer": {
+    "tagline": "Caring for who you love",
+    "copyright": "© {year} Zupet. All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "deleteAccount": "Delete account",
+    "admin": "Admin",
+    "instagramLabel": "Zupet's Instagram",
+    "madeWith": "made with ❤️ for owners who love their pets",
+    "developedBy": "developed by"
+  },
+  "LanguageSwitcher": {
+    "label": "Language"
+  },
+  "Legal": {
+    "navHome": "Home",
+    "navPrivacy": "Privacy Policy",
+    "navTerms": "Terms of Use",
+    "navDeleteAccount": "Delete account",
+    "noticeTitle": "This document is only available in Portuguese",
+    "noticeDesc": "As a legal document governed by Brazilian law (LGPD), we keep the official content in Portuguese only."
+  },
+  "DeleteAccount": {
+    "headerBrand": "Zupet",
+    "genericError": "Error sending request.",
+    "connectionError": "Connection error. Please try again.",
+    "successTitle": "Request received",
+    "successDesc": "We received your account deletion request. We'll process it within <strong>7 business days</strong> and send a confirmation to your email.",
+    "successContact": "If you have questions, contact us: {email}",
+    "duplicateTitle": "Request already exists",
+    "duplicateDesc": "There's already a pending request for this email. Our team is processing your request.",
+    "duplicateContact": "Questions? {email}",
+    "formTitle": "Delete my account",
+    "formDesc": "By requesting deletion, all your data will be permanently removed — including profile, pets, diary, documents and photos. This action cannot be undone.",
+    "deletedDataTitle": "Data that will be deleted:",
+    "deletedItem1": "Profile and account information",
+    "deletedItem2": "Data for all registered pets",
+    "deletedItem3": "Diary, feeding and health records",
+    "deletedItem4": "Stored documents and photos",
+    "deletedItem5": "Notification and reminder history",
+    "emailLabel": "Account email",
+    "emailPlaceholder": "you@email.com",
+    "reasonLabel": "Reason",
+    "reasonOptional": "(optional)",
+    "reasonPlaceholder": "Tell us why, so we can improve the app...",
+    "submitBtn": "Request account deletion",
+    "submitBtnLoading": "Sending...",
+    "preferAppNotice": "Prefer to delete via the app? Go to <strong>Profile → Settings → Delete account</strong>.",
+    "privacyLink": "Privacy policy",
+    "footerPrivacy": "Privacy",
+    "footerTerms": "Terms"
+  }
+}
