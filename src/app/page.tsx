@@ -200,8 +200,10 @@ export default async function LandingPage() {
             </div>
             <nav aria-label="Navegação principal" className="hidden md:flex items-center gap-1 text-sm font-medium">
               <a href="#features" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">Funcionalidades</a>
-              <a href="#stats" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">Números</a>
-              <a href="#download" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">Download</a>
+              {hasStats && (
+                <a href="#stats" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">Números</a>
+              )}
+              <a href="#early-access" className="px-4 py-2 rounded-lg transition-colors text-[oklch(0.78_0_0)] hover:text-white">Download</a>
             </nav>
             <div className="flex items-center gap-2">
               <a
@@ -226,7 +228,7 @@ export default async function LandingPage() {
                 Painel
               </Link>
               <a
-                href="#download"
+                href="#early-access"
                 className="text-sm font-semibold px-5 py-2 rounded-lg transition-all hover:opacity-90 hover:scale-[1.03] active:scale-95"
                 style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 4px 20px oklch(0.62 0.18 174 / 0.35)" }}
               >
@@ -282,7 +284,7 @@ export default async function LandingPage() {
                 </FadeUp>
 
                 <FadeUp delay={0.26}>
-                  <div id="download" className="mt-8 flex flex-col gap-4">
+                  <div className="mt-8 flex flex-col gap-4">
                     {/* Botões de loja */}
                     <div className="flex items-center gap-3 flex-wrap">
                       <TrackableStoreLink
