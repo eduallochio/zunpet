@@ -501,6 +501,47 @@ export default async function LandingPage() {
           </div>
         </section>
 
+        {/* ── Para cada tutor ──────────────────────────────────────────────── */}
+        <section className="py-28 px-6 relative overflow-hidden" style={{ background: "oklch(0.10 0 0)" }}>
+          <div className="max-w-6xl mx-auto">
+            <FadeUp className="text-center mb-14">
+              <p className="text-xs font-mono tracking-widest uppercase mb-4" style={{ color: "oklch(0.62 0.18 174)" }}>
+                Para cada tutor
+              </p>
+              <h2 className="font-heading text-4xl md:text-5xl font-bold leading-[1.05]" style={{ color: "oklch(0.96 0 0)" }}>
+                Feito para cuidar <span className="animated-gradient-text">do seu jeito.</span>
+              </h2>
+              <p className="mt-5 text-sm leading-relaxed max-w-md mx-auto" style={{ color: "oklch(0.68 0 0)" }}>
+                Não importa quantos pets você tem ou como cuida deles — o Zupet se adapta.
+              </p>
+            </FadeUp>
+
+            <StaggerChildren className="grid grid-cols-1 sm:grid-cols-3 gap-4" stagger={0.1}>
+              {[
+                {
+                  emoji: "🐾",
+                  title: "Família com vários pets",
+                  description: "Cadastre cachorros, gatos e outras espécies na mesma conta. Cada pet com seu próprio histórico, vacinas e lembretes — sem misturar nada.",
+                },
+                {
+                  emoji: "❤️‍🩹",
+                  title: "Pets idosos ou com cuidados especiais",
+                  description: "Acompanhe peso, medicamentos contínuos e consultas frequentes. Tudo num histórico que você pode mostrar ao veterinário em segundos.",
+                },
+                {
+                  emoji: "✈️",
+                  title: "Tutores que viajam com o pet",
+                  description: "Passaporte de viagem com checklist para carro, voo nacional ou internacional. Nunca esqueça um documento ou vacina obrigatória.",
+                },
+              ].map(({ emoji, title, description }) => (
+                <StaggerItem key={title}>
+                  <FeatureCard emoji={emoji} title={title} description={description} />
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          </div>
+        </section>
+
         {/* ── Screenshots ─────────────────────────────────────────────────── */}
         <section className="py-28 px-6 overflow-hidden" style={{ background: "oklch(0.10 0 0)" }}>
           <div className="max-w-6xl mx-auto">
@@ -621,17 +662,6 @@ export default async function LandingPage() {
                       <p className="text-xs" style={{ color: "oklch(0.60 0 0)" }}>App Store — aguarde!</p>
                     </div>
                     <Image src="/stores/app-store.svg" alt="App Store" width={90} height={30} className="h-7 w-auto opacity-40" />
-                  </div>
-
-                  {/* Barra de progresso iOS */}
-                  <div className="px-2">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs" style={{ color: "oklch(0.72 0 0)" }}>Desenvolvimento iOS</span>
-                      <span className="text-xs font-mono" style={{ color: "oklch(0.62 0 0)" }}>70%</span>
-                    </div>
-                    <div className="w-full h-1 rounded-full" style={{ background: "oklch(0.18 0 0)" }}>
-                      <div className="h-1 rounded-full" style={{ width: "70%", background: "linear-gradient(90deg, oklch(0.62 0.18 174 / 0.4), oklch(0.62 0.18 174 / 0.1))" }} />
-                    </div>
                   </div>
                 </div>
               </ScaleIn>
