@@ -205,11 +205,10 @@ async function getAnalytics() {
     : 0;
 
   // ── Saúde dos pets ────────────────────────────────────────────────────────
-  const withMicrochip = allPets.filter((p) => p.microchip && p.microchip.trim() !== "").length;
+  const hasText = (v: unknown) => typeof v === "string" ? v.trim() !== "" : Array.isArray(v) ? v.length > 0 : Boolean(v);
+  const withMicrochip = allPets.filter((p) => hasText(p.microchip)).length;
   const withAllergies = allPets.filter(
-    (p) => (p.food_allergies && p.food_allergies.trim() !== "") ||
-            (p.med_allergies && p.med_allergies.trim() !== "") ||
-            (p.restrictions && p.restrictions.trim() !== "")
+    (p) => hasText(p.food_allergies) || hasText(p.med_allergies) || hasText(p.restrictions)
   ).length;
   const microchipRate = allPets.length > 0 ? Math.round((withMicrochip / allPets.length) * 100) : 0;
   const allergyRate = allPets.length > 0 ? Math.round((withAllergies / allPets.length) * 100) : 0;
