@@ -97,10 +97,10 @@ export default function ConfirmarPage() {
           </a>
         )}
 
-        {/* Fallback para mobile: link para a loja */}
-        {platform !== "desktop" && (
+        {/* Fallback para mobile: link para a loja (só Android por enquanto) */}
+        {platform === "android" && (
           <a
-            href={platform === "android" ? GOOGLE_PLAY_URL : "https://apps.apple.com/app/zupet/id0000000000"}
+            href={GOOGLE_PLAY_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-gray-500 hover:text-gray-300 transition-colors underline underline-offset-2"
