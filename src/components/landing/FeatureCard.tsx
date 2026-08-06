@@ -1,17 +1,36 @@
 "use client";
 
 import { TiltCard } from "./TiltCard";
+import {
+  Stethoscope, PlaneTakeoff, Bell, Camera, Wallet,
+  UtensilsCrossed, Trophy, WifiOff, PawPrint, HeartPulse,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+const ICONS: Record<string, LucideIcon> = {
+  Stethoscope,
+  PlaneTakeoff,
+  Bell,
+  Camera,
+  Wallet,
+  UtensilsCrossed,
+  Trophy,
+  WifiOff,
+  PawPrint,
+  HeartPulse,
+};
+
 export function FeatureCard({
-  icon: Icon,
+  icon,
   title,
   description,
 }: {
-  icon: LucideIcon;
+  icon: string;
   title: string;
   description: string;
 }) {
+  const Icon = ICONS[icon] ?? Stethoscope;
+
   return (
     <TiltCard className="group h-full">
       <div
