@@ -1,13 +1,14 @@
 "use client";
 
 import { TiltCard } from "./TiltCard";
+import type { LucideIcon } from "lucide-react";
 
 export function FeatureCard({
-  emoji,
+  icon: Icon,
   title,
   description,
 }: {
-  emoji: string;
+  icon: LucideIcon;
   title: string;
   description: string;
 }) {
@@ -27,12 +28,11 @@ export function FeatureCard({
           el.style.background = "oklch(0.13 0 0)";
         }}
       >
-        {/* Emoji com fundo */}
         <div
-          className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4 transition-transform duration-300 group-hover:scale-110"
+          className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110"
           style={{ background: "oklch(0.18 0.02 174)" }}
         >
-          {emoji}
+          <Icon size={22} style={{ color: "oklch(0.72 0.14 174)" }} strokeWidth={1.5} />
         </div>
 
         <h3 className="font-heading font-semibold text-base mb-2" style={{ color: "oklch(0.92 0 0)" }}>
@@ -42,7 +42,6 @@ export function FeatureCard({
           {description}
         </p>
 
-        {/* Bottom accent line ao hover */}
         <div
           className="mt-4 h-px w-0 group-hover:w-full transition-all duration-500 rounded-full"
           style={{ background: "oklch(0.62 0.18 174 / 0.4)" }}

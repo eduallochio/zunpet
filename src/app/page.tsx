@@ -11,6 +11,7 @@ import { OrbsBackground } from "@/components/landing/OrbsBackground";
 import { FloatingPhone } from "@/components/landing/FloatingPhone";
 import { Marquee } from "@/components/landing/Marquee";
 import { GlowButton } from "@/components/landing/GlowButton";
+import { Stethoscope, PlaneTakeoff, Bell, Camera, Wallet, UtensilsCrossed, Trophy, WifiOff, PawPrint, HeartPulse } from "lucide-react";
 
 export const revalidate = 300;
 
@@ -132,42 +133,42 @@ async function getPublicStats() {
 
 const features = [
   {
-    emoji: "🩺",
+    icon: Stethoscope,
     title: "Carteira de Saúde",
     description: "Vacinas, consultas, medicamentos e exames reunidos em um documento completo com QR Code para compartilhar com o veterinário.",
   },
   {
-    emoji: "✈️",
+    icon: PlaneTakeoff,
     title: "Passaporte de Viagem",
     description: "Planeje viagens com seu pet. Checklist inteligente para carro, voo nacional e internacional — nunca esqueça um documento.",
   },
   {
-    emoji: "🔔",
+    icon: Bell,
     title: "Lembretes Inteligentes",
     description: "Notificações personalizadas para vacinas, consultas e medicamentos. O app avisa antes do vencimento e reagenda automaticamente.",
   },
   {
-    emoji: "📸",
+    icon: Camera,
     title: "Álbum com Tags",
     description: "Organize as fotos do seu pet por categoria — veterinário, passeio, aniversário, banho. Memórias que duram para sempre.",
   },
   {
-    emoji: "💰",
+    icon: Wallet,
     title: "Controle de Gastos",
     description: "Registre gastos com veterinário, ração, banho e acessórios. Veja o resumo mensal e quanto você investe em cada pet.",
   },
   {
-    emoji: "🍽️",
+    icon: UtensilsCrossed,
     title: "Gestão de Alimentação",
     description: "Controle o estoque de ração com alertas de reabastecimento. Nunca deixe o pote vazio novamente.",
   },
   {
-    emoji: "🏆",
+    icon: Trophy,
     title: "Conquistas e Desafios",
     description: "Ganhe conquistas cuidando bem dos seus pets. Desafios semanais tornam a rotina de cuidados mais divertida e motivadora.",
   },
   {
-    emoji: "📶",
+    icon: WifiOff,
     title: "Funciona Offline",
     description: "Acesse o histórico completo do seu pet sem internet. Sincroniza automaticamente na nuvem quando conectar — com backup seguro.",
   },
@@ -494,9 +495,9 @@ export default async function LandingPage() {
 
               {/* Lado direito — grid de features */}
               <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 gap-3" stagger={0.07}>
-                {features.map(({ emoji, title, description }) => (
+                {features.map(({ icon, title, description }) => (
                   <StaggerItem key={title}>
-                    <FeatureCard emoji={emoji} title={title} description={description} />
+                    <FeatureCard icon={icon} title={title} description={description} />
                   </StaggerItem>
                 ))}
               </StaggerChildren>
@@ -522,23 +523,23 @@ export default async function LandingPage() {
             <StaggerChildren className="grid grid-cols-1 sm:grid-cols-3 gap-4" stagger={0.1}>
               {[
                 {
-                  emoji: "🐾",
+                  icon: PawPrint,
                   title: "Família com vários pets",
                   description: "Cadastre cachorros, gatos e outras espécies na mesma conta. Cada pet com seu próprio histórico, vacinas e lembretes — sem misturar nada.",
                 },
                 {
-                  emoji: "❤️‍🩹",
+                  icon: HeartPulse,
                   title: "Pets idosos ou com cuidados especiais",
                   description: "Acompanhe peso, medicamentos contínuos e consultas frequentes. Tudo num histórico que você pode mostrar ao veterinário em segundos.",
                 },
                 {
-                  emoji: "✈️",
+                  icon: PlaneTakeoff,
                   title: "Tutores que viajam com o pet",
                   description: "Passaporte de viagem com checklist para carro, voo nacional ou internacional. Nunca esqueça um documento ou vacina obrigatória.",
                 },
-              ].map(({ emoji, title, description }) => (
+              ].map(({ icon, title, description }) => (
                 <StaggerItem key={title}>
-                  <FeatureCard emoji={emoji} title={title} description={description} />
+                  <FeatureCard icon={icon} title={title} description={description} />
                 </StaggerItem>
               ))}
             </StaggerChildren>
