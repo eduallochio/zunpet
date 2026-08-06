@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import { TrackPageView, TrackableStoreLink } from "@/components/landing/TrackingProvider";
 
 const GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR";
-const APP_STORE_URL = "https://apps.apple.com/app/zupet/id0000000000"; // placeholder até publicar
+const APP_STORE_URL = "https://apps.apple.com/br/app/zupet/id6793655564";
 
 const SCREENSHOTS = [
   { src: "perfil-pet.png", label: "Perfil do Pet" },

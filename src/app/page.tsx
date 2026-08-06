@@ -300,18 +300,19 @@ export default async function LandingPage() {
                       </TrackableStoreLink>
                       <TrackableStoreLink
                         store="ios"
-                        href="#"
-                        className="flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all hover:opacity-70"
-                        style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.25 0 0)", color: "oklch(0.70 0 0)" }}
-                        aria-label="Baixar Zupet para iOS — em breve"
+                        href="https://apps.apple.com/br/app/zupet/id6793655564"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all hover:scale-105 active:scale-95"
+                        style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.35 0 0)", color: "oklch(0.90 0 0)" }}
+                        aria-label="Baixar Zupet para iOS na App Store"
                       >
-                        <Image src="/stores/app-store.svg" alt="App Store" width={100} height={32} className="h-5 w-auto opacity-50" />
-                        <span className="text-xs">Em breve</span>
+                        <Image src="/stores/app-store.svg" alt="App Store" width={100} height={32} className="h-5 w-auto" />
                       </TrackableStoreLink>
                     </div>
 
                     <p className="text-xs leading-relaxed" style={{ color: "oklch(0.60 0 0)" }}>
-                      Gratuito • Download direto na Google Play Store
+                      Gratuito • Disponível na Google Play e App Store
                     </p>
                   </div>
                 </FadeUp>
@@ -643,28 +644,37 @@ export default async function LandingPage() {
                     </svg>
                   </a>
 
-                  {/* iOS — em breve */}
-                  <div className="relative p-6 rounded-2xl flex items-center gap-5 opacity-50"
-                    style={{ background: "oklch(0.12 0 0)", border: "1px dashed oklch(0.25 0 0)" }}>
+                  {/* iOS — disponível */}
+                  <a
+                    href="https://apps.apple.com/br/app/zupet/id6793655564"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative p-6 rounded-2xl flex items-center gap-5 transition-all hover:scale-[1.02]"
+                    style={{
+                      background: "oklch(0.13 0 0)",
+                      border: "1px solid oklch(0.35 0 0 / 0.5)",
+                      boxShadow: "0 0 40px oklch(0.35 0 0 / 0.06)",
+                    }}>
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: "oklch(0.18 0 0)" }}>
-                      {/* Apple logo */}
+                      style={{ background: "oklch(0.20 0 0)" }}>
                       <svg viewBox="0 0 814 1000" className="w-5 h-5" fill="white">
                         <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-42.4-150.3-110.7C67.3 716.3 29 614.8 29 518.5c0-169.2 110.6-258.7 220-258.7 81.5 0 149.4 53.8 200.8 53.8 49.2 0 126.7-56.9 217.1-56.9zM581 86.8c27.7-32.9 47.8-79.2 47.8-125.5 0-6.4-.6-12.8-1.9-18.5-45.2 1.7-98.8 30.2-131.3 67.2-25.1 27.7-48.4 73.4-48.4 120.3 0 7 1.3 14 1.9 16.4 2.6.4 6.7 1 10.8 1 40.8 0 91.9-26.8 121.1-60.9z"/>
                       </svg>
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <p className="text-sm font-semibold" style={{ color: "oklch(0.70 0 0)" }}>iOS</p>
+                        <p className="text-sm font-semibold" style={{ color: "oklch(0.90 0 0)" }}>iOS</p>
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium"
-                          style={{ background: "oklch(0.22 0 0)", color: "oklch(0.75 0 0)" }}>
-                          Em breve
+                          style={{ background: "oklch(0.62 0.18 174 / 0.20)", color: "oklch(0.72 0.14 174)" }}>
+                          Disponível
                         </span>
                       </div>
-                      <p className="text-xs" style={{ color: "oklch(0.60 0 0)" }}>App Store — aguarde!</p>
+                      <p className="text-xs" style={{ color: "oklch(0.62 0 0)" }}>Download grátis na App Store</p>
                     </div>
-                    <Image src="/stores/app-store.svg" alt="App Store" width={90} height={30} className="h-7 w-auto opacity-40" />
-                  </div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "oklch(0.50 0 0)", flexShrink: 0 }}>
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </a>
                 </div>
               </ScaleIn>
             </div>
@@ -808,7 +818,7 @@ export default async function LandingPage() {
                   { q: "Quantos pets posso cadastrar?", a: "Quantos quiser. Cachorros, gatos, pássaros, coelhos — múltiplos pets e espécies na mesma conta." },
                   { q: "Meus dados são seguros?", a: "Sim. Dados criptografados e armazenados com segurança. Nunca compartilhamos informações pessoais com terceiros." },
                   { q: "Posso usar em mais de um dispositivo?", a: "Sim. Faça login com Google ou Apple em qualquer dispositivo e seus dados estarão sempre sincronizados." },
-                  { q: "Quando o iOS estará disponível?", a: "O Zupet está disponível para Android na Google Play Store. A versão iOS está em desenvolvimento e chegará em breve na App Store." },
+                  { q: "O Zupet está disponível para iOS?", a: "Sim! O Zupet está disponível para iPhone e iPad na App Store. Baixe gratuitamente em apps.apple.com/br/app/zupet/id6793655564" },
                   { q: "Como posso excluir minha conta e dados?", a: "Você pode excluir sua conta diretamente pelo app em Perfil → Configurações → Excluir conta, ou acessar nosso formulário online em zupet.io/excluir-conta. Todos os seus dados são removidos permanentemente em até 7 dias úteis." },
                 ].map(({ q, a }, i) => (
                   <StaggerItem key={i}>
