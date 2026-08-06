@@ -747,23 +747,33 @@ export default async function LandingPage() {
               </div>
             </FadeUp>
 
-            {/* CTA Google Play */}
+            {/* CTA Lojas */}
             <FadeUp delay={0.2}>
-              <div className="inline-flex flex-col sm:flex-row items-center gap-4">
-                <TrackableStoreLink
-                  store="android"
-                  href="https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 px-7 py-3.5 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
-                  style={{
-                    background: "oklch(0.62 0.18 174)",
-                    color: "white",
-                    boxShadow: "0 8px 32px oklch(0.62 0.18 174 / 0.35)",
-                  }}
-                >
-                  <Image src="/stores/google-play.png" alt="Google Play" width={140} height={42} className="h-8 w-auto" />
-                </TrackableStoreLink>
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex items-center gap-3 flex-wrap justify-center">
+                  <TrackableStoreLink
+                    store="android"
+                    href="https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
+                    style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 32px oklch(0.62 0.18 174 / 0.35)" }}
+                    aria-label="Baixar Zupet para Android na Google Play"
+                  >
+                    <Image src="/stores/google-play.png" alt="Google Play" width={140} height={42} className="h-8 w-auto" />
+                  </TrackableStoreLink>
+                  <TrackableStoreLink
+                    store="ios"
+                    href="https://apps.apple.com/br/app/zupet/id6793655564"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
+                    style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.30 0 0)", color: "white", boxShadow: "0 4px 20px oklch(0.15 0 0 / 0.5)" }}
+                    aria-label="Baixar Zupet para iOS na App Store"
+                  >
+                    <Image src="/stores/app-store.svg" alt="App Store" width={140} height={42} className="h-8 w-auto" />
+                  </TrackableStoreLink>
+                </div>
                 <a
                   href="https://www.instagram.com/zupet.io/"
                   target="_blank"
