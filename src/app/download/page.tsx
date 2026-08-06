@@ -190,18 +190,24 @@ export default function DownloadPage() {
         </TrackableStoreLink>
 
         {/* App Store */}
-        <div
-          className={`flex flex-col items-center gap-2 rounded-2xl px-6 py-4 border transition-all duration-200 ${
+        <TrackableStoreLink
+          store="ios"
+          href={APP_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`flex items-center justify-center gap-3 rounded-2xl px-6 py-4 transition-all duration-200 border ${
             platform === "ios"
               ? "bg-white/10 border-white/20 shadow-[0_0_24px_rgba(255,255,255,0.1)] scale-105"
-              : "bg-white/5 border-white/10 opacity-60"
+              : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
           }`}
         >
           <Image src="/stores/app-store.svg" alt="App Store" width={120} height={40} className="h-8 w-auto" />
-          <span className="text-xs text-gray-500" style={{ fontFamily: "var(--font-jakarta)" }}>
-            Em breve para iOS
-          </span>
-        </div>
+          {platform === "ios" && (
+            <span className="text-xs text-white/80 font-medium" style={{ fontFamily: "var(--font-jakarta)" }}>
+              Disponível
+            </span>
+          )}
+        </TrackableStoreLink>
       </div>
 
       {/* Instagram */}
