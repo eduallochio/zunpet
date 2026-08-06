@@ -303,11 +303,11 @@ export default async function LandingPage() {
                         href="https://apps.apple.com/br/app/zupet/id6793655564"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all hover:scale-105 active:scale-95"
-                        style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.35 0 0)", color: "oklch(0.90 0 0)" }}
+                        className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
+                        style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.30 0 0)", color: "white", boxShadow: "0 4px 20px oklch(0.15 0 0 / 0.5)" }}
                         aria-label="Baixar Zupet para iOS na App Store"
                       >
-                        <Image src="/stores/app-store.svg" alt="App Store" width={100} height={32} className="h-5 w-auto" />
+                        <Image src="/stores/app-store.svg" alt="App Store" width={140} height={42} className="h-8 w-auto" />
                       </TrackableStoreLink>
                     </div>
 
