@@ -11,6 +11,7 @@ import { OrbsBackground } from "@/components/landing/OrbsBackground";
 import { FloatingPhone } from "@/components/landing/FloatingPhone";
 import { Marquee } from "@/components/landing/Marquee";
 import { GlowButton } from "@/components/landing/GlowButton";
+import { Users, PawPrint, Camera, Bell, Bird, Heart, RefreshCw, WifiOff, ShieldCheck, Smartphone, Trophy } from "lucide-react";
 
 export const revalidate = 300;
 
@@ -290,12 +291,12 @@ export default async function LandingPage() {
                   <FadeIn delay={0.38}>
                     <div className="mt-10 flex items-center gap-6 flex-wrap">
                       {[
-                        { value: stats.totalPets, label: "pets cadastrados", icon: "🐾" },
-                        { value: stats.totalUsers, label: "tutores ativos", icon: "👥" },
-                        { value: stats.totalPhotos, label: "fotos salvas", icon: "📸" },
+                        { value: stats.totalPets, label: "pets cadastrados", icon: <PawPrint size={14} strokeWidth={1.5} /> },
+                        { value: stats.totalUsers, label: "tutores ativos", icon: <Users size={14} strokeWidth={1.5} /> },
+                        { value: stats.totalPhotos, label: "fotos salvas", icon: <Camera size={14} strokeWidth={1.5} /> },
                       ].map(({ value, label, icon }) => (
                         <div key={label} className="flex items-center gap-2">
-                          <span className="text-sm">{icon}</span>
+                          <span className="text-sm" style={{ color: "oklch(0.72 0.14 174)" }}>{icon}</span>
                           <div>
                             <p className="text-sm font-bold leading-none" style={{ color: "oklch(0.90 0 0)" }}>
                               {value.toLocaleString("pt-BR")}
@@ -409,12 +410,12 @@ export default async function LandingPage() {
                   baseScale={0.85}
                 >
                   {[
-                    { num: stats.totalUsers,     suffix: "+", label: "Tutores ativos",      desc: "e crescendo todo mês",          icon: "👥", accent: "oklch(0.62 0.18 174)" },
-                    { num: stats.totalPets,      suffix: "+", label: "Pets cadastrados",    desc: "cachorros, gatos e mais",       icon: "🐾", accent: "oklch(0.65 0.18 145)" },
-                    { num: stats.totalPhotos,    suffix: "+", label: "Fotos salvas",        desc: "memórias preservadas",          icon: "📸", accent: "oklch(0.62 0.18 240)" },
-                    { num: stats.totalReminders, suffix: "+", label: "Lembretes criados",   desc: "vacinas, consultas e mais",     icon: "🔔", accent: "oklch(0.68 0.18 60)"  },
-                    { num: stats.totalSpecies,   suffix: "",  label: "Espécies diferentes", desc: "toda família merece cuidado",   icon: "🦜", accent: "oklch(0.65 0.18 30)"  },
-                    { num: stats.avgPetsPerUser, suffix: "",  label: "Pets por tutor",      desc: "em média por conta cadastrada", icon: "❤️", accent: "oklch(0.65 0.18 10)"  },
+                    { num: stats.totalUsers,     suffix: "+", label: "Tutores ativos",      desc: "e crescendo todo mês",          icon: <Users size={32} strokeWidth={1.5} />,         accent: "oklch(0.62 0.18 174)" },
+                    { num: stats.totalPets,      suffix: "+", label: "Pets cadastrados",    desc: "cachorros, gatos e mais",       icon: <PawPrint size={32} strokeWidth={1.5} />,      accent: "oklch(0.65 0.18 145)" },
+                    { num: stats.totalPhotos,    suffix: "+", label: "Fotos salvas",        desc: "memórias preservadas",          icon: <Camera size={32} strokeWidth={1.5} />,        accent: "oklch(0.62 0.18 240)" },
+                    { num: stats.totalReminders, suffix: "+", label: "Lembretes criados",   desc: "vacinas, consultas e mais",     icon: <Bell size={32} strokeWidth={1.5} />,          accent: "oklch(0.68 0.18 60)"  },
+                    { num: stats.totalSpecies,   suffix: "",  label: "Espécies diferentes", desc: "toda família merece cuidado",   icon: <Bird size={32} strokeWidth={1.5} />,          accent: "oklch(0.65 0.18 30)"  },
+                    { num: stats.avgPetsPerUser, suffix: "",  label: "Pets por tutor",      desc: "em média por conta cadastrada", icon: <Heart size={32} strokeWidth={1.5} />,         accent: "oklch(0.65 0.18 10)"  },
                   ].map(({ num, suffix, label, desc, icon, accent }) => (
                     <ScrollStackItem key={label}>
                       <div className="w-full h-full p-8 flex items-center justify-between gap-6"
@@ -426,8 +427,8 @@ export default async function LandingPage() {
                           </p>
                           <p className="mt-3 text-sm" style={{ color: "oklch(0.65 0 0)" }}>{desc}</p>
                         </div>
-                        <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0"
-                          style={{ background: `${accent.replace(")", " / 0.10)")}`, border: `1px solid ${accent.replace(")", " / 0.20)")}` }}>
+                        <div className="w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0"
+                          style={{ background: `${accent.replace(")", " / 0.10)")}`, border: `1px solid ${accent.replace(")", " / 0.20)")}`, color: accent }}>
                           {icon}
                         </div>
                       </div>
@@ -549,14 +550,14 @@ export default async function LandingPage() {
                 </p>
                 <div className="flex flex-col gap-4">
                   {[
-                    { icon: "🔄", text: "Sincronização automática entre dispositivos" },
-                    { icon: "📶", text: "Modo offline completo — funciona sem internet" },
-                    { icon: "🔐", text: "Login com Google e Apple — seguro e rápido" },
-                    { icon: "🔔", text: "Notificações push personalizadas por pet" },
+                    { icon: <RefreshCw size={16} strokeWidth={1.5} />, text: "Sincronização automática entre dispositivos" },
+                    { icon: <WifiOff size={16} strokeWidth={1.5} />,  text: "Modo offline completo — funciona sem internet" },
+                    { icon: <ShieldCheck size={16} strokeWidth={1.5} />, text: "Login com Google e Apple — seguro e rápido" },
+                    { icon: <Bell size={16} strokeWidth={1.5} />,     text: "Notificações push personalizadas por pet" },
                   ].map(({ icon, text }) => (
                     <div key={text} className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-sm"
-                        style={{ background: "oklch(0.62 0.18 174 / 0.10)", border: "1px solid oklch(0.62 0.18 174 / 0.15)" }}>
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                        style={{ background: "oklch(0.62 0.18 174 / 0.10)", border: "1px solid oklch(0.62 0.18 174 / 0.15)", color: "oklch(0.72 0.14 174)" }}>
                         {icon}
                       </div>
                       <span className="text-sm" style={{ color: "oklch(0.62 0 0)" }}>{text}</span>
@@ -673,19 +674,19 @@ export default async function LandingPage() {
                 {[
                   {
                     step: "01",
-                    icon: "📲",
+                    icon: <Smartphone size={24} strokeWidth={1.5} />,
                     title: "Baixe o app",
                     desc: "Acesse a Google Play Store ou a App Store e instale o Zupet gratuitamente.",
                   },
                   {
                     step: "02",
-                    icon: "🐾",
+                    icon: <PawPrint size={24} strokeWidth={1.5} />,
                     title: "Cadastre seus pets",
                     desc: "Crie seu perfil, adicione seus pets e personalize com foto, raça e informações de saúde.",
                   },
                   {
                     step: "03",
-                    icon: "🏆",
+                    icon: <Trophy size={24} strokeWidth={1.5} />,
                     title: "Cuide com prazer",
                     desc: "Registre vacinas, lembretes, fotos e conquistas. Tudo organizado em um só lugar.",
                   },
@@ -693,7 +694,7 @@ export default async function LandingPage() {
                   <div key={step} className="p-5 rounded-2xl flex flex-col gap-3"
                     style={{ background: "oklch(0.13 0 0)", border: "1px solid oklch(0.20 0 0)" }}>
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl">{icon}</span>
+                      <span style={{ color: "oklch(0.72 0.14 174)" }}>{icon}</span>
                       <span className="text-xs font-mono" style={{ color: "oklch(0.40 0 0)" }}>{step}</span>
                     </div>
                     <p className="text-sm font-semibold" style={{ color: "oklch(0.88 0 0)" }}>{title}</p>
