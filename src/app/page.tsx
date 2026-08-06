@@ -870,17 +870,31 @@ export default async function LandingPage() {
                   Junte-se a {hasStats ? stats.totalUsers.toLocaleString("pt-BR") : "milhares de"} tutores que já usam
                   o Zupet para manter seus pets saudáveis e felizes.
                 </p>
-                <div className="flex items-center gap-3 flex-wrap">
-                  <TrackableStoreLink
-                    store="android"
-                    href="https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
-                    style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 40px oklch(0.62 0.18 174 / 0.4)" }}
-                  >
-                    Baixar grátis no Google Play
-                  </TrackableStoreLink>
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <TrackableStoreLink
+                      store="android"
+                      href="https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
+                      style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 40px oklch(0.62 0.18 174 / 0.4)" }}
+                      aria-label="Baixar Zupet para Android na Google Play"
+                    >
+                      <Image src="/stores/google-play.png" alt="Google Play" width={140} height={42} className="h-8 w-auto" />
+                    </TrackableStoreLink>
+                    <TrackableStoreLink
+                      store="ios"
+                      href="https://apps.apple.com/br/app/zupet/id6793655564"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95"
+                      style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.30 0 0)", color: "white", boxShadow: "0 4px 20px oklch(0.15 0 0 / 0.5)" }}
+                      aria-label="Baixar Zupet para iOS na App Store"
+                    >
+                      <Image src="/stores/app-store.svg" alt="App Store" width={140} height={42} className="h-8 w-auto" />
+                    </TrackableStoreLink>
+                  </div>
                   <div className="flex flex-col gap-1 text-xs" style={{ color: "oklch(0.60 0 0)" }}>
                     {["Grátis para download", "Google Play e App Store", "Funciona offline"].map(t => (
                       <div key={t} className="flex items-center gap-1.5">
