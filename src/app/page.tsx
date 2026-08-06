@@ -18,11 +18,11 @@ export const revalidate = 300;
 export const metadata = {
   metadataBase: new URL("https://zupet.io"),
   title: "Zupet — O app completo para cuidar do seu pet",
-  description: "Zupet reúne carteira de saúde, vacinas, passaporte de viagem, controle de gastos, lembretes inteligentes e álbum de fotos do seu pet. Baixe grátis no Google Play.",
+  description: "Zupet reúne carteira de saúde, vacinas, passaporte de viagem, controle de gastos, lembretes inteligentes e álbum de fotos do seu pet. Baixe grátis no Google Play e App Store.",
   keywords: ["app para pets", "cuidados com pets", "saúde animal", "vacinas pet", "histórico veterinário", "app cachorro", "app gato", "passaporte pet", "viagem com pet", "Zupet", "app android pet"],
   openGraph: {
     title: "Zupet — O app completo para cuidar do seu pet",
-    description: "Carteira de saúde, vacinas, passaporte de viagem, gastos e lembretes do seu pet em um só lugar. Baixe grátis no Google Play.",
+    description: "Carteira de saúde, vacinas, passaporte de viagem, gastos e lembretes do seu pet em um só lugar. Baixe grátis no Google Play e App Store.",
     type: "website",
     url: "https://zupet.io",
     locale: "pt_BR",
@@ -33,7 +33,7 @@ export const metadata = {
     card: "summary_large_image",
     site: "@zupet_io",
     title: "Zupet — O app completo para cuidar do seu pet",
-    description: "Carteira de saúde, passaporte de viagem, controle de gastos e lembretes inteligentes para o seu pet. Grátis no Google Play.",
+    description: "Carteira de saúde, passaporte de viagem, controle de gastos e lembretes inteligentes para o seu pet. Grátis no Google Play e App Store.",
   },
   alternates: { canonical: "https://zupet.io" },
   robots: { index: true, follow: true, "max-snippet": 160, "max-image-preview": "large" },
@@ -78,7 +78,7 @@ const faqJsonLd = {
     { "@type": "Question", name: "Quantos pets posso cadastrar?", acceptedAnswer: { "@type": "Answer", text: "Quantos quiser. Cachorros, gatos, pássaros, coelhos — o Zupet suporta múltiplos pets e espécies na mesma conta." } },
     { "@type": "Question", name: "Meus dados são seguros?", acceptedAnswer: { "@type": "Answer", text: "Sim. Seus dados são criptografados e armazenados com segurança. Nunca compartilhamos informações pessoais com terceiros." } },
     { "@type": "Question", name: "Posso usar em mais de um dispositivo?", acceptedAnswer: { "@type": "Answer", text: "Sim. Faça login com sua conta Google ou Apple em qualquer dispositivo e seus dados estarão sempre sincronizados." } },
-    { "@type": "Question", name: "Quando o iOS estará disponível?", acceptedAnswer: { "@type": "Answer", text: "O Zupet está disponível para Android na Google Play Store. A versão iOS está em desenvolvimento — em breve na App Store." } },
+    { "@type": "Question", name: "O Zupet está disponível para iOS?", acceptedAnswer: { "@type": "Answer", text: "Sim! O Zupet está disponível gratuitamente na App Store para iPhone e iPad, além da Google Play Store para Android." } },
   ],
 };
 
@@ -260,7 +260,7 @@ export default async function LandingPage() {
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-8"
                     style={{ background: "oklch(0.62 0.18 174 / 0.10)", border: "1px solid oklch(0.62 0.18 174 / 0.22)", color: "oklch(0.72 0.14 174)" }}>
                     <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "oklch(0.62 0.18 174)" }} />
-                    Disponível agora no Google Play
+                    Disponível no Google Play e App Store
                   </div>
                 </FadeIn>
 
@@ -696,14 +696,14 @@ export default async function LandingPage() {
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-8"
                 style={{ background: "oklch(0.62 0.18 174 / 0.12)", border: "1px solid oklch(0.62 0.18 174 / 0.30)", color: "oklch(0.72 0.14 174)" }}>
                 <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "oklch(0.62 0.18 174)" }} />
-                Agora disponível na Google Play
+                Disponível na Google Play e App Store
               </div>
 
               <h2 className="font-heading text-4xl md:text-5xl font-bold leading-tight mb-6" style={{ color: "oklch(0.96 0 0)" }}>
                 Baixe o Zupet<br />gratuitamente
               </h2>
               <p className="text-base leading-relaxed mb-4 max-w-xl mx-auto" style={{ color: "oklch(0.68 0 0)" }}>
-                O Zupet está disponível na <strong style={{ color: "oklch(0.82 0 0)" }}>Google Play Store</strong>.
+                O Zupet está disponível na <strong style={{ color: "oklch(0.82 0 0)" }}>Google Play Store</strong> e na <strong style={{ color: "oklch(0.82 0 0)" }}>App Store</strong>.
                 Baixe grátis e comece a cuidar do seu pet com muito mais organização.
               </p>
               <p className="text-sm leading-relaxed mb-12 max-w-lg mx-auto" style={{ color: "oklch(0.60 0 0)" }}>
@@ -719,7 +719,7 @@ export default async function LandingPage() {
                     step: "01",
                     icon: "📲",
                     title: "Baixe o app",
-                    desc: "Acesse a Google Play Store e instale o Zupet gratuitamente no seu Android.",
+                    desc: "Acesse a Google Play Store ou a App Store e instale o Zupet gratuitamente.",
                   },
                   {
                     step: "02",
@@ -882,7 +882,7 @@ export default async function LandingPage() {
                     Baixar grátis no Google Play
                   </TrackableStoreLink>
                   <div className="flex flex-col gap-1 text-xs" style={{ color: "oklch(0.60 0 0)" }}>
-                    {["Grátis para download", "Disponível na Google Play", "Funciona offline"].map(t => (
+                    {["Grátis para download", "Google Play e App Store", "Funciona offline"].map(t => (
                       <div key={t} className="flex items-center gap-1.5">
                         <span style={{ color: "oklch(0.62 0.18 174)" }}>✓</span> {t}
                       </div>
