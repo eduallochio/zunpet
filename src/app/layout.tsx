@@ -6,12 +6,14 @@ const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
   subsets: ["latin"],
   weight: ["600", "700", "800"],
+  display: "swap",
 });
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
   weight: ["400", "500"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -20,8 +22,8 @@ export const metadata: Metadata = {
     default: "Zupet — O app completo para cuidar do seu pet",
     template: "%s | Zupet",
   },
-  description: "Vacinas, consultas, lembretes, peso e fotos do seu pet num só lugar. Baixe grátis no Google Play.",
-  keywords: ["app para pets", "cuidar de pet", "vacinas pet", "lembretes pet", "saúde animal", "zupet"],
+  description: "Vacinas, consultas, lembretes, peso e fotos do seu pet num só lugar. Baixe grátis no Google Play e App Store.",
+  keywords: ["app para pets", "cuidar de pet", "vacinas pet", "lembretes pet", "saúde animal", "zupet", "app ios pet", "app iphone pet"],
   authors: [{ name: "Zupet" }],
   creator: "Zupet",
   robots: {
@@ -35,14 +37,14 @@ export const metadata: Metadata = {
     url: "https://zupet.io",
     siteName: "Zupet",
     title: "Zupet — O app completo para cuidar do seu pet",
-    description: "Vacinas, consultas, lembretes, peso e fotos do seu pet num só lugar. Baixe grátis no Google Play.",
-    images: [{ url: "/icon.png", width: 512, height: 512, alt: "Zupet — app para cuidar do seu pet" }],
+    description: "Vacinas, consultas, lembretes, peso e fotos do seu pet num só lugar. Baixe grátis no Google Play e App Store.",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Zupet — O app completo para cuidar do seu pet" }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Zupet — O app completo para cuidar do seu pet",
-    description: "Vacinas, consultas, lembretes, peso e fotos do seu pet num só lugar. Baixe grátis no Google Play.",
-    images: ["/icon.png"],
+    description: "Vacinas, consultas, lembretes, peso e fotos do seu pet num só lugar. Baixe grátis no Google Play e App Store.",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -58,22 +60,7 @@ export default function RootLayout({
     >
       <head>
         <link rel="preconnect" href="https://hhgggnlnbhxvzfcmkmds.supabase.co" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "MobileApplication",
-            "name": "Zupet",
-            "description": "Vacinas, consultas, lembretes, peso e fotos do seu pet num só lugar.",
-            "url": "https://zupet.io",
-            "applicationCategory": "LifestyleApplication",
-            "operatingSystem": "Android",
-            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "ratingCount": "1" },
-            "downloadUrl": "https://play.google.com/store/apps/details?id=io.zupet.app",
-            "publisher": { "@type": "Organization", "name": "Zupet", "url": "https://zupet.io" },
-          })}}
-        />
+        <meta name="apple-itunes-app" content="app-id=6793655564" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}

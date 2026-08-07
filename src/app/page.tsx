@@ -47,8 +47,13 @@ const jsonLd = {
   name: "Zupet",
   description: "App para gestão de saúde e cuidados de pets — histórico veterinário, vacinas, alimentação e fotos.",
   applicationCategory: "LifestyleApplication",
-  operatingSystem: "Android",
+  operatingSystem: "Android, iOS",
   installUrl: "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR",
+  applicationSubCategory: "https://schema.org/LifestyleApplication",
+  downloadUrl: [
+    "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR",
+    "https://apps.apple.com/br/app/zupet/id6793655564",
+  ],
   offers: { "@type": "Offer", price: "0", priceCurrency: "BRL", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", name: "Zupet", logo: { "@type": "ImageObject", url: "https://zupet.io/icon.png" } },
   screenshot: [
@@ -67,6 +72,7 @@ const organizationLd = {
   sameAs: [
     "https://www.instagram.com/zupet.io/",
     "https://play.google.com/store/apps/details?id=io.zupet.app&hl=pt_BR",
+    "https://apps.apple.com/br/app/zupet/id6793655564",
   ],
 };
 
@@ -265,7 +271,7 @@ export default async function LandingPage() {
                         style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 4px 20px oklch(0.62 0.18 174 / 0.35)" }}
                         aria-label="Baixar Zupet para Android na Google Play"
                       >
-                        <Image src="/stores/google-play.png" alt="Google Play" width={140} height={42} className="h-8 w-auto" />
+                        <Image src="/stores/google-play.png" alt="Baixar Zupet no Google Play" width={140} height={42} className="h-8 w-auto" />
                       </TrackableStoreLink>
                       <TrackableStoreLink
                         store="ios"
@@ -276,7 +282,7 @@ export default async function LandingPage() {
                         style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.30 0 0)", color: "white", boxShadow: "0 4px 20px oklch(0.15 0 0 / 0.5)" }}
                         aria-label="Baixar Zupet para iOS na App Store"
                       >
-                        <Image src="/stores/app-store.svg" alt="App Store" width={140} height={42} className="h-8 w-auto" />
+                        <Image src="/stores/app-store.svg" alt="Baixar Zupet na App Store" width={140} height={42} className="h-8 w-auto" />
                       </TrackableStoreLink>
                     </div>
 
@@ -717,7 +723,7 @@ export default async function LandingPage() {
                     style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 32px oklch(0.62 0.18 174 / 0.35)" }}
                     aria-label="Baixar Zupet para Android na Google Play"
                   >
-                    <Image src="/stores/google-play.png" alt="Google Play" width={140} height={42} className="h-8 w-auto" />
+                    <Image src="/stores/google-play.png" alt="Baixar Zupet no Google Play" width={140} height={42} className="h-8 w-auto" />
                   </TrackableStoreLink>
                   <TrackableStoreLink
                     store="ios"
@@ -728,7 +734,7 @@ export default async function LandingPage() {
                     style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.30 0 0)", color: "white", boxShadow: "0 4px 20px oklch(0.15 0 0 / 0.5)" }}
                     aria-label="Baixar Zupet para iOS na App Store"
                   >
-                    <Image src="/stores/app-store.svg" alt="App Store" width={140} height={42} className="h-8 w-auto" />
+                    <Image src="/stores/app-store.svg" alt="Baixar Zupet na App Store" width={140} height={42} className="h-8 w-auto" />
                   </TrackableStoreLink>
                 </div>
                 <a
@@ -848,7 +854,7 @@ export default async function LandingPage() {
                       style={{ background: "oklch(0.62 0.18 174)", color: "white", boxShadow: "0 8px 40px oklch(0.62 0.18 174 / 0.4)" }}
                       aria-label="Baixar Zupet para Android na Google Play"
                     >
-                      <Image src="/stores/google-play.png" alt="Google Play" width={140} height={42} className="h-8 w-auto" />
+                      <Image src="/stores/google-play.png" alt="Baixar Zupet no Google Play" width={140} height={42} className="h-8 w-auto" />
                     </TrackableStoreLink>
                     <TrackableStoreLink
                       store="ios"
@@ -859,7 +865,7 @@ export default async function LandingPage() {
                       style={{ background: "oklch(0.15 0 0)", border: "1px solid oklch(0.30 0 0)", color: "white", boxShadow: "0 4px 20px oklch(0.15 0 0 / 0.5)" }}
                       aria-label="Baixar Zupet para iOS na App Store"
                     >
-                      <Image src="/stores/app-store.svg" alt="App Store" width={140} height={42} className="h-8 w-auto" />
+                      <Image src="/stores/app-store.svg" alt="Baixar Zupet na App Store" width={140} height={42} className="h-8 w-auto" />
                     </TrackableStoreLink>
                   </div>
                   <div className="flex flex-col gap-1 text-xs" style={{ color: "oklch(0.60 0 0)" }}>
